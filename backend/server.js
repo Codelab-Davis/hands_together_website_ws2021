@@ -20,8 +20,10 @@ connection.once('open', () => {
 const items_router = require('./routes/items');
 const sold_items_router = require('./routes/sold_items');
 const login_router = require('./routes/login');
+const stripe_router = require('./routes/stripe_routes')
 
 app.use('/items', items_router); 
+app.use('/stripe', stripe_router);
 // app.use('/sold_items', sold_items_router);
 // app.use('/login', login_router); 
 
