@@ -10,6 +10,8 @@ const sold_ItemsSchema = new Schema(
     images: { type: [String], required: true },
     date_sold: { type: Date, required: true },
     transaction_id: { type: String, required: true },
+    tracking_link: { type: String, required: true },
+    canceled: { type: Boolean, required: true },
   },
   {
     timestamps: true,

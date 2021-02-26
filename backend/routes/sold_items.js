@@ -14,6 +14,8 @@ router.route('/add_item').post((req, res) => {
     const images = req.body.images;
     const date_sold = "2021/02/16";
     const transaction_id = "abcd1234";
+    const tracking_link = "";
+    const cancelled = false;
 
     let newSoldItem = new Sold_Item({
         name,
