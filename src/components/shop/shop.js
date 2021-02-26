@@ -1,9 +1,56 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
 const axios = require('axios');
 
 function Shop() {
+  // LOADING ALL ITEMS AND PAGINATION STARTS BELOW 
+  const [itemArray, update] = useState({data: []});
 
+  // log whatever item is clicked 
+  function clicked(val) {
+    console.log(val.name)
+  }
+
+  // initialize an empty array using UseState. Next value assignment, use setCurItems
+  const [items, setCurItems] = useState([]);
+  // intialize an integer that holds the value of the next index after slicing. 
+  const [nextIndex, setNextIndex] = useState(0);
+  // triggered on the "next" button click 
+  function next() {
+    if (itemArray.data[nextIndex] != undefined) // there are more items to see 
+    {
+      //slice the next 12 items in the data array. 
+      setCurItems(itemArray.data.slice(nextIndex, nextIndex + 12));
+      //set the next index to the first in the next set of 12 objects
+      setNextIndex(nextIndex + 12);
+    }
+  }
+    // triggered on the "previous" button click 
+  function back() {
+    if (itemArray.data[nextIndex - 13] != undefined) // there are previous items to go back to
+    { 
+      setCurItems(itemArray.data.slice(nextIndex - 24, nextIndex - 12));
+      setNextIndex(nextIndex - 12);
+    }
+  }
+  function check()
+  {
+    setCurItems(itemArray.data.slice(0,12));
+    setNextIndex(12);
+    console.log(items);
+  }
+
+  useEffect(()=>{
+    axios.get('http://localhost:5000/items/get_all_items')
+    .then( res => {
+      console.log(res)
+      // assign json data to itemArray 
+      update({data: res.data})
+    })
+    .catch ( err => {console.log(err)})
+  },[]) 
+
+  // CARTING SYSTEM STARTS BELOW 
   let item = {
     name: "Item Name",
     item_id: "Item ID #1",
@@ -12,9 +59,9 @@ function Shop() {
   let carted_items = [];
 
   // TODO: Create useEffect function call that runs checkContents 
-  useEffect(() => {
-    checkContents();
-  });
+  // useEffect(() => {
+  //   checkContents();
+  // });
   
   function addItem() {
     let stringifiedItem = JSON.stringify(item); // convert the JSON object "item" into a string using the JSON.stringify function call 
@@ -47,6 +94,39 @@ function Shop() {
 
   return (
     <div>
+      {/* LOADING ALL ITEMS AND PAGINATION STARTS BELOW */}
+      <nav aria-label="...">
+        <ul className="pagination pagination-lg">
+          <li className="page-item">
+            <a className="page-link" tabIndex="-1" onClick={back}>Back</a>
+          </li>
+          <li className = "page-item disabled">
+            <a className="page-link" tabIndex="-1" >Current</a>
+          </li>
+          <li className="page-item">
+            <a className="page-link" tabIndex="-2" onClick={next}>Next</a>
+          </li>
+        </ul>
+      </nav>
+
+    { /* items is a concatenated array of the current 12 objects, 
+      we iterate through all 12 of them and generate a div for each index with a unique link. 
+     The button is solely for aesthetic purposes, it is not necesaary for redirection and can be reformatted otherwise  */}
+
+      {items.map((itemIter, index) =>
+        <div key={index}>
+        <a href={`/:${itemIter._id}`}>
+          <button onClick={() => clicked(itemIter)}>
+            name: {itemIter.name}<br />
+            id: {itemIter._id}<br />
+            price: {itemIter.price}<br />
+            date added: {itemIter.date_added}<br />
+            images: [{itemIter.images}]<br />
+          </button>
+        </a>
+        </div>
+      )}
+      {/* CARTING SYSTEM STARTS BELOW  */}
       {/* () => addItem(arg1, arg2) */}
       <button type="button" onClick={addItem}>Item #1</button>
       <button type="button" onClick={addItem}>Item #2</button>

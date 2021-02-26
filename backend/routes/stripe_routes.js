@@ -1,7 +1,32 @@
 var express = require('express');
 var router = express.Router();
+require('dotenv').config();
 const stripe = require('stripe')('sk_test_51IMhDjDACjkjrvMmiJxcdbJqejCQ3W9dwagP8gDp7l5wHk0Qm7oWgkmOKVqxVMOutTF7nKoPI86eX84PY6ZZqQj100pJsabLN1');
-// app.js already makes these routes start at /donate!
+
+router.route('/create-checkout-session').post(async (req, res) => {
+  let domain = "http://localhost:3000/" + req.body.item_id
+    const session = await stripe.checkout.sessions.create({
+        payment_method_types: ['card'], // list of payment methods
+        line_items: [ 
+          {
+            price_data: { // product info
+              currency: 'usd',
+              product_data: {
+                name: 'Stubborn Attachments',
+                images: ['https://i.imgur.com/EHyR2nP.png'],
+              },
+              unit_amount: 2000,
+            },
+            quantity: 1,
+          },
+        ],
+        mode: 'payment',
+        success_url: `${domain}?success=true`, // html pages to show for successful/canceled transactions
+        cancel_url: `${domain}?canceled=true`,
+      });
+
+      res.json({ id: session.id });
+});
 
 // Donation form.
 router.get('/', function(req, res) {

@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
-const sold_itemsSchema = new Schema(
+const sold_ItemsSchema = new Schema(
   {
     name: { type: String, required: true },
     date_added: { type: Date, required: true },

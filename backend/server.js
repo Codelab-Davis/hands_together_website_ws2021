@@ -24,8 +24,8 @@ const stripe_router = require('./routes/stripe_routes')
 
 app.use('/items', items_router); 
 app.use('/stripe', stripe_router);
-// app.use('/sold_items', sold_items_router);
-// app.use('/login', login_router); 
+app.use('/sold_items', sold_items_router);
+app.use('/login', login_router); 
 
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`)

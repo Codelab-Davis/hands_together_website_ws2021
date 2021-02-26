@@ -18,6 +18,7 @@ function App() {
       <Route path="/admin" component={admin_dashboard} />
       <Route path="/add" component={add_item} />
       <Route path="/edit" component={edit_or_remove_item} />
+      {/* Stripe Testing */}
       <Route path="/donation" component={donation} />
     </Router>
   );
