@@ -34,8 +34,12 @@ export default class Login extends Component {
       pass: this.state.pass
     }
 
-    axios.get('http://localhost:5000/login/', { params: credentials })
-      .then(res => console.log(res.data));
+    axios.get("http://localhost:5000/login/", { params: credentials })
+      .then(res => {
+        console.log(res.data);
+        if (res.data)
+          window.location.assign("http://localhost:3000/admin/");
+      });
   }
 
   render(){
