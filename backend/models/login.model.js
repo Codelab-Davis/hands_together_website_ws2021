@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 const loginSchema = new Schema(
   {
     user: { type: String, required: true },
-    pass: { type: Date, required: true },
+    pass: { type: String, required: true },
   },
   {
     timestamps: true,
