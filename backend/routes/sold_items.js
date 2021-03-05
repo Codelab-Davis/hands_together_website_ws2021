@@ -10,7 +10,7 @@ router.route('/get_sold_items').get((req,res) => {
 router.route('/get_sale').get((req, res) => {
     const transaction_id = JSON.parse(req.query.transaction_id);  // JSON in format { transaction_id: "" }
 
-    Sold_Item.findOne(transaction_id, (err, docs) => {
+    Sold_Item.find(transaction_id, (err, docs) => {
       if (err) {
         console.log('Error');
       } else if (!docs) {

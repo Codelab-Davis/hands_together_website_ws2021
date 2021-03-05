@@ -6,6 +6,7 @@ const stripe = require('stripe')('sk_test_51IMhDjDACjkjrvMmiJxcdbJqejCQ3W9dwagP8
 router.route('/create-checkout-session').post(async (req, res) => {
   let domain = "http://localhost:3000/" + req.body.item_id
     const session = await stripe.checkout.sessions.create({
+        billing_address_collection: 'required',
         payment_method_types: ['card'], // list of payment methods
         line_items: [ 
           {
@@ -18,6 +19,7 @@ router.route('/create-checkout-session').post(async (req, res) => {
               unit_amount: 2000,
             },
             quantity: 1,
+            tax_rates: ['txr_1IRmOEDACjkjrvMmvkTvvmYZ']
           },
         ],
         mode: 'payment',
