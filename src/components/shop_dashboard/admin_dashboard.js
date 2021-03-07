@@ -1,8 +1,18 @@
 import "bootstrap/dist/css/bootstrap.min.css";
+import Modal from 'react-bootstrap/Modal';
 import React, { useEffect, useState } from 'react';
 const axios = require('axios');
-
+//https://react-bootstrap.github.io/components/modal/#modal-dialog-props
+//https://rangle.io/blog/simplifying-controlled-inputs-with-hooks/
 function Admin_Dashboard() {
+  const [show, setShow] = useState(false);
+  const [trackingLink, updateTrackingLink] = useState('');
+  const [input, setInput] = useState('');
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+
   // LOADING ALL ITEMS AND PAGINATION STARTS BELOW 
   const [soldItemArray, update] = useState({data: []});
   
@@ -50,71 +60,81 @@ function Admin_Dashboard() {
     .catch ( err => {console.log(err)})
   }, [])
 
+  function handleChange()
+  {
+    alert('handleChange was executed');
+  }
+  
 
-/**
- *  ('#myModal').on('shown.bs.modal', function () {
-    ('#myInput').trigger('focus')
-  })
- */
-
- /**
-  * $('#exampleModal').on('show.bs.modal', function (event) {
-  var button = $(event.relatedTarget) // Button that triggered the modal
-  var recipient = button.data('whatever') // Extract info from data-* attributes
-  // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-  // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-  var modal = $(this)
-  modal.find('.modal-title').text('New message to ' + recipient)
-  modal.find('.modal-body input').val(recipient)
-})
-  */
+  function handleSubmit (evt) { 
+    evt.preventDefault();
+    //updateTrackingLink(trackingLink);
+    updateTrackingLink(input);
+    //alert(`tracking link input ${trackingLink}`);
+    
+  }
+  
   return (
     <div>
-      <p> HELLOOO </p>
-      <button type="button" onClick={check}>Check Contents</button>
+      <p>HELLOOO </p>
 
+      <button type="button" onClick={check}>Check Contents</button>
       {soldItems.map((itemIter, index) =>
         <div key={index}>
-        <a href={`/:${itemIter.transaction_id}`}>
-          <button onClick={() => clicked(itemIter)}>
-            name: {itemIter.name}<br />
-            transaction_id: {itemIter.transaction_id}<br />
-            price: {itemIter.price}<br />
-            date added: {itemIter.date_added}<br />
-            images: [{itemIter.images}]<br />
-          </button>
-        </a>
+            <button onClick={handleShow}>
+              name: {itemIter.name}<br />
+              transaction_id: {itemIter.transaction_id}<br />
+              tracking link: {itemIter.tracking_link} <br />
+              cancelled: {itemIter.cancelled} <br />
+            </button>
+         
         </div>
       )}
+    
       
-      
-<button type="button" className="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-  Launch demo modal
-</button>
+      <button onClick={handleShow}>
+        Launch demo modal
+      </button>
+      <div>
+        <p>
+          tracking link: {trackingLink}
+        </p>
+        </div>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Modal heading</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+        <Modal.Body>Tracking Link:</Modal.Body>
 
+        {/* created a form element */}
+      <form onSubmit={event => handleSubmit(event)}>
+          <div>
+        {/* this creates a text box that live updates the value of the tracking # */}
+            <input type="text" onChange={e => setInput(e.target.value)} />
 
-<div className="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div className="modal-dialog" role="document">
-    <div className="modal-content">
-      <div className="modal-header">
-        <h5 className="modal-title" id="exampleModalLabel">Modal title</h5>
-        <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div className="modal-body">
+            {/* in order to avoid random unsubmitted inputs changing the value (due to the live update), 
+            we have an intermediate step inside the handleSubmit function that changes the true trackingNumber 
+            variable when the button is clicked */}
+
+        <input type="submit" value ="Submit"/>
         
+      </div> <p>after input = {trackingLink}</p>
+      </form>
+      <form onSubmit={ }>
+            <input type="submit" value="Cancel Order"/>
+      </form>
+      
+        <Modal.Footer>
+          <button onClick={handleClose}>
+            Close
+          </button>
+        </Modal.Footer>
+      </Modal>
       </div>
-      <div className="modal-footer">
-        <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" className="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-      </div>
-
-    </div>
+      
   );
 }
 
 export default Admin_Dashboard;
+

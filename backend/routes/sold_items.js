@@ -1,7 +1,15 @@
 const router = require('express').Router();
 const Sold_Item = require('../models/sold_items.model')
+//https://bezkoder.com/react-node-express-mongodb-mern-stack/
+router.route('/update_item').put((req, res) => {
+   
+    Sold_Item.find()
+        .then(Sold_Item => res.json(Sold_Item))
+        .catch(err => res.status(400).json('Error: ' + err));
+        
+});
 
-router.route('/get_sold_items').get((req,res) => {
+router.route('/get_sold_items').get((req, res) => {
     Sold_Item.find()
       .then(Sold_Item => res.json(Sold_Item))
       .catch(err => res.status(400).json('Error: ' + err));
@@ -23,7 +31,9 @@ router.route('/add_item').post((req, res) => {
         price,
         images,
         date_sold,
-        transaction_id
+        transaction_id,
+        tracking_link,
+        cancelled
     });
 
     newSoldItem.save()
