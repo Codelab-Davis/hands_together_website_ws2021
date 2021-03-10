@@ -20,12 +20,12 @@ function OrderSummary() {
     <>
       <h1>This is the order summary page</h1>
       {
-        transaction_data.map((data, key) =>
-          <>
-            <p>data.name</p>
-            <p>data_added.name</p>
-          </>
-        )
+        // transaction_data.map((data, key) =>
+        //   <>
+        //     <p>data.name</p>
+        //     <p>data_added.name</p>
+        //   </>
+        // )
       }
     </>
   )
