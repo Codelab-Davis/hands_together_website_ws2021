@@ -92,8 +92,24 @@ router.route('/donate').post(async (req,res) => {
 // https://stripe.com/docs/payments/checkout/customization
 // https://stripe.com/docs/api/tax_rates
 
+
+// transporter for node mailer
+var transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'dummyemailclht', // dummy email credentials
+    pass: 'dummypass'
+  }
+});
+
 const fulfillOrder = (session) => {
-  let id = session.metadata['id'];
+  let id = session.metadata['id']; // object id for mongo access
+  let customer_email = session.customer_details['email']; 
+  let order_summary_url = "http://localhost:3000/order_summary/" + session.metadata['transaction_id']; 
+
+  let email_body = "<h1>Test Email</h1> <br /> <p>" + order_summary_url + "</p>"; 
+
+  // update datebase on successful purchase (delete from items and add to sold_items)
   axios.delete('http://localhost:5000/items/purchase_item/' + id)
     .then(item => {
      console.log("Deleted Item")
@@ -105,60 +121,22 @@ const fulfillOrder = (session) => {
     })
     .catch(error => console.log(error))
 
-    // send email to customer
-    nodemailer.createTestAccount((err,account) => {
-      if(err) {
-        console.error('Failed to create a testing account');
-        console.error(err);
-        return process.exit(1);
-      }
+  // node mailer implementation begins here
+  const mail_options = {
+    from: `"Hands Together Test" <test@test.io>`,
+    to: customer_email,
+    subject: "nodemailer test",
+    html: email_body, 
+  }
 
-      console.log('Credentials obtained, sending message...');
+  transporter.sendMail(mail_options, function(error, info) {
+    if(error) {
+      console.log(error);
+    } else {
+      console.log('Email sent: ' + info.response);
+    }
+  });
 
-      let transporter = nodemailer.createTransport(
-        {
-          host: account.smtp.host,
-          port: account.smtp.port,
-          secure: account.smtp.secure,
-          auth: {
-              user: account.user,
-              pass: account.pass
-          },
-          logger: true,
-          debug: false // include SMTP traffic in the logs
-        },
-        {
-          from: 'Nodemailer <example@nodemailer.com>'
-        }
-      );
-
-      let message = {
-        to: 'Abhay <apthacker@ucdavis.edu>',
-
-        // Subject of the message
-        subject: 'Nodemailer Test' + Date.now(),
-
-        // plaintext body
-        text: 'Hello to myself!',
-
-        // HTML body
-        html: `<p><b>Hello</b> to myself </p>`
-      };
-
-      transporter.sendMail(message, (err,info) => {
-        if (error) {
-          console.log('Error occurred');
-          console.log(error.message);
-          return process.exit(1);
-        }
-
-        console.log('Message sent successfully!');
-        console.log(nodemailer.getTestMessageUrl(info));
-
-        // only needed when using pooled connections
-        transporter.close();
-      });
-    });
 }
 
 router.post('/webhook', (req, res) => {
