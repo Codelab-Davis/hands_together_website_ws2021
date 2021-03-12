@@ -7,6 +7,20 @@ router.route('/get_sold_items').get((req,res) => {
       .catch(err => res.status(400).json('Error: ' + err));
 });
 
+router.route('/get_sale').get((req, res) => {
+    const transaction_id = JSON.parse(req.query.transaction_id);  // JSON in format { transaction_id: "" }
+
+    Sold_Item.find(transaction_id, (err, docs) => {
+      if (err) {
+        console.log('Error');
+      } else if (!docs) {
+        res.json(false);
+      } else {
+        res.json(docs);
+      }
+    })
+});
+
 router.route('/add_item').post((req, res) => {
     const name = req.body.name;
     const date_added = req.body.date_added;
