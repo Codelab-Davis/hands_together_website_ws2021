@@ -134,7 +134,10 @@ const fulfillOrder = (session) => {
   });
 
 }
-
+// To test webhook in development you must install the Stripe CLI
+// https://stripe.com/docs/stripe-cli#install
+// Then to forward output to the local route use:
+// stripe listen --forward-to localhost:5000/stripe/webhook
 router.post('/webhook', (req, res) => {
   const payload = req.rawBody;
   const sig = req.headers['stripe-signature'];
