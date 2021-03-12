@@ -29,7 +29,7 @@ router.route('/add_item').post((req, res) => {
     const date_sold = "2021/02/16";
     const transaction_id = req.body.transaction_id;
     const tracking_link = "test_link";
-    const canceled = false;
+    const cancelled = false;
     const shipping_address = req.body.shipping_address;
     console.log(req.body.shipping_address);
 
@@ -41,7 +41,7 @@ router.route('/add_item').post((req, res) => {
         date_sold,
         transaction_id,
         tracking_link,
-        canceled,
+        cancelled,
         shipping_address
     });
     newSoldItem.save()

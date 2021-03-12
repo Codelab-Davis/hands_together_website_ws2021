@@ -34,7 +34,7 @@ router.route('/create-checkout-session').post(async (req, res) => {
         ],
         metadata: {'id': req.body.item_id, 'transaction_id': transaction_id},
         mode: 'payment',
-        success_url: `${success}`, // html pages to show for successful/canceled transactions
+        success_url: `${success}`, // html pages to show for successful/cancelled transactions
         cancel_url: "http://localhost:3000/",
       });
 
@@ -88,10 +88,6 @@ router.route('/donate').post(async (req,res) => {
 });
 
 // Successful Checkout Event Handler
-// https://stripe.com/docs/payments/checkout/fulfill-orders
-// https://stripe.com/docs/payments/checkout/customization
-// https://stripe.com/docs/api/tax_rates
-
 
 // transporter for node mailer
 var transporter = nodemailer.createTransport({
