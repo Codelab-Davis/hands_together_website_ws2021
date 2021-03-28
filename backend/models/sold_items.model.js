@@ -11,7 +11,7 @@ const sold_ItemsSchema = new Schema(
     date_sold: { type: Date, required: true },
     transaction_id: { type: String, required: true },
     tracking_link: { type: String, required: true },
-    canceled: { type: Boolean, required: true },
+    cancelled: { type: Boolean, required: true },
     shipping_address: { type: Map, required: true}
   },
   {
