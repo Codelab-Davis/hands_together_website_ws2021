@@ -14,11 +14,6 @@ app.use(express.json({
       req.rawBody = buf
     }
   }))
-// app.use(bodyParser.json({
-//     verify: (req, res, buf) => {
-//       req.rawBody = buf
-//     }
-//   }))
 
 const uri = process.env.ATLAS_URI;
 mongoose.connect(uri, {useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true});

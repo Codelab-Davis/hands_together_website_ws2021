@@ -8,8 +8,6 @@ const nodemailer = require("nodemailer");
 var router = express.Router();
 require('dotenv').config();
 
-
-
 router.route('/create-checkout-session').post(async (req, res) => {
   let transaction_id = "abcd1234"
   let success = "http://localhost:3000/order_summary/" + transaction_id
