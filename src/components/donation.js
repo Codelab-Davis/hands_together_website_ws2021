@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import {Elements} from '@stripe/react-stripe-js';
+// import {Elements} from '@stripe/react-stripe-js';
 const axios = require('axios');
 //import {loadStripe} from '@stripe/stripe-js';
 
