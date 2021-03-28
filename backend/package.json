@@ -15,6 +15,7 @@
     "express": "^4.17.1",
     "mongoose": "^5.11.15",
     "nodemailer": "^6.5.0",
+    "react-bootstrap": "^1.5.1",
     "stripe": "^8.137.0"
   }
 }
