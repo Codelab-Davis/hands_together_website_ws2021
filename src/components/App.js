@@ -13,18 +13,20 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 function App() {
   return (
-    <Router>
-      <Route exact path="/" component={home} />
-      <Route exact path="/shop" component={shop} />
-      <Route exact path="/:id" component={item_page} />
-      <Route exact path="/login" component={login} />
-      <Route exact path="/admin" component={admin_dashboard} />
-      <Route exact path="/add" component={add_item} />
-      <Route exact path="/edit" component={edit_or_remove_item} />
-      <Route exact path="/order_summary/:transaction_id" component={order_summary} />
-      {/* Stripe Testing */}
-      <Route exact path="/donation" component={donation} />
-    </Router>
+    <div id="content-container">
+      <Router>
+        <Route exact path="/" component={home} />
+        <Route exact path="/shop" component={shop} />
+        <Route exact path="/:id" component={item_page} />
+        <Route exact path="/login" component={login} />
+        <Route exact path="/admin" component={admin_dashboard} />
+        <Route exact path="/add" component={add_item} />
+        <Route exact path="/edit" component={edit_or_remove_item} />
+        <Route exact path="/order_summary/:transaction_id" component={order_summary} />
+        {/* Stripe Testing */}
+        <Route exact path="/donation" component={donation} />
+      </Router>
+    </div>
   );
 }
 
