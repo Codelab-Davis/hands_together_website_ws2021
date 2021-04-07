@@ -22,8 +22,8 @@ router.route('/create-checkout-session').post(async (req, res) => {
             price_data: { // product info
               currency: 'usd',
               product_data: {
-                name: 'Stubborn Attachments',
-                images: ['https://i.imgur.com/EHyR2nP.png'],
+                name: req.body.item.name,
+                images: req.body.item.images,
               },
               unit_amount: 2000,
             },
@@ -31,7 +31,7 @@ router.route('/create-checkout-session').post(async (req, res) => {
             tax_rates: ['txr_1IRmOEDACjkjrvMmvkTvvmYZ']
           },
         ],
-        metadata: {'id': req.body.item_id, 'transaction_id': transaction_id},
+        metadata: {'id': req.body.item._id, 'transaction_id': transaction_id},
         mode: 'payment',
         success_url: `${success}`, // html pages to show for successful/cancelled transactions
         cancel_url: "http://localhost:3000/",
