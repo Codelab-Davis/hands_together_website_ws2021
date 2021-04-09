@@ -7,7 +7,6 @@ const limiter = new Bottleneck({
   minTime: 100
 });
 
-limiter.schedule(() => {
   router.route('/').get((req, res) => {
     const user_ = req.query.user;
     const pass_ = req.query.pass;
@@ -22,7 +21,6 @@ limiter.schedule(() => {
       }
     })
   });
-})
 
 
 limiter.schedule(() => {

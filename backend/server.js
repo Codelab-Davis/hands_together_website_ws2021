@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 // const bodyParser  = require('body-parser');
 const mongoose = require('mongoose');
+const rateLimit = require("express-rate-limit");
 
 require('dotenv').config();
 
@@ -14,6 +15,12 @@ app.use(express.json({
       req.rawBody = buf
     }
   }))
+
+const limiter = rateLimit({
+  windowMs: 1 * 60 * 1000, // 1 minute
+  max: 100, // limit each IP to 100 requests per windowMs
+  message: "Too many requests, sorry!"
+});
 
 const uri = process.env.ATLAS_URI;
 mongoose.connect(uri, {useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true});
@@ -31,6 +38,8 @@ app.use('/items', items_router);
 app.use('/stripe', stripe_router);
 app.use('/sold_items', sold_items_router);
 app.use('/login', login_router); 
+
+app.use(limiter);
 
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`)

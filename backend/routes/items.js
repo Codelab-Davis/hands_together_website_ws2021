@@ -1,6 +1,6 @@
 const router = require('express').Router();
 let Item = require('../models/items.model.js');
-const Bottleneck = require('bottleneck');
+const Bottleneck = require('bottleneck'); 
 
 const limiter = new Bottleneck({
     maxConcurrent: 10,
@@ -13,8 +13,8 @@ const limiter = new Bottleneck({
 
 // Importing AWSPresigner
 const {
-generateGetUrl,
-generatePutUrl
+    generateGetUrl,
+    generatePutUrl
 } = require('./../AWSPresigner');
 
 // GET URL
