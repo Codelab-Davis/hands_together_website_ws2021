@@ -1,21 +1,33 @@
 const router = require('express').Router();
 const Sold_Item = require('../models/sold_items.model')
 //https://bezkoder.com/react-node-express-mongodb-mern-stack/
+const Bottleneck = require('bottleneck');
 
-router.route('/update_item').put((req, res) => {
-    Sold_Item.find()
-        .then(Sold_Item => res.json(Sold_Item))
-        .catch(err => res.status(400).json('Error: ' + err));
-        
+const limiter = new Bottleneck({
+  maxConcurrent: 10,
+  minTime: 100
 });
 
-router.route('/get_sold_items').get((req, res) => {
+limiter.schedule(() => {
+  router.route('/update_item').put((req, res) => {
+      Sold_Item.find()
+          .then(Sold_Item => res.json(Sold_Item))
+          .catch(err => res.status(400).json('Error: ' + err));
+          
+  });
+})
+
+limiter.schedule(() => {
+  router.route('/get_sold_items').get((req, res) => {
     Sold_Item.find()
       .then(Sold_Item => res.json(Sold_Item))
       .catch(err => res.status(400).json('Error: ' + err));
-});
+  });
+})
 
-router.route('/get_sale').get((req, res) => {
+
+limiter.schedule(() => {
+  router.route('/get_sale').get((req, res) => {
     const transaction_id = JSON.parse(req.query.transaction_id);  // JSON in format { transaction_id: "" }
 
     Sold_Item.find(transaction_id, (err, docs) => {
@@ -27,9 +39,12 @@ router.route('/get_sale').get((req, res) => {
         res.json(docs);
       }
     })
-});
+  });
+})
 
-router.route('/add_item').post((req, res) => {
+
+limiter.schedule(() => {
+  router.route('/add_item').post((req, res) => {
     const name = req.body.name;
     const date_added = req.body.date_added;
     const price = req.body.price;
@@ -55,6 +70,8 @@ router.route('/add_item').post((req, res) => {
     newSoldItem.save()
      .then(() => res.json("New Item Purchased!"))
      .catch(() => res.status(400).json("Error: " + err));
-});
+  });
+})
+
 
 module.exports = router; 

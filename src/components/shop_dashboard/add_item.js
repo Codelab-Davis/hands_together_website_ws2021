@@ -17,7 +17,7 @@ function Add_Item() {
     event.preventDefault();
     setUploadMessage("Uploading");
     let item = {
-      "name": "MyItem2",
+      "name": "My Item 1",
       "date_added": "2015/03/25",
       "price": 2000, // $20.00
       "images": []
@@ -30,7 +30,7 @@ function Add_Item() {
       let contentType = imgFiles[i].type;
       let options = {
         params: {
-          Key: item.name + "_" + i,
+          Key: item.name.replace(/[^a-zA-Z0-9]/g, "") + "_" + i,
           ContentType: contentType
         },
         headers: {
@@ -57,13 +57,8 @@ function Add_Item() {
           })
       )
 
-      // Get the image's url and add it to the list
-      promises.push(
-        axios.get('http://localhost:5000/items/generate-get-url', options)
-          .then(res => {
-            item.images.push(res.data);
-          })
-      )
+      // Add the image's url
+      item.images.push(("https://handstogetherimages.s3-us-west-1.amazonaws.com/" + options.params.Key))
     }
     // Add item to database after urls are finished generating
     Promise.all(promises)
