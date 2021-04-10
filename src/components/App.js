@@ -9,11 +9,13 @@ import edit_or_remove_item from "./shop_dashboard/edit_or_remove_item"
 import login from "./shop_dashboard/login"
 import donation from "./donation"
 import order_summary from "./order_summary/order_summary"
+import Navbar from "./navbar" 
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 function App() {
   return (
     <div id="content-container">
+      <Navbar />
       <Router>
         <Route exact path="/" component={home} />
         <Route exact path="/shop" component={shop} />
