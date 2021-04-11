@@ -1,21 +1,21 @@
 .hands-together-button {
-    background-color: var(--lightyellow); 
+  background-color: var(--lightyellow);
 }
 
 .title-text {
-    color: var(--darkred); 
-    cursor: pointer;
+  color: var(--darkred);
+  cursor: pointer;
 }
 
 .navbar-content {
-    background-color: var(--lightblue); 
-    height: 80px; 
-    align-items: center;
-    vertical-align: middle;
+  background-color: var(--lightblue);
+  height: 80px;
+  align-items: center;
+  vertical-align: middle;
 }
 
 .text {
-    text-align: center;
-    display:table-cell;
-    vertical-align: middle;
+  text-align: center;
+  display: table-cell;
+  vertical-align: middle;
 }
