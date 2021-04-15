@@ -17,7 +17,7 @@ function App() {
       <Router>
         <Route exact path="/" component={home} />
         <Route exact path="/shop" component={shop} />
-        <Route exact path="/:id" component={item_page} />
+        <Route exact path="/item/:id" component={item_page} /> {/* Added /item. Hope I didn't break anything. */}
         <Route exact path="/login" component={login} />
         <Route exact path="/admin" component={admin_dashboard} />
         <Route exact path="/add" component={add_item} />
