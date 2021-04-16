@@ -1,6 +1,7 @@
 import '../css/App.css';
 import "bootstrap/dist/css/bootstrap.min.css";
 import home from "./home"
+import about from "./about"
 import shop from "./shop/shop"
 import item_page from "./shop/item_page"
 import add_item from "./shop_dashboard/add_item"
@@ -16,8 +17,9 @@ function App() {
     <div id="content-container">
       <Router>
         <Route exact path="/" component={home} />
+        <Route exact path="/about" component={about} />
         <Route exact path="/shop" component={shop} />
-        <Route exact path="/:id" component={item_page} />
+        {/* <Route exact path="/:id" component={item_page} /> */}
         <Route exact path="/login" component={login} />
         <Route exact path="/admin" component={admin_dashboard} />
         <Route exact path="/add" component={add_item} />
