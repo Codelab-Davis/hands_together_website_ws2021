@@ -20,17 +20,13 @@ function App() {
       <Router>
         <Route exact path="/" component={home} />
         <Route exact path="/shop" component={shop} />
+        <Route exact path="/item/:id" component={item_page} /> 
         <Route exact path="/shop/:id" component={item_page} />
         <Route exact path="/login" component={login} />
         <Route exact path="/admin" component={admin_dashboard} />
         <Route exact path="/add" component={add_item} />
         <Route exact path="/edit" component={edit_or_remove_item} />
-        <Route
-          exact
-          path="/order_summary/:transaction_id"
-          component={order_summary}
-        />
-        {/* Stripe Testing */}
+        <Route exact path="/order_summary/:transaction_id" component={order_summary} />
         <Route exact path="/donation" component={donation} />
         <Route exact path="/volunteer_events" component={volunteer_events} />
       </Router>

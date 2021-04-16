@@ -1,24 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-// import {Elements} from '@stripe/react-stripe-js';
 const axios = require('axios');
-//import {loadStripe} from '@stripe/stripe-js';
-
-// stripe
-// async function test() {
-//     try {
-//         //const stripe = require('stripe')('sk_test_51IMhDjDACjkjrvMmiJxcdbJqejCQ3W9dwagP8gDp7l5wHk0Qm7oWgkmOKVqxVMOutTF7nKoPI86eX84PY6ZZqQj100pJsabLN1');
-//         const paymentIntent = await stripe.paymentIntents.create({
-//           amount: 1477, // $14.77, an easily identifiable amount
-//           currency: 'usd',
-//         });
-//         console.log('Worked! ', paymentIntent.id);
-//     } catch(err) {
-//         console.log('Error! ', err.message);
-//     }
-// }
-
-
 
 function Donation() {
 
@@ -28,8 +10,13 @@ function Donation() {
     setNeedPaymentInfo(true);
   }
   function getPaymentInfo() {
-    axios.post('http://localhost:5000/stripe/donate')
-     .then(res => console.log(res.data))
+    // axios.post('http://localhost:5000/stripe/donate')
+    //  .then(res => console.log(res.data))
+    var response = axios.get('http://localhost:5000/stripe/donate')
+     .then(res => {
+       var clientSecret = res.data.client_secret;
+     })
+     
   }
   return !needPaymentInfo ? (
     <>
@@ -47,6 +34,9 @@ function Donation() {
         <div>
           <label for="amount">Amount: </label>
           <input id="amount" type="number" name="amount" min="10" />
+        </div>
+        <div>
+          <button type="button" onClick={getPaymentInfo}>Test Button</button>
         </div>
         <div>
           <button type="submit" onClick={getPaymentInfo}>Next</button>

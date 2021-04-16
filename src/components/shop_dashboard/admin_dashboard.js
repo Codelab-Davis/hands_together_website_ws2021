@@ -73,6 +73,11 @@ function Admin_Dashboard() {
     //alert(`tracking link input ${trackingLink}`);
     
   }
+
+  function cancelOrder(e) {
+      axios.post('http://localhost:5000/stripe/cancel_order')
+       .then(res => console.log(res));
+  }
   
   return (
     <div>
@@ -121,7 +126,7 @@ function Admin_Dashboard() {
         
       </div> <p>after input = {trackingLink}</p>
       </form>
-      <form>
+      <form onSubmit={e => cancelOrder(e)}>
             <input type="submit" value="Cancel Order"/>
       </form>
       
