@@ -114,7 +114,7 @@ function Shop() {
 
       {items.map((itemIter, index) =>
         <div key={index}>
-        <a href={`/:${itemIter._id}`}>
+        <a href={`/shop/${itemIter._id}`}>
           <button onClick={() => clicked(itemIter)}>
             name: {itemIter.name}<br />
             id: {itemIter._id}<br />

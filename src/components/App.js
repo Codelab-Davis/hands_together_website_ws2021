@@ -1,6 +1,7 @@
 import "../css/App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import home from "./home";
+import about from "./about"; 
 import shop from "./shop/shop";
 import item_page from "./shop/item_page";
 import add_item from "./shop_dashboard/add_item";

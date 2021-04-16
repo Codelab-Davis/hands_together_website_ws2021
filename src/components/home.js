@@ -5,37 +5,7 @@ import { useHistory } from "react-router-dom";
 function Home() {
     return (
     <div>
-        <div className="f_space" />
-
-        <div align="left">
-            <button className="lbutton">
-                <h1 className="title">Logo</h1>
-            </button>
-        </div>
-
-        <div className="f_space" />
-
-            <div class="container-fluid p-0" text-align="center">
-                <div class="row no-gutters">
-                    <div class="col-6"/>
-                    <div class="col-1" >
-                        <h4>Page</h4>
-                    </div>
-                    <div class="col-1">
-                        <h4>Page</h4>
-                    </div>
-                    <div class="col-1">
-                        <h4>Page</h4>
-                    </div>
-                    <div class="col-1">
-                        <h4>Page</h4>
-                    </div>
-                    <div class="col-1">
-                        <h4>Page</h4>
-                    </div>
-                    <div class="col-1" />
-            </div>
-        </div>
+        <div className="f_space">Banner to advertise upcoming features</div>
 
         <div className="container-content" align="center">
             <div class="container-fluid p-0">
@@ -50,7 +20,7 @@ function Home() {
                     </div>
                     <div class="col-1"/>
                     <div class="col-1" className="f_space">
-                        <button className="wbutton" >
+                        <button className="wbutton hands-together-button" >
                             <p>Donate</p>
                         </button>
                     </div>
@@ -145,7 +115,7 @@ function Home() {
             <div class="row no-gutters">
                 <div class="col-1"/>
                 <div class="col-11">
-                    <h1 className="sub">Meet Our Team</h1>
+                    <h1 className="sub">Meet Our Team</h1> 
                 </div>
                 </div>
             <div class="row no-gutters">

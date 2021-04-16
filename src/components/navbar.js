@@ -8,7 +8,7 @@ function Navbar() {
   return (
     <div>
       <div align="right">
-        <button className="hands-together-button">
+        <button className="hands-together-button yellow-button">
           <p className="caption">Check Out</p>
         </button>
       </div>
