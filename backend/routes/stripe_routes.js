@@ -8,83 +8,115 @@ const nodemailer = require("nodemailer");
 var router = express.Router();
 require('dotenv').config();
 
-router.route('/create-checkout-session').post(async (req, res) => {
-  let transaction_id = "abcd1234"
-  let success = "http://localhost:3000/order_summary/" + transaction_id
-    const session = await stripe.checkout.sessions.create({
-        billing_address_collection: 'required',
-        shipping_address_collection: {
-          allowed_countries: ['US'],
-        },
-        payment_method_types: ['card'], // list of payment methods
-        line_items: [ 
-          {
-            price_data: { // product info
-              currency: 'usd',
-              product_data: {
-                name: 'Stubborn Attachments',
-                images: ['https://i.imgur.com/EHyR2nP.png'],
-              },
-              unit_amount: 2000,
-            },
-            quantity: 1,
-            tax_rates: ['txr_1IRmOEDACjkjrvMmvkTvvmYZ']
-          },
-        ],
-        metadata: {'id': req.body.item_id, 'transaction_id': transaction_id},
-        mode: 'payment',
-        success_url: `${success}`, // html pages to show for successful/cancelled transactions
-        cancel_url: "http://localhost:3000/",
-      });
+const Bottleneck = require('bottleneck');
 
-      res.json({ id: session.id });
+const limiter = new Bottleneck({
+  maxConcurrent: 10,
+  minTime: 100
+});
+
+limiter.schedule(() => {
+  router.route('/create-checkout-session').post(async (req, res) => {
+    let transaction_id = "abcd1234"
+    let success = "http://localhost:3000/order_summary/" + transaction_id
+      const session = await stripe.checkout.sessions.create({
+          billing_address_collection: 'required',
+          shipping_address_collection: {
+            allowed_countries: ['US'],
+          },
+          payment_method_types: ['card'], // list of payment methods
+          line_items: [ 
+            {
+              price_data: { // product info
+                currency: 'usd',
+                product_data: {
+                  name: req.body.item.name,
+                  images: req.body.item.images,
+                },
+                unit_amount: 2000,
+              },
+              quantity: 1,
+              tax_rates: ['txr_1IRmOEDACjkjrvMmvkTvvmYZ']
+            },
+          ],
+          metadata: {'id': req.body.item._id, 'transaction_id': transaction_id},
+          mode: 'payment',
+          success_url: `${success}`, // html pages to show for successful/cancelled transactions
+          cancel_url: "http://localhost:3000/",
+        });
+
+        res.json({ id: session.id });
+  });
+})
+
+/* Donation Handling */
+router.route('/donate').get(async (req,res) => {
+  const paymentIntent = await stripe.paymentIntents.create({
+    amount: 1099,
+    currency: 'usd',
+    // Verify your integration in this guide by including this parameter
+    metadata: {integration_check: 'accept_a_payment'},
+  });
+  res.json({ client_secret: paymentIntent.client_secret });
 });
 
 // Donation form.
-router.get('/', function(req, res) {
-  res.render('donate');
-});
+limiter.schedule(() => {
+  router.get('/', function(req, res) {
+    res.render('donate');
+  });
+})
 
-router.post('/', async (req, res, next) => {
-  // TO ADD: data validation, storing errors in an `errors` variable!
-  const name = req.body.name;
-  const email = req.body.email;
-  const amount = req.body.amount;
-  if (true) { // Data is valid!
+
+limiter.schedule(() => {
+  router.post('/', async (req, res, next) => {
+    // TO ADD: data validation, storing errors in an `errors` variable!
+    const name = req.body.name;
+    const email = req.body.email;
+    const amount = req.body.amount;
+    if (true) { // Data is valid!
+      try {
+        // Create a PI:
+        const stripe = require('stripe')('sk_test_51IMhDjDACjkjrvMmiJxcdbJqejCQ3W9dwagP8gDp7l5wHk0Qm7oWgkmOKVqxVMOutTF7nKoPI86eX84PY6ZZqQj100pJsabLN1');
+        const paymentIntent = await stripe.paymentIntents.create({
+          amount: amount * 100, // In cents
+          currency: 'usd',
+          receipt_email: email,
+        });
+        res.render('card', {name: name, amount: amount, intentSecret: paymentIntent.client_secret });
+      } catch(err) {
+        console.log('Error! ', err.message);
+      }
+    } else {
+      res.render('donate', { title: 'Donate', errors: errors });
+    }
+  });
+})
+
+
+// Thanks page.
+limiter.schedule(() => {
+  router.post('/thanks', function(req, res) {
+    res.render('thanks', { title: 'Thanks!' });
+  });
+})
+
+/* Successful Checkout Event Handler */
+limiter.schedule(() => {
+  router.route('/donate').post(async (req,res) => {
     try {
-      // Create a PI:
       const stripe = require('stripe')('sk_test_51IMhDjDACjkjrvMmiJxcdbJqejCQ3W9dwagP8gDp7l5wHk0Qm7oWgkmOKVqxVMOutTF7nKoPI86eX84PY6ZZqQj100pJsabLN1');
       const paymentIntent = await stripe.paymentIntents.create({
-        amount: amount * 100, // In cents
+        amount: 1477, // $14.77, an easily identifiable amount
         currency: 'usd',
-        receipt_email: email,
       });
-      res.render('card', {name: name, amount: amount, intentSecret: paymentIntent.client_secret });
+      console.log('Worked! ', paymentIntent.id);
     } catch(err) {
       console.log('Error! ', err.message);
     }
-  } else {
-    res.render('donate', { title: 'Donate', errors: errors });
-  }
-});
+  });
+})
 
-// Thanks page.
-router.post('/thanks', function(req, res) {
-  res.render('thanks', { title: 'Thanks!' });
-});
-
-router.route('/donate').post(async (req,res) => {
-  try {
-    const stripe = require('stripe')('sk_test_51IMhDjDACjkjrvMmiJxcdbJqejCQ3W9dwagP8gDp7l5wHk0Qm7oWgkmOKVqxVMOutTF7nKoPI86eX84PY6ZZqQj100pJsabLN1');
-    const paymentIntent = await stripe.paymentIntents.create({
-      amount: 1477, // $14.77, an easily identifiable amount
-      currency: 'usd',
-    });
-    console.log('Worked! ', paymentIntent.id);
-  } catch(err) {
-    console.log('Error! ', err.message);
-  }
-});
 
 // Successful Checkout Event Handler
 
@@ -97,12 +129,31 @@ var transporter = nodemailer.createTransport({
   }
 });
 
+router.post('/cancel_order', (req, res) => {
+  let customer_email = "dummyemailclht@gmail.com"; //sending cancelation email to dummy email for now
+  let email_body = "<h1>Order Canceled</h1> <br /> <p> Your order was sucessfully canceled! </p>";
+
+  const mail_options = {
+    from: `"Hands Together Test" <ht@shop.io>`,
+    to: customer_email,
+    subject: "Order Cancellation",
+    html: email_body, 
+  }
+  transporter.sendMail(mail_options, function(error, info) {
+    if(error) {
+      return res.status(400).json(error);
+    } else {
+      return res.status(200).json('Cancellation Email Sent: ' + info.response);
+    }
+  });
+});
+
 const fulfillOrder = (session) => {
   let id = session.metadata['id']; // object id for mongo access
   let customer_email = session.customer_details['email']; 
   let order_summary_url = "http://localhost:3000/order_summary/" + session.metadata['transaction_id']; 
 
-  let email_body = "<h1>Test Email</h1> <br /> <p>" + order_summary_url + "</p>"; 
+  let email_body = "<h1>Order Placed!</h1> <br /> <p> You can view your order summary using the following url: " + order_summary_url + "</p>"; 
 
   // update datebase on successful purchase (delete from items and add to sold_items)
   axios.delete('http://localhost:5000/items/purchase_item/' + id)
@@ -120,7 +171,7 @@ const fulfillOrder = (session) => {
   const mail_options = {
     from: `"Hands Together Test" <test@test.io>`,
     to: customer_email,
-    subject: "nodemailer test",
+    subject: "Order Placed Successfully",
     html: email_body, 
   }
 
@@ -128,37 +179,40 @@ const fulfillOrder = (session) => {
     if(error) {
       console.log(error);
     } else {
-      console.log('Email sent: ' + info.response);
+      console.log('Order Email Sent: ' + info.response);
     }
   });
-
 }
+
 // To test webhook in development you must install the Stripe CLI
 // https://stripe.com/docs/stripe-cli#install
 // Then to forward output to the local route use:
 // stripe listen --forward-to localhost:5000/stripe/webhook
-router.post('/webhook', (req, res) => {
-  const payload = req.rawBody;
-  const sig = req.headers['stripe-signature'];
+limiter.schedule(() => {
+  router.post('/webhook', (req, res) => {
+    const payload = req.rawBody;
+    const sig = req.headers['stripe-signature'];
 
-  let event;
+    let event;
 
-  try {
-    event = stripe.webhooks.constructEvent(payload, sig, process.env.WEBHOOK_ENDPOINT);
-  } catch (err) {
-    console.log(`Webhook Error: ${err.message}`)
-    return res.status(400).json(`Webhook Error: ${err.message}`);
-  }
+    try {
+      event = stripe.webhooks.constructEvent(payload, sig, process.env.WEBHOOK_ENDPOINT);
+    } catch (err) {
+      console.log(`Webhook Error: ${err.message}`)
+      return res.status(400).json(`Webhook Error: ${err.message}`);
+    }
 
-  if(event.type == 'checkout.session.completed') {
-    const session = event.data.object;
-    fulfillOrder(session);
-    console.log(session);
-  }
+    if(event.type == 'checkout.session.completed') {
+      const session = event.data.object;
+      fulfillOrder(session);
+      console.log(session);
+    }
 
-  
-  res.status(200);
-  res.json("Received Request");
-});
+    
+    res.status(200);
+    res.json("Received Request");
+  });
+})
+
 
 module.exports = router;
