@@ -10,7 +10,8 @@ require('dotenv').config();
 
 router.route('/create-checkout-session').post(async (req, res) => {
   let transaction_id = "abcd1234"
-  let success = "http://localhost:3000/order_summary/" + transaction_id
+  let amount = req.body.amount;
+  let tax = (req.body.type == "purchase") ? (['txr_1IRmOEDACjkjrvMmvkTvvmYZ']) : [];
     const session = await stripe.checkout.sessions.create({
         billing_address_collection: 'required',
         shipping_address_collection: {
@@ -25,16 +26,16 @@ router.route('/create-checkout-session').post(async (req, res) => {
                 name: 'Stubborn Attachments',
                 images: ['https://i.imgur.com/EHyR2nP.png'],
               },
-              unit_amount: 2000,
+              unit_amount: amount,
             },
             quantity: 1,
-            tax_rates: ['txr_1IRmOEDACjkjrvMmvkTvvmYZ']
+            tax_rates: tax
           },
         ],
-        metadata: {'id': req.body.item_id, 'transaction_id': transaction_id},
+        metadata: {'id': req.body.item_id, 'transaction_id': transaction_id, 'type': req.body.type},
         mode: 'payment',
-        success_url: `${success}`, // html pages to show for successful/cancelled transactions
-        cancel_url: "http://localhost:3000/",
+        success_url: req.body.success_url, // html pages to show for successful/cancelled transactions
+        cancel_url: req.body.cancel_url,
       });
 
       res.json({ id: session.id });
@@ -130,7 +131,6 @@ const fulfillOrder = (session) => {
 // Then to forward output to the local route use:
 // stripe listen --forward-to localhost:5000/stripe/webhook
 router.post('/webhook', (req, res) => {
-  console.log("In webhook")
   const payload = req.rawBody;
   const sig = req.headers['stripe-signature'];
 
@@ -142,11 +142,18 @@ router.post('/webhook', (req, res) => {
     console.log(`Webhook Error: ${err.message}`)
     return res.status(400).json(`Webhook Error: ${err.message}`);
   }
-
+  console.log("Start of Req...")
+  console.log(req)
+  console.log("End of Req...")
   if(event.type == 'checkout.session.completed') {
     const session = event.data.object;
-    fulfillOrder(session);
-    console.log(session);
+    if(session.metadata['type'] == "purchase") {
+      fulfillOrder(session);
+      console.log(session);
+    }
+    else {
+      console.log("Donation Handling!")
+    }
   }
 
   
