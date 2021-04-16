@@ -33,8 +33,7 @@ function Shop() {
       setNextIndex(nextIndex - 12);
     }
   }
-  function check()
-  {
+  function check() {
     setCurItems(itemArray.data.slice(0,12));
     setNextIndex(12);
     console.log(items);
@@ -121,7 +120,7 @@ function Shop() {
             id: {itemIter._id}<br />
             price: {itemIter.price}<br />
             date added: {itemIter.date_added}<br />
-            images: [{itemIter.images}]<br />
+            <img src={itemIter.images[0]} alt={itemIter.name + " image"}/><br />
           </button>
         </a>
         </div>

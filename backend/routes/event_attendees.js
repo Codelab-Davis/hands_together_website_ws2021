@@ -8,7 +8,7 @@ const limiter = new Bottleneck({
   minTime: 100
 });
 
-//limiter.schedule(() => {
+limiter.schedule(() => {
     router.route('/add_attendee').post((req, res) => { // change route as necessary
       const eventID = req.body.eventID; 
       const name = req.body.name;
@@ -38,17 +38,17 @@ const limiter = new Bottleneck({
        .then(() => res.json("New Atendee Added!"))
        .catch(() => res.status(400).json("Error: " + err));
     });
-  //})
+  })
 
-  //limiter.schedule(() => {
+  limiter.schedule(() => {
     router.route('/get_all_attendees').get((req, res) => {
       EventAttendee.find()
         .then(EventAttendee => res.json(EventAttendee))
         .catch(err => res.status(400).json('Error: ' + err));
     });
-  //})
+  })
   
-  //limiter.schedule(() => {
+  limiter.schedule(() => {
     router.route('/get_attendee').get((req, res) => {
       const eventID = JSON.parse(req.query.eventID);  // JSON in format { transaction_id: "" }
   
@@ -62,6 +62,6 @@ const limiter = new Bottleneck({
         }
       })
     });
-  //})
+  })
   
   module.exports = router; 

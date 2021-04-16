@@ -22,6 +22,8 @@ const limiter = rateLimit({
   message: "Too many requests, sorry!"
 });
 
+app.use(limiter);
+
 const uri = process.env.ATLAS_URI;
 mongoose.connect(uri, {useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true});
 const connection = mongoose.connection;
@@ -32,9 +34,9 @@ connection.once('open', () => {
 const items_router = require('./routes/items');
 const sold_items_router = require('./routes/sold_items');
 const login_router = require('./routes/login');
-const volunteer_router = require('./routes/volunteer.js');
-const event_router = require('./routes/event.js');
- const event_attendees_router = require('./routes/event_attendees.js');
+const volunteer_router = require('./routes/volunteer');
+const event_router = require('./routes/event');
+const event_attendees_router = require('./routes/event_attendees');
 const stripe_router = require('./routes/stripe_routes');
 
 app.use('/items', items_router); 
@@ -44,8 +46,6 @@ app.use('/volunteer', volunteer_router);
 app.use('/event', event_router);
 app.use('/event_attendees', event_attendees_router);
 app.use('/stripe', stripe_router);
-
-app.use(limiter);
 
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`)
