@@ -26,19 +26,20 @@ h1, h2, h3, p {
     color: var(--black); 
 }
 h1 {
-    font-size: 56px !important; 
+    font-size: 3.5rem !important; 
 }
 h2 {
-    font-size: 45px !important; 
+    font-size: 2.8125rem !important; 
 }
 h3 {
-    font-size: 34px !important; 
+    font-size: 2.215rem !important; 
 }
 p {
-    font-size: 18px !important; 
+    font-size: 1.125rem !important; 
 }
 .caption {
-    font-size: 12px !important; 
+    font-size: 0.75rem !important; 
+    line-height: 14px;
 }
 .bold {
     font-weight: 700 !important; 
@@ -49,8 +50,22 @@ p {
 */ 
 
 :root { 
-    --lightpink: #F9C6D7;
-    --darkpink: #db4c77;
-    --darkblue: #10559a;
-    --lightblue: #3CA2C8;
+    --lightgray: #F2F2F2;
+    --darkred: #F24949;
+    --lightyellow: #F2E41D;
+    --darkyellow: #F2B705;
+    --lightblue: #50B4F2;
+}
+
+/* 
+    Components 
+*/ 
+
+.hands-together-button {
+    border: none;
+    border-radius: 10px;
+    color: black;
+    text-align: center;
+    display:table-cell;
+    vertical-align: middle;
 }
