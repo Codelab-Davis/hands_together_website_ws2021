@@ -37,8 +37,10 @@ export default class Login extends Component {
     axios.get("http://localhost:5000/login/", { params: credentials })
       .then(res => {
         console.log(res.data);
-        if (res.data)
+        if (res.data) {
+          this.props.setLoggedIn(true);
           window.location.assign("http://localhost:3000/admin/");
+        }
       });
   }
 
