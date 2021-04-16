@@ -21,6 +21,7 @@ const limiter = rateLimit({
   max: 100, // limit each IP to 100 requests per windowMs
   message: "Too many requests, sorry!"
 });
+
 app.use(limiter);
 
 const uri = process.env.ATLAS_URI;

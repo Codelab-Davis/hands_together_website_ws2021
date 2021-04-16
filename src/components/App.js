@@ -19,6 +19,7 @@ function App() {
       <Navbar />
       <Router>
         <Route exact path="/" component={home} />
+        <Route exact path="/about" component={about} />
         <Route exact path="/shop" component={shop} />
         <Route exact path="/item/:id" component={item_page} /> 
         <Route exact path="/shop/:id" component={item_page} />
