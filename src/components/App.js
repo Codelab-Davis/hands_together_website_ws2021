@@ -23,7 +23,6 @@ function App() {
         <Route exact path="/add" component={add_item} />
         <Route exact path="/edit" component={edit_or_remove_item} />
         <Route exact path="/order_summary/:transaction_id" component={order_summary} />
-        {/* Stripe Testing */}
         <Route exact path="/donation" component={donation} />
       </Router>
     </div>
