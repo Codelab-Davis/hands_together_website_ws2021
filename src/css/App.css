@@ -39,6 +39,7 @@ p {
 }
 .caption {
     font-size: 12px !important; 
+    line-height: 14px;
 }
 .bold {
     font-weight: 700 !important; 
@@ -49,8 +50,21 @@ p {
 */ 
 
 :root { 
-    --lightpink: #F9C6D7;
-    --darkpink: #db4c77;
-    --darkblue: #10559a;
-    --lightblue: #3CA2C8;
+    --lightgray: #F2F2F2;
+    --darkred: #F24949;
+    --lightyellow: #F2E41D;
+    --darkyellow: #F2B705;
+    --lightblue: #50B4F2;
+}
+
+/* 
+    Buttons 
+*/ 
+.hands-together-button {
+    border: none;
+    border-radius: 10px;
+    color: black;
+    text-align: center;
+    display:table-cell;
+    vertical-align: middle;
 }
