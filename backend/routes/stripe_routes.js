@@ -8,35 +8,48 @@ const nodemailer = require("nodemailer");
 var router = express.Router();
 require('dotenv').config();
 
-router.route('/create-checkout-session').post(async (req, res) => {
-  let transaction_id = "abcd1234"
-  let amount = req.body.amount;
-  let tax = (req.body.type == "purchase") ? (['txr_1IRmOEDACjkjrvMmvkTvvmYZ']) : [];
-    const session = await stripe.checkout.sessions.create({
-        billing_address_collection: 'required',
-        shipping_address_collection: {
-          allowed_countries: ['US'],
-        },
-        payment_method_types: ['card'], // list of payment methods
-        line_items: [ 
-          {
-            price_data: { // product info
-              currency: 'usd',
-              product_data: {
-                name: 'Stubborn Attachments',
-                images: ['https://i.imgur.com/EHyR2nP.png'],
-              },
-              unit_amount: amount,
-            },
-            quantity: 1,
-            tax_rates: tax
+const Bottleneck = require('bottleneck');
+
+const limiter = new Bottleneck({
+  maxConcurrent: 10,
+  minTime: 100
+});
+
+limiter.schedule(() => {
+  router.route('/create-checkout-session').post(async (req, res) => {
+    let transaction_id = "abcd1234"
+    let amount = req.body.amount;
+    let tax = (req.body.type == "purchase") ? (['txr_1IRmOEDACjkjrvMmvkTvvmYZ']) : [];
+      const session = await stripe.checkout.sessions.create({
+          billing_address_collection: 'required',
+          shipping_address_collection: {
+            allowed_countries: ['US'],
           },
-        ],
-        metadata: {'id': req.body.item_id, 'transaction_id': transaction_id, 'type': req.body.type},
-        mode: 'payment',
-        success_url: req.body.success_url, // html pages to show for successful/cancelled transactions
-        cancel_url: req.body.cancel_url,
-      });
+          payment_method_types: ['card'], // list of payment methods
+          line_items: [ 
+            {
+              price_data: { // product info
+                currency: 'usd',
+                product_data: {
+                  name: 'Stubborn Attachments',
+                  images: ['https://i.imgur.com/EHyR2nP.png'],
+                },
+                unit_amount: amount,
+              },
+              quantity: 1,
+              tax_rates: tax
+            },
+          ],
+          metadata: {'id': req.body.item_id, 'transaction_id': transaction_id, 'type': req.body.type},
+          mode: 'payment',
+          success_url: req.body.success_url, // html pages to show for successful/cancelled transactions
+          cancel_url: req.body.cancel_url,
+        });
+
+        res.json({ id: session.id });
+  });
+})
+
 
 /* Donation Handling */
 router.route('/donate').get(async (req,res) => {
@@ -55,7 +68,6 @@ limiter.schedule(() => {
     res.render('donate');
   });
 })
-
 
 limiter.schedule(() => {
   router.post('/', async (req, res, next) => {
@@ -82,33 +94,12 @@ limiter.schedule(() => {
   });
 })
 
-
 // Thanks page.
-limiter.schedule(() => {
-  router.post('/thanks', function(req, res) {
-    res.render('thanks', { title: 'Thanks!' });
-  });
-})
+router.post('/thanks', function(req, res) {
+  res.render('thanks', { title: 'Thanks!' });
+});
 
 /* Successful Checkout Event Handler */
-limiter.schedule(() => {
-  router.route('/donate').post(async (req,res) => {
-    try {
-      const stripe = require('stripe')('sk_test_51IMhDjDACjkjrvMmiJxcdbJqejCQ3W9dwagP8gDp7l5wHk0Qm7oWgkmOKVqxVMOutTF7nKoPI86eX84PY6ZZqQj100pJsabLN1');
-      const paymentIntent = await stripe.paymentIntents.create({
-        amount: 1477, // $14.77, an easily identifiable amount
-        currency: 'usd',
-      });
-      console.log('Worked! ', paymentIntent.id);
-    } catch(err) {
-      console.log('Error! ', err.message);
-    }
-  });
-})
-
-
-// Successful Checkout Event Handler
-
 // transporter for node mailer
 var transporter = nodemailer.createTransport({
   service: 'gmail',
@@ -203,5 +194,9 @@ router.post('/webhook', (req, res) => {
     }
   }
 
+  
+  res.status(200);
+  res.json("Received Request");
+});
 
 module.exports = router;
