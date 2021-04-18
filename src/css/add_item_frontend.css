@@ -1,0 +1,65 @@
+.title-text { 
+    margin-top: 5.3rem; /* Calculated by 85/16 to convert px to rem, as 1rem ~ 16px */ 
+    padding-left: 3.25rem;
+} 
+
+.listing-box { 
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    box-sizing: border-box;
+    border-radius: 5px; 
+    width: 100%; 
+    /* I use margin to physically make the box not take up 100% of the available width */
+    margin: 2rem; 
+    /* I use padding to make there be a slightly empty area INSIDE of the box's border 
+        where no other elements can exist  */
+    padding: 1.3rem;
+} 
+
+/* I make it so that the content will always be an even width away from each other 
+    Justify-Content is for horizontal alignment. If you wanted to vertically align, 
+    you would use align-items. 
+    This is the stuff Edward mentioned - it's very powerful in that it can align 
+    and readjust your content with just 1 line of CSS. 
+    You can also pass these arguments directly into Bootstrap like in the article I sent, 
+    and I encourage doing so - 
+    but since I need to change the justify-content based on the screensize, I do it here 
+    in CSS classes so I can adjust it based on a media query. */
+.photo-container { 
+    justify-content: space-between; 
+} 
+
+/* This media query takes place below 1285px. Normally you use one of the common breakpoints 
+   for settting these from the article I sent, but here I noticed the 'space-between' 
+   attribute makes the page look bad specifically at 1285px, so I call it there. */
+@media (max-width: 1285px) { 
+    .photo-container { 
+        justify-content: center; 
+    }
+} 
+
+/*  Here, it's okay to use a fixed size width and height for my boxes. 
+    Because most phones aren't smaller than 300px in width, there's plenty of space for this 
+    box regardless of screen size, so it's okay to hard code it, as it isn't that big.   */
+/*  Because add-a-photo and photo-preview share so many common attributes, I can save space 
+    by assigning them both the same values in one go */
+.add-a-photo, .photo-preview { 
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    box-sizing: border-box;
+    border-radius: 4px;
+    width: 215px;
+    height: 215px;
+    margin: 0.5rem;
+} 
+
+.photo-preview { 
+    background: rgba(196, 196, 196, 0.5);
+} 
+
+.photo-description-margin { 
+    margin-top: 3rem;
+    margin-bottom: 3.5rem; 
+} 
+
+.listing-input { 
+    margin-top: 11px;
+} 
