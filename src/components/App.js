@@ -4,9 +4,9 @@ import home from "./home";
 import about from "./about"; 
 import shop from "./shop/shop";
 import item_page from "./shop/item_page";
-import add_item from "./shop_dashboard/add_item";
+import add_item from "./shop_dashboard/add_item_frontend"; 
 import admin_dashboard from "./shop_dashboard/admin_dashboard";
-import edit_or_remove_item from "./shop_dashboard/edit_or_remove_item";
+import sold_items_test_routes from "./shop_dashboard/sold_items_test_routes"; 
 import Login from "./shop_dashboard/login";
 import donation from "./donation";
 import order_summary from "./order_summary/order_summary";
@@ -30,9 +30,10 @@ function App() {
         <Route exact path="/login" render={(props) => loggedIn ? <Redirect to="/admin" /> : (<Login {...props} loggedIn={loggedIn} setLoggedIn={setLoggedIn} />)} />
         <Route exact path="/item/:id" component={item_page} /> 
         <Route exact path="/shop/:id" component={item_page} />
+        <Route exact path="/admin" component={admin_dashboard} />
+        <Route exact path="/sold_items_test_routes" component={sold_items_test_routes} /> 
         <GuardedRoute path="/admin" component={admin_dashboard} auth={loggedIn} />
         <Route exact path="/add" component={add_item} />
-        <Route exact path="/edit" component={edit_or_remove_item} />
         <Route exact path="/order_summary/:transaction_id" component={order_summary} />
         <Route exact path="/donation" component={donation} />
         <Route exact path="/volunteer_events" component={volunteer_events} />

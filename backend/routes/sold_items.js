@@ -14,8 +14,7 @@ limiter.schedule(() => {
   router.route('/update_item').put((req, res) => {
       Sold_Item.find()
           .then(Sold_Item => res.json(Sold_Item))
-          .catch(err => res.status(400).json('Error: ' + err));
-          
+          .catch(err => res.status(400).json('Error: ' + err));         
   });
 })
 
@@ -29,18 +28,12 @@ limiter.schedule(() => {
 
 
 limiter.schedule(() => {
-  router.route('/get_sale').get((req, res) => {
-    const transaction_id = JSON.parse(req.query.transaction_id);  // JSON in format { transaction_id: "" }
-
-    Sold_Item.find(transaction_id, (err, docs) => {
-      if (err) {
-        console.log('Error');
-      } else if (!docs) {
-        res.json(false);
-      } else {
-        res.json(docs);
-      }
-    })
+  router.route('/get_sale/:id').get((req, res) => {
+    const transaction_id = req.params.id;  // JSON in format { transaction_id: "" }
+    console.log(transaction_id); 
+    Sold_Item.findById(req.params.id)
+      .then(item=>res.json(item))
+      .catch(err=>res.status(400).json('Error: ' + err));
   });
 })
 
@@ -55,8 +48,7 @@ limiter.schedule(() => {
     const transaction_id = req.body.transaction_id;
     const tracking_link = "test_link";
     const cancelled = false;
-    const shipping_address = req.body.shipping_address;
-    console.log(req.body.shipping_address);
+    const shipping_address = new Map(); 
 
     let newSoldItem = new Sold_Item({
         name,
@@ -67,11 +59,12 @@ limiter.schedule(() => {
         transaction_id,
         tracking_link,
         cancelled,
-        shipping_address
+        shipping_address,
     });
+
     newSoldItem.save()
      .then(() => res.json("New Item Purchased!"))
-     .catch(() => res.status(400).json("Error: " + err));
+     .catch(err => res.status(400).json("Error: " + err));
   });
 })
 
