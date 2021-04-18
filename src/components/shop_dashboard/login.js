@@ -15,15 +15,6 @@ function Login(props) {
     setPassword(e.target.value);
   };
 
-  /* State Validation */
-  const update = () => {
-    props.setLoggedIn(true);
-  }
-
-  const check = () => {
-    console.log(props.loggedIn);
-  }
-  /*------------------*/
   const onSubmit = e => {
     e.preventDefault();
 
@@ -36,7 +27,13 @@ function Login(props) {
       .then(res => {
         console.log(res.data);
         if (res.data) {
-          props.setLoggedIn(true);
+          axios.post('http://localhost:5000/jwt/generateAccessToken', { user: userName })
+           .then(res => {
+             console.log(res);
+             localStorage.setItem('access', JSON.stringify(res.data['accessToken']))
+             localStorage.setItem('refresh', JSON.stringify(res.data['refreshToken']))
+             props.setLoggedIn(true);
+           })
         }
       });
   }
@@ -44,8 +41,6 @@ function Login(props) {
     return (
       <>
         <h1>Login</h1>
-        <button value="test" onClick={update}>Update</button>
-        <button value="test" onClick={check}>Check State</button>
         <form onSubmit={onSubmit}>
           <label>Username</label>
           <input type="text" value={userName} onChange={handleUserNameInput}/>

@@ -32,7 +32,7 @@ router.route('/add_volunteer').post((req, res) => {
 });
 
 router.route('/get_by_event').get((req, res) => {
-    const event_id = {"event_id": req.body.event_id};   // JSON in format { transaction_id: "" }
+    const event_id = {"event_id": req.body.event_id};  
 
     Volunteer.find(event_id, (err, docs) => {
       if (err) {

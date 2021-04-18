@@ -22,7 +22,7 @@ const limiter = new Bottleneck({
     })
   });
 
-
+  
 limiter.schedule(() => {
   router.route('/add').post((req, res) => {
     const user = req.body.user;

@@ -30,7 +30,6 @@ function App() {
         <Route exact path="/login" render={(props) => loggedIn ? <Redirect to="/admin" /> : (<Login {...props} loggedIn={loggedIn} setLoggedIn={setLoggedIn} />)} />
         <Route exact path="/item/:id" component={item_page} /> 
         <Route exact path="/shop/:id" component={item_page} />
-        {/* <Route exact path="/admin" component={admin_dashboard} /> */}
         <GuardedRoute path="/admin" component={admin_dashboard} auth={loggedIn} />
         <Route exact path="/add" component={add_item} />
         <Route exact path="/edit" component={edit_or_remove_item} />
