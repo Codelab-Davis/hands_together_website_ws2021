@@ -1,7 +1,9 @@
+const tokenAuth = require('../middleware');
 const router = require('express').Router();
 const Sold_Item = require('../models/sold_items.model')
 //https://bezkoder.com/react-node-express-mongodb-mern-stack/
 const Bottleneck = require('bottleneck');
+
 
 const limiter = new Bottleneck({
   maxConcurrent: 10,
@@ -17,7 +19,7 @@ limiter.schedule(() => {
 })
 
 limiter.schedule(() => {
-  router.route('/get_sold_items').get((req, res) => {
+  router.get('/get_sold_items', tokenAuth, (req, res) => {
     Sold_Item.find()
       .then(Sold_Item => res.json(Sold_Item))
       .catch(err => res.status(400).json('Error: ' + err));

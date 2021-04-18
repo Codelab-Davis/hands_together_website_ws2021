@@ -51,7 +51,14 @@ function Admin_Dashboard() {
   }
 
   useEffect(() => {
-    axios.get('http://localhost:5000/sold_items/get_sold_items')
+    let access_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiYXBwbGUiLCJpYXQiOjE2MTg3MTE5MDN9.i8YvjSPo8WwlOeYjQOt1fEl6epVDfNnpU60GGS1SipA"; // temporary
+    let config = {
+      headers: {
+        'Authorization': `Bearer ${access_token}`
+      }
+    }
+    
+    axios.get('http://localhost:5000/sold_items/get_sold_items', config)
     .then( res => {
       console.log(res)
       // assign json data to itemArray 
