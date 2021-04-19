@@ -1,4 +1,4 @@
-const tokenAuth = require('../middleware');
+const tokenAuth = require('../jwtAuth');
 const router = require('express').Router();
 const Sold_Item = require('../models/sold_items.model')
 //https://bezkoder.com/react-node-express-mongodb-mern-stack/
@@ -11,7 +11,7 @@ const limiter = new Bottleneck({
 });
 
 limiter.schedule(() => {
-  router.route('/update_item').put((req, res) => {
+  router.put('/update_item', tokenAuth, (req,res) => {
       Sold_Item.find()
           .then(Sold_Item => res.json(Sold_Item))
           .catch(err => res.status(400).json('Error: ' + err));         
@@ -28,7 +28,7 @@ limiter.schedule(() => {
 
 
 limiter.schedule(() => {
-  router.route('/get_sale/:id').get((req, res) => {
+  router.get('/get_sale/:id', tokenAuth, (req,res) => {
     const transaction_id = req.params.id;  // JSON in format { transaction_id: "" }
     console.log(transaction_id); 
     Sold_Item.findById(req.params.id)
@@ -39,7 +39,7 @@ limiter.schedule(() => {
 
 
 limiter.schedule(() => {
-  router.route('/add_item').post((req, res) => {
+  router.post('/add_item', tokenAuth, (req,res) => {
     const name = req.body.name;
     const date_added = req.body.date_added;
     const price = req.body.price;

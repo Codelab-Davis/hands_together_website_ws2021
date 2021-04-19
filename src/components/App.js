@@ -15,6 +15,7 @@ import Navbar from "./navbar";
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import React, { useState } from 'react'; 
 import GuardedRoute from './GuardedRoute';
+import {Switch} from 'react-router';
 
 function App() {
 
@@ -24,19 +25,21 @@ function App() {
     <div id="content-container">
       <Navbar />
       <Router>
-        <Route exact path="/" component={home} />
-        <Route exact path="/about" component={about} />
-        <Route exact path="/shop" component={shop} />
-        <Route exact path="/login" render={(props) => loggedIn ? <Redirect to="/admin" /> : (<Login {...props} loggedIn={loggedIn} setLoggedIn={setLoggedIn} />)} />
-        <Route exact path="/item/:id" component={item_page} /> 
-        <Route exact path="/shop/:id" component={item_page} />
-        <Route exact path="/admin" component={admin_dashboard} />
-        <Route exact path="/sold_items_test_routes" component={sold_items_test_routes} /> 
-        <GuardedRoute path="/admin" component={admin_dashboard} auth={loggedIn} />
-        <Route exact path="/add" component={add_item} />
-        <Route exact path="/order_summary/:transaction_id" component={order_summary} />
-        <Route exact path="/donation" component={donation} />
-        <Route exact path="/volunteer_events" component={volunteer_events} />
+        <Switch>
+          <Route exact path="/" component={home} />
+          <Route exact path="/about" component={about} />
+          <Route exact path="/shop" component={shop} />
+          <Route exact path="/login" render={(props) => !loggedIn ? (<Login {...props} loggedIn={loggedIn} setLoggedIn={setLoggedIn} />) : <Redirect to="/admin" />} />
+          <Route exact path="/item/:id" component={item_page} /> 
+          <Route exact path="/shop/:id" component={item_page} />
+          <Route exact path="/admin" component={admin_dashboard} />
+          <Route exact path="/sold_items_test_routes" component={sold_items_test_routes} /> 
+          <GuardedRoute path="/admin" component={admin_dashboard} auth={loggedIn} />
+          <Route exact path="/add" component={add_item} />
+          <Route exact path="/order_summary/:transaction_id" component={order_summary} />
+          <Route exact path="/donation" component={donation} />
+          <Route exact path="/volunteer_events" component={volunteer_events} />
+        </Switch>
       </Router>
     </div>
   );

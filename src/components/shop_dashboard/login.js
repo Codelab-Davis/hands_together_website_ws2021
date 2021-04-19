@@ -30,8 +30,8 @@ function Login(props) {
           axios.post('http://localhost:5000/jwt/generateAccessToken', { user: userName })
            .then(res => {
              console.log(res);
-             localStorage.setItem('access', JSON.stringify(res.data['accessToken']))
-             localStorage.setItem('refresh', JSON.stringify(res.data['refreshToken']))
+             localStorage.setItem('accessToken', JSON.stringify(res.data['accessToken']))
+             localStorage.setItem('refreshToken', JSON.stringify(res.data['refreshToken']))
              props.setLoggedIn(true);
            })
         }

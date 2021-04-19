@@ -22,6 +22,7 @@ router.post('/generateAccessToken', (req, res) => {
 })
 
 router.post('/token', (req, res) => {
+    console.log("Creating new token")
     const refreshToken = req.body.token;
     if(refreshToken == null) return res.sendStatus(401)
 
@@ -33,7 +34,7 @@ router.post('/token', (req, res) => {
             jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
                 if(err) return res.sendStatus(403)
                 const accessToken = generateAccessToken({ name: user.name })
-                res.json({ accessToken: accessToken })
+                res.status(200).json({ accessToken: accessToken })
             })
         }
     })
