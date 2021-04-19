@@ -8,6 +8,7 @@ import add_item from "./shop_dashboard/add_item";
 import admin_dashboard from "./shop_dashboard/admin_dashboard";
 import edit_or_remove_item from "./shop_dashboard/edit_or_remove_item";
 import login from "./shop_dashboard/login";
+import logout from "./shop_dashboard/logout"
 import donation from "./donation";
 import order_summary from "./order_summary/order_summary";
 import volunteer_events from "./volunteer_events";
@@ -25,6 +26,7 @@ function App() {
         <Route exact path="/item/:id" component={item_page} /> 
         <Route exact path="/shop/:id" component={item_page} />
         <Route exact path="/login" component={login} />
+        <Route exact path="/logout" component={logout} />
         <Route exact path="/admin" component={admin_dashboard} />
         <Route exact path="/add" component={add_item} />
         <Route exact path="/edit" component={edit_or_remove_item} />
