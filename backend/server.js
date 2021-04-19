@@ -38,6 +38,7 @@ const volunteer_router = require('./routes/volunteer');
 const event_router = require('./routes/event');
 const event_attendees_router = require('./routes/event_attendees');
 const stripe_router = require('./routes/stripe_routes');
+const jwt_router = require('./routes/jwt_routes');
 
 app.use('/items', items_router); 
 app.use('/sold_items', sold_items_router);
@@ -46,6 +47,7 @@ app.use('/volunteer', volunteer_router);
 app.use('/event', event_router);
 app.use('/event_attendees', event_attendees_router);
 app.use('/stripe', stripe_router);
+app.use('/jwt', jwt_router);
 
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`)
