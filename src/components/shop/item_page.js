@@ -15,8 +15,16 @@ function Item_Page() {
   }, [])
 
   function purchseItem() {
+    let transaction_id = "abcd1234";
+    const req = {
+      amount: 2000,
+      success_url: "http://localhost:3000/order_summary/" + transaction_id,
+      cancel_url: "http://localhost:3000/",
+      item_id: id.id,
+      type: "purchase"
+    }
     var stripe = window.Stripe('pk_test_51IMhDjDACjkjrvMm0D7gtuvvHOCY8Z9dGTjwVFxFcmWHlGfjn9CGEdvyvs5vMQrAQDwmBcELSzSb2kTNf65eyJkw00AXucR70x')
-    axios.post('http://localhost:5000/stripe/create-checkout-session/',{item: item})
+    axios.post('http://localhost:5000/stripe/create-checkout-session/', req) // edit to also send in amount field with price info
      .then(session => stripe.redirectToCheckout({sessionId: session.data.id}))
      .catch(error => console.log(error))
   }

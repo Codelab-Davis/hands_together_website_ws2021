@@ -18,7 +18,8 @@ const limiter = new Bottleneck({
 limiter.schedule(() => {
   router.route('/create-checkout-session').post(async (req, res) => {
     let transaction_id = "abcd1234"
-    let success = "http://localhost:3000/order_summary/" + transaction_id
+    let amount = req.body.amount;
+    let tax = (req.body.type == "purchase") ? (['txr_1IRmOEDACjkjrvMmvkTvvmYZ']) : [];
       const session = await stripe.checkout.sessions.create({
           billing_address_collection: 'required',
           shipping_address_collection: {
@@ -30,24 +31,25 @@ limiter.schedule(() => {
               price_data: { // product info
                 currency: 'usd',
                 product_data: {
-                  name: req.body.item.name,
-                  images: req.body.item.images,
+                  name: 'Stubborn Attachments',
+                  images: ['https://i.imgur.com/EHyR2nP.png'],
                 },
-                unit_amount: 2000,
+                unit_amount: amount,
               },
               quantity: 1,
-              tax_rates: ['txr_1IRmOEDACjkjrvMmvkTvvmYZ']
+              tax_rates: tax
             },
           ],
-          metadata: {'id': req.body.item._id, 'transaction_id': transaction_id},
+          metadata: {'id': req.body.item_id, 'transaction_id': transaction_id, 'type': req.body.type},
           mode: 'payment',
-          success_url: `${success}`, // html pages to show for successful/cancelled transactions
-          cancel_url: "http://localhost:3000/",
+          success_url: req.body.success_url, // html pages to show for successful/cancelled transactions
+          cancel_url: req.body.cancel_url,
         });
 
         res.json({ id: session.id });
   });
 })
+
 
 /* Donation Handling */
 router.route('/donate').get(async (req,res) => {
@@ -66,7 +68,6 @@ limiter.schedule(() => {
     res.render('donate');
   });
 })
-
 
 limiter.schedule(() => {
   router.post('/', async (req, res, next) => {
@@ -93,33 +94,12 @@ limiter.schedule(() => {
   });
 })
 
-
 // Thanks page.
-limiter.schedule(() => {
-  router.post('/thanks', function(req, res) {
-    res.render('thanks', { title: 'Thanks!' });
-  });
-})
+router.post('/thanks', function(req, res) {
+  res.render('thanks', { title: 'Thanks!' });
+});
 
 /* Successful Checkout Event Handler */
-limiter.schedule(() => {
-  router.route('/donate').post(async (req,res) => {
-    try {
-      const stripe = require('stripe')('sk_test_51IMhDjDACjkjrvMmiJxcdbJqejCQ3W9dwagP8gDp7l5wHk0Qm7oWgkmOKVqxVMOutTF7nKoPI86eX84PY6ZZqQj100pJsabLN1');
-      const paymentIntent = await stripe.paymentIntents.create({
-        amount: 1477, // $14.77, an easily identifiable amount
-        currency: 'usd',
-      });
-      console.log('Worked! ', paymentIntent.id);
-    } catch(err) {
-      console.log('Error! ', err.message);
-    }
-  });
-})
-
-
-// Successful Checkout Event Handler
-
 // transporter for node mailer
 var transporter = nodemailer.createTransport({
   service: 'gmail',
@@ -188,31 +168,35 @@ const fulfillOrder = (session) => {
 // https://stripe.com/docs/stripe-cli#install
 // Then to forward output to the local route use:
 // stripe listen --forward-to localhost:5000/stripe/webhook
-limiter.schedule(() => {
-  router.post('/webhook', (req, res) => {
-    const payload = req.rawBody;
-    const sig = req.headers['stripe-signature'];
+router.post('/webhook', (req, res) => {
+  const payload = req.rawBody;
+  const sig = req.headers['stripe-signature'];
 
-    let event;
+  let event;
 
-    try {
-      event = stripe.webhooks.constructEvent(payload, sig, process.env.WEBHOOK_ENDPOINT);
-    } catch (err) {
-      console.log(`Webhook Error: ${err.message}`)
-      return res.status(400).json(`Webhook Error: ${err.message}`);
-    }
-
-    if(event.type == 'checkout.session.completed') {
-      const session = event.data.object;
+  try {
+    event = stripe.webhooks.constructEvent(payload, sig, process.env.WEBHOOK_ENDPOINT);
+  } catch (err) {
+    console.log(`Webhook Error: ${err.message}`)
+    return res.status(400).json(`Webhook Error: ${err.message}`);
+  }
+  console.log("Start of Req...")
+  console.log(req)
+  console.log("End of Req...")
+  if(event.type == 'checkout.session.completed') {
+    const session = event.data.object;
+    if(session.metadata['type'] == "purchase") {
       fulfillOrder(session);
       console.log(session);
     }
+    else {
+      console.log("Donation Handling!")
+    }
+  }
 
-    
-    res.status(200);
-    res.json("Received Request");
-  });
-})
-
+  
+  res.status(200);
+  res.json("Received Request");
+});
 
 module.exports = router;
