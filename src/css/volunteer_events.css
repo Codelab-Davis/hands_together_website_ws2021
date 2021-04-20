@@ -1,16 +1,26 @@
 /*This is the first big highlight image*/
-.rectangle_image {
-  align-content: center;
-  /* position: absolute; */
-  width: 1330px;
-  height: 700px;
-  left: 56px;
-  top: 655px;
+
+.left-space {
+  margin: 3.5rem;
+}
+
+.upcoming-events-text {
+  margin-top: 4.375rem;
+}
+
+.description-text {
+  font-weight: 400 !important;
+  margin-top: 2.19rem;
+}
+.banner_image {
+  width: 83rem;
+  height: 43.75rem;
+  margin-top: 20.44rem; /* 327px/16 */
   filter: drop-shadow(0px 4px 4px rgba(7, 30, 53, 0.25));
 }
 
 .event_sign_up_button {
-  /* position: absolute; */
+  /*change to rem */
   width: 1330px;
   height: 143px;
   left: 56px;
@@ -19,20 +29,33 @@
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
 }
 
-.event_tile {
-  width: 412px;
-  height: 528px;
-  background-color: var(--gray);
-  top: 1441px;
-  display: inline-block;
+.event-tile-banner-space {
+  margin-top: 5.375rem; /* 86px/16 */
+}
 
+.event-tile-container {
+  justify-content: space-between;
+  /* margin-right: 3.375rem; */
+}
+.event_tile {
+  width: 25.75rem;
+  height: 33rem;
+  background-color: var(--gray);
   filter: drop-shadow(0px 4px 4px rgba(7, 30, 53, 0.25));
 }
 
 .event_tile2 {
-  width: 636px;
-  height: 563px;
+  margin-left: 3.5rem;
+  width: 39.875rem; /*638/16 */
+  height: 35.1875rem; /*563/16 */
   background-color: var(--gray);
 
   filter: drop-shadow(0px 4px 4px rgba(7, 30, 53, 0.25));
+}
+
+.calendar {
+  margin-left: 5rem;
+  width: 35rem;
+  height: 35.1875rem;
+  background-color: var(--darkred);
 }
