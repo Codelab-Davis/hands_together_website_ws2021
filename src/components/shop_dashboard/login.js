@@ -1,5 +1,5 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Redirect } from "react-router-dom";
 
@@ -14,6 +14,10 @@ function Login(props) {
   const handlePasswordInput = e => {
     setPassword(e.target.value);
   };
+
+  useEffect(() => {
+    console.log(props.loggedIn);
+  })
 
   const onSubmit = e => {
     e.preventDefault();

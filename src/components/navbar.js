@@ -23,21 +23,21 @@ function Navbar() {
             <div class="col-2 offset-1">
               <h4 className="text">About</h4>
             </div>
-            <div class="col-2">
+            <div className="col-2">
               <h4>About</h4>
             </div>
-            <div class="col-2">
+            <div className="col-2">
               <h4 onClick={() => (window.location = "/volunteer_events")}>
                 Volunteer & Events
               </h4>
             </div>
-            <div class="col-2">
+            <div className="col-2">
               <h4 onClick={() => (window.location = "/shop")}>Shop</h4>
             </div>
-            <div class="col-2">
+            <div className="col-2">
               <h4>About</h4>
             </div>
-            <div class="col-1" />
+            <div className="col-1" />
           </div>
         </div>
       </div>

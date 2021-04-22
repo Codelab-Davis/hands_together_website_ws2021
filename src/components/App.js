@@ -8,6 +8,7 @@ import add_item from "./shop_dashboard/add_item_frontend";
 import admin_dashboard from "./shop_dashboard/admin_dashboard";
 import sold_items_test_routes from "./shop_dashboard/sold_items_test_routes"; 
 import Login from "./shop_dashboard/login";
+import Logout from "./shop_dashboard/logout";
 import donation from "./donation";
 import order_summary from "./order_summary/order_summary";
 import volunteer_events from "./volunteer_events";
@@ -29,10 +30,10 @@ function App() {
           <Route exact path="/" component={home} />
           <Route exact path="/about" component={about} />
           <Route exact path="/shop" component={shop} />
-          <Route exact path="/logout" component={logout} />
           <Route exact path="/item/:id" component={item_page} /> 
           <Route exact path="/shop/:id" component={item_page} />
           <Route exact path="/login" render={(props) => !loggedIn ? (<Login {...props} loggedIn={loggedIn} setLoggedIn={setLoggedIn} />) : <Redirect to="/admin" />} />
+          <Route exact path="/logout" render={(props) => (<Logout {...props} loggedIn={loggedIn} setLoggedIn={setLoggedIn} />)}/>
           <Route exact path="/sold_items_test_routes" component={sold_items_test_routes} /> 
           <GuardedRoute path="/admin" component={admin_dashboard} auth={loggedIn} />
           <Route exact path="/add" component={add_item} />
