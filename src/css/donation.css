@@ -17,7 +17,7 @@ input[type="radio"] {
     font-weight: 400 !important; 
 }
 
-.donation-container {
+.donation-container, .form-container {
     width: 100%;
     margin-top: 6.625rem;
     margin-left: 3.375rem;
@@ -25,7 +25,7 @@ input[type="radio"] {
 
 .donation-row {
     justify-content: space-between;
-    /* margin-bottom: 4.56rem; */
+    margin-bottom: 4.56rem;
 }
 
 .donation-small, .donation-large {
@@ -54,6 +54,10 @@ input[type="radio"] {
 .donation-use-text {
     padding-left: 1.5rem;
     padding-right: 1.5rem;
+}
+
+.form-container {
+    margin-top: 2.065rem;
 }
 
 .form-item {

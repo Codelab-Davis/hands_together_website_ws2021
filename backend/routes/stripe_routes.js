@@ -21,6 +21,7 @@ limiter.schedule(() => {
     let transaction_id = "abcd1234"
     let amount = req.body.amount;
     let tax = (req.body.type == "purchase") ? (['txr_1IRmOEDACjkjrvMmvkTvvmYZ']) : [];
+    
       const session = await stripe.checkout.sessions.create({
           billing_address_collection: 'required',
           shipping_address_collection: {
