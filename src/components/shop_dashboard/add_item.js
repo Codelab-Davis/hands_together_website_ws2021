@@ -17,10 +17,11 @@ function Add_Item() {
     event.preventDefault();
     setUploadMessage("Uploading");
     let item = {
-      "name": "My Item 1",
-      "date_added": "2015/03/25",
+      "name": "My Item " + Math.floor((Math.random() * 500) + 1),
+      "date_added": Date.now(),
       "price": 2000, // $20.00
-      "images": []
+      "images": [],
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
     }
 
     let promises = [];

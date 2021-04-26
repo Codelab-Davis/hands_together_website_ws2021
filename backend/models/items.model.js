@@ -8,6 +8,7 @@ const itemsSchema = new Schema(
     date_added: { type: Date, required: true },
     price: { type: String, required: true },
     images: { type: [String], required: true },
+    description: { type: String, required: true },
   },
   {
     timestamps: true,

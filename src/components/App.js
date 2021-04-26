@@ -4,7 +4,7 @@ import home from "./home";
 import about from "./about"; 
 import shop from "./shop/shop";
 import item_page from "./shop/item_page";
-import add_item from "./shop_dashboard/add_item_frontend"; 
+import add_item from "./shop_dashboard/add_item"; 
 import admin_dashboard from "./shop_dashboard/admin_dashboard";
 import sold_items_test_routes from "./shop_dashboard/sold_items_test_routes"; 
 import Login from "./shop_dashboard/login";
