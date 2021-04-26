@@ -3,6 +3,7 @@ input[type="radio"] {
     height: 40px;
     width: 40px;
     vertical-align: middle;
+    box-sizing: border-box;
 }
 
 .heading {
@@ -24,6 +25,7 @@ input[type="radio"] {
 
 .donation-row {
     justify-content: space-between;
+    /* margin-bottom: 4.56rem; */
 }
 
 .donation-small, .donation-large {
@@ -59,14 +61,20 @@ input[type="radio"] {
 }
 
 .form-option {
-    font-size: 1.5rem;
+    font-size: 1.5rem; /*Gets Over written by app.css*/
+}
+
+.amount-input {
+    height: 5rem; /*Gets Over written by app.css*/
 }
 
 .donate-button {
     background: var(--darkred);
+    border: none;
     justify-content: center;
     color: white;
-    border-radius: 25px;
+    border-radius: 30px;
     width: 30rem;
     height: 8.25rem;
+    margin-bottom: 8.9375rem;
 }
