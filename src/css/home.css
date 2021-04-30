@@ -157,7 +157,7 @@
 }
 
 .my-div { 
-    background-image: url(../components/main.png);  
+    background-image: url(../images/main.png);  
     background-size: cover;            
     width: 100%;   
     padding-top: 45%;         
