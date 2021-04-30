@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-// const bodyParser  = require('body-parser');
+const cookieparser = require('cookie-parser');
 const mongoose = require('mongoose');
 const rateLimit = require("express-rate-limit");
 
@@ -9,6 +9,7 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 app.use(cors());
+app.use(cookieparser());
 app.use(express.json({
     verify: (req, res, buf) => {
       req.rawBody = buf

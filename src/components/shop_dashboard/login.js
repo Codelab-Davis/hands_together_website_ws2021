@@ -36,6 +36,7 @@ function Login(props) {
              console.log(res);
              localStorage.setItem('accessToken', JSON.stringify(res.data['accessToken']))
              localStorage.setItem('refreshToken', JSON.stringify(res.data['refreshToken']))
+             // 2). instead of receiving the token here and storing it, we don't receive anything here (since already in cookie) and go on
              props.setLoggedIn(true);
            })
         }
