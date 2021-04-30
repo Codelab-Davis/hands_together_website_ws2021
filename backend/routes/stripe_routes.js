@@ -4,6 +4,7 @@ var express = require('express');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const axios = require('axios');
 const nodemailer = require("nodemailer");
+const tokenAuth = require('../jwtAuth');
 
 var router = express.Router();
 require('dotenv').config();
@@ -20,6 +21,7 @@ limiter.schedule(() => {
     let transaction_id = "abcd1234"
     let amount = req.body.amount;
     let tax = (req.body.type == "purchase") ? (['txr_1IRmOEDACjkjrvMmvkTvvmYZ']) : [];
+    
       const session = await stripe.checkout.sessions.create({
           billing_address_collection: 'required',
           shipping_address_collection: {
@@ -109,7 +111,7 @@ var transporter = nodemailer.createTransport({
   }
 });
 
-router.post('/cancel_order', (req, res) => {
+router.post('/cancel_order', tokenAuth, (req,res) => {
   let customer_email = "dummyemailclht@gmail.com"; //sending cancelation email to dummy email for now
   let email_body = "<h1>Order Canceled</h1> <br /> <p> Your order was sucessfully canceled! </p>";
 
