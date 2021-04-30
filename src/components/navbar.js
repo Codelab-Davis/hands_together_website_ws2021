@@ -13,7 +13,7 @@ function Navbar() {
         </button>
       </div>
       <div align="center">
-        <h1 className="title-text" onClick={() => (window.location = "/")}>
+        <h1 className="navbar-title-text" onClick={() => (window.location = "/")}>
           Hands Together
         </h1>
       </div>

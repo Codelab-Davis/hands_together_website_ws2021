@@ -2,7 +2,7 @@
   background-color: var(--lightyellow);
 }
 
-.title-text {
+.navbar-title-text {
   color: var(--darkred);
   cursor: pointer;
 }
