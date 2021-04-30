@@ -1,20 +1,12 @@
-.f_space {
-  padding-top: 25px;
-}
-
-.box {
-  width: 577px;
-  height: 292px;
-  background-color: var(--gray);
-}
-
-/*This is the first big highlight image*/
-
 h1 {
   font-weight: 700 !important;
 }
 
+/*This is the first big highlight image*/
+
 .left-space {
+  border: 2px solid red;
+  width: auto;
   margin: 3.5rem;
 }
 
@@ -53,28 +45,51 @@ h1 {
 }
 .event_tile {
   width: 25.75rem;
-  height: 33rem;
+  height: 16.93rem;
   background-color: var(--gray);
-  filter: drop-shadow(0px 4px 4px rgba(7, 30, 53, 0.25));
 }
 .event_tile_text {
   position: relative;
   left: 20.84px;
   bottom: 205.83px;
 }
-.event_banner {
+.event_tile_banner {
   width: 25.75rem;
   height: 16.0675rem; /*257.08px/16 */
   background-color: var(--darkyellow);
-}
-
-.event_tile2 {
-  width: 39.875rem; /*638/16 */
-  height: 35.1875rem; /*563/16 */
-  background-color: var(--gray);
   filter: drop-shadow(0px 4px 4px rgba(7, 30, 53, 0.25));
 }
 
+.sign-up-tile {
+  width: 39.875rem;
+  height: 18.054rem;
+  background-color: var(--gray);
+  filter: drop-shadow(0px 4px 4px rgba(7, 30, 53, 0.25));
+}
+.sign-up-banner {
+  width: 39.875rem;
+  height: 10.8rem;
+  background-color: var(--darkyellow);
+  filter: drop-shadow(0px 4px 4px rgba(7, 30, 53, 0.25));
+}
+.sign-up-text {
+  position: relative;
+  left: 32.17px;
+  bottom: 150.79px;
+}
+.sign-up-button {
+  position: relative !important;
+  bottom: 91px; /*idk if this is the right way to do it but it works*/
+  border: none !important;
+  margin: none !important;
+  height: 6.25rem;
+  width: 39.88rem;
+  background-color: var(--darkred);
+  font-size: 34px;
+  font-weight: 700;
+  text-decoration: underline;
+  color: white;
+}
 .volunteering-opportunities-text {
   margin-top: 5.44rem;
 }
@@ -92,15 +107,39 @@ h1 {
 .name-top-space {
   margin-top: 8.25rem;
 }
+
+.field-column-padding {
+  margin-left: 2rem !important;
+}
+
 .first-name-box {
-  height: 5rem !important;
   width: 20.125rem !important;
 }
 .last-name-box {
-  height: 5rem !important;
   width: 24.125rem !important;
 }
-
+.last-name-label {
+  margin-top: 16px;
+}
+.area-code-box {
+  width: 132px !important;
+}
+.phone-number-box {
+  width: 19.88rem !important;
+}
+.email-box {
+  width: 45.44rem !important;
+}
+.first-name-box,
+.last-name-box,
+.area-code-box,
+.phone-number-box,
+.email-box {
+  height: 5rem !important;
+}
+.dash {
+  font-size: 56px;
+}
 .wtf {
   margin-bottom: 11px;
 }
@@ -125,7 +164,7 @@ h1 {
   margin-top: 8.75rem;
 }
 .concernBox {
-  width: 45.44rem;
+  width: 45.44rem !important;
   height: 23.94rem !important;
 }
 
@@ -134,11 +173,16 @@ h1 {
   margin-left: 20px;
 }
 
+.label-text {
+  font-size: 1.5rem !important;
+  margin-top: 16px !important;
+}
+
 input[type="radio"] {
   background-color: rgba(196, 196, 196, 0.5);
   /* border-radius: 20px; */
   /* border: none; */
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   align-content: left;
 }
