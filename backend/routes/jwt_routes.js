@@ -4,7 +4,7 @@ const Refresh_Token = require('../models/refresh_tokens.model')
 require('dotenv').config();
 
 function generateAccessToken(user) {
-    return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '15m' }) //update time after testing done
+    return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '30s' }) //update time after testing done
 }
 
 router.post('/generateAccessToken', (req, res) => {
@@ -17,7 +17,13 @@ router.post('/generateAccessToken', (req, res) => {
     })
     newToken.save()
      .then(() => {
-        res.json({ accessToken: accessToken, refreshToken: token })
+        res.json({ accessToken: accessToken, refreshToken: token }) 
+        // 1). instead of return token here, return a cookie with token
+        // return res.cookie('token', token, {
+        //     expires: new Date(Date.now() + expiration),
+        //     secure: false, // set to true if your using https
+        //     httpOnly: true,
+        //   });
      })
 })
 

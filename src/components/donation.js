@@ -109,30 +109,6 @@ function Donation() {
       </div>
     </div>
   );
-
-  // return (
-  //   <>
-  //     <h1>Donate</h1>
-
-  //     <form method="" action="" onSubmit={handleSubmit}>
-  //       <div>
-  //         <label for="name">Name: </label>
-  //         <input id="name" type="text" name="name" />
-  //       </div>
-  //       <div>
-  //         <label for="email">Email address: </label>
-  //         <input id="email" type="email" name="email" />
-  //       </div>
-  //       <div>
-  //         <label for="amount">Amount: </label>
-  //         <input id="amount" type="number" name="amount" min="10" ref={donationEl} />
-  //       </div>
-  //       <div>
-  //         <button type="submit">Next</button>
-  //       </div>
-  //     </form>
-  //   </>
-  // );
 }
   
 export default Donation;
