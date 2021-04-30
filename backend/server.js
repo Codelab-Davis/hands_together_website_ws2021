@@ -5,7 +5,6 @@ const mongoose = require('mongoose');
 const rateLimit = require("express-rate-limit");
 
 require('dotenv').config();
-
 const app = express();
 const port = process.env.PORT || 5000;
 
@@ -49,6 +48,19 @@ app.use('/event', event_router);
 app.use('/event_attendees', event_attendees_router);
 app.use('/stripe', stripe_router);
 app.use('/jwt', jwt_router);
+
+const eventSeeder = require("./seeders/event_seeder");
+const itemSeeder = require("./seeders/item_seeder");
+const soldItemSeeder = require("./seeders/soldItem_seeder");
+const loginSeeder = require("./seeders/login_seeder");
+const volunteerSeeder = require("./seeders/volunteer_seeder");
+const eventAttendeeSeeder = require("./seeders/event_attendee_seeder");
+eventAttendeeSeeder();
+eventSeeder();
+// itemSeeder(); This should stay commented out so the items with images aren't overwritten
+soldItemSeeder();
+loginSeeder();
+volunteerSeeder();
 
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`)

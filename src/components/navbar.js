@@ -24,20 +24,20 @@ function Navbar() {
               <h4 className="text">About</h4>
             </div>
             <div class="col-2">
-              <h4>About</h4>
+              <h4 className="text">Programs</h4>
             </div>
             <div class="col-2">
-              <h4 onClick={() => (window.location = "/volunteer_events")}>
+              <h4 onClick={() => (window.location = "/volunteer_events")} className="text">
                 Volunteer & Events
               </h4>
             </div>
             <div class="col-2">
-              <h4 onClick={() => (window.location = "/shop")}>Shop</h4>
+              <h4 onClick={() => (window.location = "/shop")} className="text">Shop</h4>
             </div>
             <div class="col-2">
-              <h4>About</h4>
+              <h4 className="text">Donate</h4>
             </div>
-            <div class="col-1" />
+            <div className="col-1" />
           </div>
         </div>
       </div>
