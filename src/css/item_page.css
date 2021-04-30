@@ -1,6 +1,9 @@
 #item-page-wrapper {
   margin: 5rem auto;
   max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 #item-page-wrapper .shop-description {
   font-weight: normal;
@@ -20,6 +23,9 @@
   background-size: cover;
   padding-top: 100%;
   margin-bottom: 1rem;
+}
+.selected-image {
+  opacity: 0.5;
 }
 
 .item-info .main-image-container {
@@ -54,6 +60,10 @@
   border-radius: 10px;
 }
 
+.more-items {
+  margin: 2rem 0 4rem 0;
+}
 .full-page-line {
   margin: 5rem 0;
+  width: 100%;
 }

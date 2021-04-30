@@ -4,7 +4,7 @@ import "../../css/shop.css";
 import { unstable_renderSubtreeIntoContainer } from 'react-dom';
 const axios = require('axios');
 
-function Shop() {
+function Shop(props) {
   //
   // LOADING ALL ITEMS AND PAGINATION STARTS BELOW 
   //
@@ -14,6 +14,7 @@ function Shop() {
   // intialize an integer that holds the value of the next index after slicing. 
   const [nextIndex, setNextIndex] = useState(0);
   const [curPage, setCurPage] = useState(1);
+  const [sortOption, setSortOption] = useState("newest");
 
   // triggered on the "next" button click 
   function next() {
@@ -68,27 +69,67 @@ function Shop() {
   }, [itemArray]) 
 
   // 
+  // SORTING METHODS
+  //
+  function handleSortChange(e) {
+    setSortOption(e.target.value);
+  }
+  useEffect(()=>{
+    sortItems();
+  }, [sortOption]) 
+
+  function sortItems() {
+    let tempItems = itemArray.data;
+    if (sortOption == "lowtohigh")
+      tempItems.sort(sortLowToHigh);
+    else if (sortOption == "hightolow")
+      tempItems.sort(sortHighToLow);
+    else
+      tempItems.sort(sortNewest);
+    update({data: tempItems})
+  }
+  function sortLowToHigh(a, b) {
+    if (a.price < b.price)
+      return -1;
+    else if (a.price > b.price)
+      return 1;
+    return 0;
+  }
+  function sortHighToLow(a, b) {
+    if (a.price > b.price)
+      return -1;
+    else if (a.price < b.price)
+      return 1;
+    return 0;
+  }
+  function sortNewest(a, b) {
+    if (a.date_added < b.date_added)
+      return -1;
+    else if (a.date_added > b.date_added)
+      return 1;
+    return 0;
+  }
+
+  // 
   // CARTING SYSTEM STARTS BELOW 
   //
-  let item = {
-    name: "Item Name",
-    item_id: "Item ID #1",
-  }
-  let storage_quota = 0;
-  let carted_items = [];
-  
-  function addItem() {
+  function addItem(item) {
     let stringifiedItem = JSON.stringify(item); // convert the JSON object "item" into a string using the JSON.stringify function call 
-    let item_id = "JXYSDFH65F" + storage_quota; // generate a unique item ID for the local storage key 
+    let item_id = "JXYSDFH65F" + props.storageQuota; // generate a unique item ID for the local storage key 
     window.localStorage.setItem(item_id, stringifiedItem);
+
+    let carted_items = props.cartedItems;
     carted_items.push(item_id);
+    props.setCartedItems(carted_items);
 
     // increment the storage quota for each item added to the storage 
-    if (storage_quota < 10)
+    if (props.storageQuota < 10) {
+      let storage_quota = props.storageQuota;
       storage_quota++;
+      props.setStorageQuota(storage_quota);
+    }
     else
       console.log("Max items reached in the storage.");
-  
   }
   
   function checkContents() {
@@ -129,10 +170,10 @@ function Shop() {
             + Math.min((12 * curPage), itemArray.data.length) 
             + " of " + itemArray.data.length + " results"
           }</p>
-          <select name="sort" id="sort">
+          <select name="sort" id="sort" value={sortOption} onChange={handleSortChange}>
             <option value="newest">Newest</option>
-            <option value="hightolow">Price: High to Low</option>
             <option value="lowtohigh">Price: Low to High</option>
+            <option value="hightolow">Price: High to Low</option>
           </select>
         </div>
 
@@ -144,7 +185,7 @@ function Shop() {
                   <a className="wrapper-link" href={`/shop/${itemIter._id}`} onClick={() => clicked(itemIter)}></a>
                   <div className="item-image" style={{backgroundImage: `url(${itemIter.images[0]})`}}></div>
                   <div className="add-to-cart">
-                    <a className="bold" href="">Add to Cart</a>
+                    <a className="bold" onClick={() => addItem(itemIter)}>Add to Cart</a>
                   </div>
                   <div className="item-info">
                     <div className="name-price">
@@ -176,14 +217,7 @@ function Shop() {
         </nav>
       </div>
 
-      {/* 
-        CARTING SYSTEM STARTS BELOW
-      */}
-      {/*<button type="button" onClick={addItem}>Item #1</button>
-      <button type="button" onClick={addItem}>Item #2</button>
-      <button type="button" onClick={addItem}>Item #3</button>
-      <button type="button" onClick={checkContents}>Check Contents</button>
-      */}
+      {/* <button type="button" onClick={checkContents}>Check Contents</button> */}
     </div>
   );
 }
