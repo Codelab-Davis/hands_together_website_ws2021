@@ -78,12 +78,14 @@ limiter.schedule(() => {
         const date_added = req.body.date_added;
         const price = req.body.price;
         const images = req.body.images;
+        const description = req.body.description;
 
         const newItem = new Item({
             name,
             date_added,
             price,
             images,
+            description,
         });
 
         newItem.save()

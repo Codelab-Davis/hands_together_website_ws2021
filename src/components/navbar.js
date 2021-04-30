@@ -37,7 +37,7 @@ function Navbar() {
             <div class="col-2">
               <h4 className="text">Donate</h4>
             </div>
-            <div class="col-1" />
+            <div className="col-1" />
           </div>
         </div>
       </div>
