@@ -27,7 +27,10 @@ function Donation() {
     }
 
     axios.post('http://localhost:5000/stripe/create-checkout-session/', req)
-      .then(session => stripe.redirectToCheckout({sessionId: session.data.id}))
+      .then(session => {
+        console.log(session.data.id);
+        stripe.redirectToCheckout({sessionId: session.data.id})
+      })
       .catch(error => console.log(error))
   }
 

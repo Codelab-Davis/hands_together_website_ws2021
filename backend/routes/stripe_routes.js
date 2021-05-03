@@ -1,5 +1,6 @@
 const { response } = require('express');
 var express = require('express');
+var uniqid = require('uniqid');
 
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const axios = require('axios');
@@ -18,9 +19,10 @@ const limiter = new Bottleneck({
 
 limiter.schedule(() => {
   router.route('/create-checkout-session').post(async (req, res) => {
-    let transaction_id = "abcd1234"
+    let transaction_id = uniqid();
     let amount = req.body.amount;
     let tax = (req.body.type == "purchase") ? (['txr_1IRmOEDACjkjrvMmvkTvvmYZ']) : [];
+    let success_url = (req.body.type == "purchase") ? req.body.success_url + transaction_id : req.body.success_url;
     
       const session = await stripe.checkout.sessions.create({
           billing_address_collection: 'required',
@@ -44,7 +46,7 @@ limiter.schedule(() => {
           ],
           metadata: {'id': req.body.item_id, 'transaction_id': transaction_id, 'type': req.body.type},
           mode: 'payment',
-          success_url: req.body.success_url, // html pages to show for successful/cancelled transactions
+          success_url: success_url,
           cancel_url: req.body.cancel_url,
         });
 
@@ -182,11 +184,11 @@ router.post('/webhook', (req, res) => {
     console.log(`Webhook Error: ${err.message}`)
     return res.status(400).json(`Webhook Error: ${err.message}`);
   }
-  console.log("Start of Req...")
-  console.log(req)
-  console.log("End of Req...")
+
+  console.log(event.type);
   if(event.type == 'checkout.session.completed') {
     const session = event.data.object;
+    console.log(session.metadata['type']);
     if(session.metadata['type'] == "purchase") {
       fulfillOrder(session);
       console.log(session);

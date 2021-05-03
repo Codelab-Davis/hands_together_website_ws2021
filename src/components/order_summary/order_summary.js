@@ -10,7 +10,7 @@ function OrderSummary() {
 
   useEffect(() => {
     console.log(transaction_id);
-    axios.get("http://localhost:5000/sold_items/get_sale", { params: { transaction_id: transaction_id }})
+    axios.get("http://localhost:5000/sold_items/get_sale/", { params: { transaction_id: transaction_id }})
       .then(res => { 
         set_transaction_data(res.data);
         set_valid(true);

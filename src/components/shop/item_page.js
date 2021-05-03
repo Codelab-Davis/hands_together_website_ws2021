@@ -24,10 +24,9 @@ function Item_Page(props) {
   }, [item]);
 
   function purchaseItem() {
-    let transaction_id = "abcd1234";
     const req = {
       amount: 2000,
-      success_url: "http://localhost:3000/order_summary/" + transaction_id,
+      success_url: "http://localhost:3000/order_summary/",
       cancel_url: "http://localhost:3000/",
       item_id: id.id,
       type: "purchase"
@@ -128,6 +127,8 @@ function Item_Page(props) {
     }
     else
       console.log("Max items reached in the storage.");
+    
+    // purchaseItem(); // uncomment if need to test stripe implementation
   }
 
   return ( 

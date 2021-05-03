@@ -51,7 +51,7 @@ function Admin_Dashboard() {
   }
 
   useEffect(() => {
-    axios.get('http://localhost:5000/sold_items/get_sold_items')
+    axios.get('http://localhost:5000/sold_items/get_sold_items', { withCredentials: true })
     .then(res => {
       console.log(res)
       // assign json data to itemArray 

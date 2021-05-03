@@ -39,7 +39,7 @@ limiter.schedule(() => {
 
 
 limiter.schedule(() => {
-  router.post('/add_item', tokenAuth, (req,res) => {
+  router.post('/add_item', (req,res) => {
     const name = req.body.name;
     const date_added = req.body.date_added;
     const price = req.body.price;
