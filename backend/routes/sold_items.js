@@ -28,7 +28,7 @@ limiter.schedule(() => {
 
 
 limiter.schedule(() => {
-  router.get('/get_sale/:id', tokenAuth, (req,res) => {
+  router.get('/get_sale/:id', (req,res) => {
     const transaction_id = req.params.id;  // JSON in format { transaction_id: "" }
     console.log(transaction_id); 
     Sold_Item.findById(req.params.id)

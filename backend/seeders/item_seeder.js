@@ -42,7 +42,6 @@ const data = [
 
 function itemSeeder() {
   Item.collection.drop();
-  console.log("Item dropped");
   for (i = 0; i < data.length; i++) {
     const name = data[i].name;
     const date_added = Date(data[i].date_added);
@@ -56,7 +55,7 @@ function itemSeeder() {
       images,
       description
     });
-    newItem.save().then(() => console.log(`Item: ${name}, saved`));
+    newItem.save();
   }
 }
 

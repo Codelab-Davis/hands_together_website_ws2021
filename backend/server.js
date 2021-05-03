@@ -61,7 +61,7 @@ const eventAttendeeSeeder = require("./seeders/event_attendee_seeder");
 eventAttendeeSeeder();
 eventSeeder();
 // itemSeeder(); This should stay commented out so the items with images aren't overwritten
-soldItemSeeder();
+// soldItemSeeder();
 loginSeeder();
 volunteerSeeder();
 

@@ -58,7 +58,6 @@ const data = [
 
 function soldItemSeeder() {
   soldItem.collection.drop();
-  console.log("Sold Items dropped");
   for (i = 0; i < data.length; i++) {
     const name = data[i].name;
     const date_added = Date(data[i].date_added);
@@ -80,7 +79,7 @@ function soldItemSeeder() {
       cancelled,
       shipping_address
     });
-    newSoldItem.save().then(() => console.log(`Sold Item: ${name}, saved`));
+    newSoldItem.save();
   }
 }
 

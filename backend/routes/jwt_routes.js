@@ -51,10 +51,12 @@ router.post('/token', (req, res) => {
 
 // call this route when logging out to delete refresh token
 router.delete('/deleteRefreshToken', (req, res) => {
-    const refreshToken = req.cookies['refreshToken'] || ""
+    const refreshToken = req.cookies['refreshToken']
     const token = { token: refreshToken }
     Refresh_Token.findOneAndDelete(token)
      .then(() => {
+         console.log("Deleting Token")
+         res.cookie('accessToken', "")
          return res.sendStatus(204)
      })
 })

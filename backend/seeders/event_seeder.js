@@ -46,7 +46,6 @@ const data = [
 
 function eventSeeder() {
 //   Event.collection.drop();
-  console.log("Event dropped");
   for (i = 0; i < data.length; i++) {
     const name = data[i].name;
     const date = Date(data[i].date);
@@ -62,7 +61,7 @@ function eventSeeder() {
       attendee_amount,
       volunteer_amount
     });
-    newEvent.save().then(() => console.log(`Event: ${name}, saved`));
+    newEvent.save();
   }
 }
 

@@ -128,7 +128,7 @@ function Item_Page(props) {
     else
       console.log("Max items reached in the storage.");
     
-    // purchaseItem(); // uncomment if need to test stripe implementation
+    purchaseItem(); // uncomment if need to test stripe implementation
   }
 
   return ( 
