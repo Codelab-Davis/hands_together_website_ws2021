@@ -45,10 +45,14 @@ limiter.schedule(() => {
     const price = req.body.price;
     const images = req.body.images;
     const date_sold = "2021/02/16";
-    const transaction_id = req.body.transaction_id;
+    const transaction_id = "123";
     const tracking_link = "test_link";
     const cancelled = false;
     const shipping_address = new Map(); 
+    const quantity = req.body.quantity;
+
+    console.log("Reached here!")
+    console.log(req.body)
 
     let newSoldItem = new Sold_Item({
         name,
@@ -60,7 +64,10 @@ limiter.schedule(() => {
         tracking_link,
         cancelled,
         shipping_address,
+        quantity,
     });
+
+    console.log("Reached here 2!")
 
     newSoldItem.save()
      .then(() => res.json("New Item Purchased!"))

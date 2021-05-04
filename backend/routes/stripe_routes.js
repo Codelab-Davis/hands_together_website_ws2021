@@ -23,32 +23,70 @@ limiter.schedule(() => {
     let amount = req.body.amount;
     let tax = (req.body.type == "purchase") ? (['txr_1IRmOEDACjkjrvMmvkTvvmYZ']) : [];
     let success_url = (req.body.type == "purchase") ? req.body.success_url + transaction_id : req.body.success_url;
+    let line_items = []
+
+    // All cart items with only ids and quanities
+    let cart_items = { cart: [] }
+
+
+    if(req.body.type == "purchase") {
+      for(let i = 0;i<req.body.cart["cart"].length;i++) {
+        let cart_item = JSON.parse(req.body.cart["cart"][i])
+        newItem = {
+          price_data: {
+            currency: 'usd',
+            product_data: {
+              name: cart_item.name,
+              images: cart_item.images,
+            },
+            unit_amount: cart_item.price,
+          },
+          quantity: 1,
+          tax_rates: tax,
+        }
+        line_items.push(newItem);
+
+        cart_items.cart.push({
+          id: cart_item._id,
+          quantity: cart_item.quantity
+        });
+
+      }
+      // console.log(line_items)
+    }
+
+    if(req.body.type == "donation") {
+      newItem = {
+        price_data: {
+          currency: 'usd',
+          product_data: {
+            name: 'Stubborn Attachments',
+            images: ['https://i.imgur.com/EHyR2nP.png'],
+          },
+          unit_amount: amount,
+        },
+        quantity: 1,
+        tax_rates: tax
+      }
+      line_items.push(newItem)
+      console.log(line_items)
+    }
     
+    console.log("Creating Session")
       const session = await stripe.checkout.sessions.create({
           billing_address_collection: 'required',
           shipping_address_collection: {
             allowed_countries: ['US'],
           },
           payment_method_types: ['card'], // list of payment methods
-          line_items: [ 
-            {
-              price_data: { // product info
-                currency: 'usd',
-                product_data: {
-                  name: 'Stubborn Attachments',
-                  images: ['https://i.imgur.com/EHyR2nP.png'],
-                },
-                unit_amount: amount,
-              },
-              quantity: 1,
-              tax_rates: tax
-            },
-          ],
-          metadata: {'id': req.body.item_id, 'transaction_id': transaction_id, 'type': req.body.type},
+          line_items: line_items,
+          metadata: {'id': req.body.item_id, 'transaction_id': transaction_id, 'type': req.body.type, 'cart': JSON.stringify(cart_items)},
           mode: 'payment',
           success_url: success_url,
           cancel_url: req.body.cancel_url,
         });
+
+        console.log("Done Creating Session")
 
         res.json({ id: session.id });
   });
@@ -133,39 +171,77 @@ router.post('/cancel_order', tokenAuth, (req,res) => {
 });
 
 const fulfillOrder = (session) => {
-  let id = session.metadata['id']; // object id for mongo access
-  let customer_email = session.customer_details['email']; 
-  let order_summary_url = "http://localhost:3000/order_summary/" + session.metadata['transaction_id']; 
+  let id = session.metadata['id']; 
+  let cart = JSON.parse(session.metadata['cart'])['cart'];
+  console.log(cart)
 
-  let email_body = "<h1>Order Placed!</h1> <br /> <p> You can view your order summary using the following url: " + order_summary_url + "</p>"; 
+  // let customer_email = session.customer_details['email']; 
+  // let order_summary_url = "http://localhost:3000/order_summary/" + session.metadata['transaction_id']; 
+
+  // let email_body = "<h1>Order Placed!</h1> <br /> <p> You can view your order summary using the following url: " + order_summary_url + "</p>"; 
 
   // update datebase on successful purchase (delete from items and add to sold_items)
-  axios.delete('http://localhost:5000/items/purchase_item/' + id)
-    .then(item => {
-     console.log("Deleted Item")
-     console.log(item.data)
-     item.data['shipping_address'] = session.shipping.address;
-     item.data['transaction_id'] = session.metadata['transaction_id'];
-     axios.post('http://localhost:5000/sold_items/add_item', item.data)
-      .then(res => console.log(res.data))
-    })
-    .catch(error => console.log(error))
-
-  // node mailer implementation begins here
-  const mail_options = {
-    from: `"Hands Together Test" <test@test.io>`,
-    to: customer_email,
-    subject: "Order Placed Successfully",
-    html: email_body, 
+  
+  for(let i = 0;i<cart.length;i++) {
+    let item_id = cart[i].id
+    axios.get("http://localhost:5000/items/get_item/" + item_id)
+      .then(item => {
+        console.log("Got Item")
+        if(item.data.quantity == cart[i].quantity) {
+          axios.delete('http://localhost:5000/items/delete_item/' + item_id)
+          .then(item => {
+            console.log("Deleted Item")
+            console.log(item.data)
+            item.data['shipping_address'] = session.shipping.address;
+            item.data['transaction_id'] = session.metadata['transaction_id'];
+            item.data['quantity'] = cart[i].quantity;
+            axios.post('http://localhost:5000/sold_items/add_item', item.data)
+             .then(res => console.log(res.data))
+          })
+          .catch(error => console.log(error))
+        }
+        else {
+          let updated_data = {
+            name: item.data.name,
+            date_added: item.data.date_added,
+            price: item.data.price,
+            images: item.data.images,
+            description: item.data.description,
+            quantity: item.data.quantity - cart[i].quantity,
+          };
+          axios.post('http://localhost:5000/items/update_item/' + item_id, updated_data)
+          .then(() => {
+            updated_data = {
+              name: item.data.name,
+              date_added: item.data.date_added,
+              price: item.data.price,
+              images: item.data.images,
+              description: item.data.description,
+              quantity: cart[i].quantity,
+            };
+            axios.post('http://localhost:5000/sold_items/add_item', updated_data)
+             .then(res => console.log(res.data))
+          })
+       }
+     })
+    
   }
 
-  transporter.sendMail(mail_options, function(error, info) {
-    if(error) {
-      console.log(error);
-    } else {
-      console.log('Order Email Sent: ' + info.response);
-    }
-  });
+  // node mailer implementation begins here
+  // const mail_options = {
+  //   from: `"Hands Together Test" <test@test.io>`,
+  //   to: customer_email,
+  //   subject: "Order Placed Successfully",
+  //   html: email_body, 
+  // }
+
+  // transporter.sendMail(mail_options, function(error, info) {
+  //   if(error) {
+  //     console.log(error);
+  //   } else {
+  //     console.log('Order Email Sent: ' + info.response);
+  //   }
+  // });
 }
 
 // To test webhook in development you must install the Stripe CLI
@@ -190,8 +266,8 @@ router.post('/webhook', (req, res) => {
     const session = event.data.object;
     console.log(session.metadata['type']);
     if(session.metadata['type'] == "purchase") {
-      fulfillOrder(session);
       console.log(session);
+      fulfillOrder(session);
     }
     else {
       console.log("Donation Handling!")

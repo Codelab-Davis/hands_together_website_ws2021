@@ -4,9 +4,30 @@ import { useHistory } from "react-router-dom";
 import ht_logo from "../images/ht_logo.png";
 import cart from "../images/cart.png";
 import account_circle from "../images/account_circle.png";
+const axios = require('axios');
 
 function Navbar() {
   const history = useHistory();
+
+  function checkout() {
+    let quota = window.localStorage.getItem("QUOTA")
+    const cart = {"cart": []}
+    for(let i = 0; i < quota; i++) {
+      cart["cart"].push(window.localStorage.getItem("JXYSDFH65F" + i))
+    }
+    const req = {
+      amount: 2000,
+      success_url: "http://localhost:3000/order_summary/",
+      cancel_url: "http://localhost:3000/",
+      cart: cart,
+      // item_id: id.id,
+      type: "purchase"
+    }
+    var stripe = window.Stripe('pk_test_51IMhDjDACjkjrvMm0D7gtuvvHOCY8Z9dGTjwVFxFcmWHlGfjn9CGEdvyvs5vMQrAQDwmBcELSzSb2kTNf65eyJkw00AXucR70x')
+    axios.post('http://localhost:5000/stripe/create-checkout-session/', req) // edit to also send in amount field with price info
+     .then(session => stripe.redirectToCheckout({sessionId: session.data.id}))
+     .catch(error => console.log(error))
+  }
 
   return (
     <div>
@@ -22,7 +43,7 @@ function Navbar() {
           <div align="right" style={{display: "inline-block"}}>
             <img onClick={() => (window.location = "/login")} class="buttonSpacing" src={account_circle} />
             <img class="buttonSpacing" src={cart} />
-            <button className="btn checkOutButton">Check-Out</button>
+            <button className="btn checkOutButton" onClick={checkout}>Check-Out</button>
           </div>
         </div>
       </div> 

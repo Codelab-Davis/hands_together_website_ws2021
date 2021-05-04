@@ -14,14 +14,12 @@ import volunteer_events from "./volunteer_events";
 import Navbar from "./navbar";
 import Footer from "./footer"; 
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
-import React, { useState } from 'react'; 
+import React, { useState, useEffect } from 'react'; 
 import GuardedRoute from './GuardedRoute';
 import {Switch} from 'react-router';
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
-  const [storageQuota, setStorageQuota] = useState(0);
-  const [cartedItems, setCartedItems] = useState([]);
 
   return (
     <div id="content-container">
@@ -30,24 +28,9 @@ function App() {
         <Switch>
           <Route exact path="/" component={home} />
           <Route exact path="/about" component={about} />
-          <Route exact path="/shop" render={(props) => (<Shop {...props} 
-            storageQuota={storageQuota} 
-            setStorageQuota={setStorageQuota}
-            cartedItems={cartedItems} 
-            setCartedItems={setCartedItems} 
-          />)} />
-          <Route exact path="/item/:id" render={(props) => (<ItemPage {...props} 
-            storageQuota={storageQuota} 
-            setStorageQuota={setStorageQuota}
-            cartedItems={cartedItems} 
-            setCartedItems={setCartedItems} 
-          />)} /> 
-          <Route exact path="/shop/:id" render={(props) => (<ItemPage {...props} 
-            storageQuota={storageQuota} 
-            setStorageQuota={setStorageQuota}
-            cartedItems={cartedItems} 
-            setCartedItems={setCartedItems} 
-          />)} />
+          <Route exact path="/shop" render={(props) => (<Shop {...props} />)} />
+          <Route exact path="/item/:id" render={(props) => (<ItemPage {...props} />)} /> 
+          <Route exact path="/shop/:id" render={(props) => (<ItemPage {...props} />)} />
           <Route exact path="/login" render={(props) => !loggedIn ? (<Login {...props} loggedIn={loggedIn} setLoggedIn={setLoggedIn} />) : <Redirect to="/admin" />} />
           <Route exact path="/sold_items_test_routes" component={sold_items_test_routes} /> 
           <GuardedRoute path="/admin" component={() => <Admin_Dashboard loggedIn={loggedIn} setLoggedIn={setLoggedIn}/>} auth={loggedIn}/>

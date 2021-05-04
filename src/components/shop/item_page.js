@@ -32,7 +32,7 @@ function Item_Page(props) {
       type: "purchase"
     }
     var stripe = window.Stripe('pk_test_51IMhDjDACjkjrvMm0D7gtuvvHOCY8Z9dGTjwVFxFcmWHlGfjn9CGEdvyvs5vMQrAQDwmBcELSzSb2kTNf65eyJkw00AXucR70x')
-    axios.post('http://localhost:5000/stripe/create-checkout-session/', req) // edit to also send in amount field with price info
+    axios.post('http://localhost:5000/stripe/create-checkout-session/', req) 
      .then(session => stripe.redirectToCheckout({sessionId: session.data.id}))
      .catch(error => console.log(error))
   }
@@ -111,24 +111,26 @@ function Item_Page(props) {
   // CARTING SYSTEM STARTS BELOW 
   //
   function addItem(item) {
+    console.log(item);
+    item["quantity"] = 1;
+    console.log(item);
     let stringifiedItem = JSON.stringify(item); // convert the JSON object "item" into a string using the JSON.stringify function call 
-    let item_id = "JXYSDFH65F" + props.storageQuota; // generate a unique item ID for the local storage key 
-    window.localStorage.setItem(item_id, stringifiedItem);
-
-    let carted_items = props.cartedItems;
-    carted_items.push(item_id);
-    props.setCartedItems(carted_items);
+    let storageQuota = window.localStorage.getItem("QUOTA");
+    if (!storageQuota) {
+      window.localStorage.setItem("QUOTA", 0);
+      storageQuota = 0;
+    }
+    let item_id = "JXYSDFH65F" + storageQuota; // generate a unique item ID for the local storage key 
 
     // increment the storage quota for each item added to the storage 
-    if (props.storageQuota < 10) {
-      let storage_quota = props.storageQuota;
-      storage_quota++;
-      props.setStorageQuota(storage_quota);
+    if (storageQuota < 10) {
+      window.localStorage.setItem(item_id, stringifiedItem);
+      let new_quota = storageQuota;
+      new_quota++;
+      window.localStorage.setItem("QUOTA", new_quota);
     }
     else
       console.log("Max items reached in the storage.");
-    
-    purchaseItem(); // uncomment if need to test stripe implementation
   }
 
   return ( 

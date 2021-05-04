@@ -16,6 +16,7 @@ const data = [
     price: 10,
     images: "Image 1",
     description: "Landyard",
+    quantity: 1,
   },
   {
     name: "Item 2",
@@ -23,6 +24,7 @@ const data = [
     price: 15,
     images: "Image 2",
     description: "Landyard",
+    quantity: 1,
   },
   {
     name: "Item 3",
@@ -30,6 +32,7 @@ const data = [
     price: 20,
     images: "Image 3",
     description: "Landyard",
+    quantity: 1,
   },
   {
     name: "Item 4",
@@ -37,6 +40,7 @@ const data = [
     price: 25,
     images: "Image 4",
     description: "Landyard",
+    quantity: 1,
   },
 ]
 
@@ -48,12 +52,14 @@ function itemSeeder() {
     const price = data[i].price;
     const images = data[i].images;
     const description = data[i].description;
+    const quantity = data[i].quantity;
     const newItem = new Item({
       name,
       date_added,
       price,
       images,
-      description
+      description,
+      quantity,
     });
     newItem.save();
   }
