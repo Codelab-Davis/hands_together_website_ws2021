@@ -3,14 +3,11 @@ p {
 }
 
 #shop-wrapper {
-  margin: 5rem auto;
+  margin: 2.5rem auto;
   max-width: 1200px;
 }
 .header {
-  margin-bottom: 5rem;
-}
-.header h1 {
-  margin-bottom: 4rem;
+  margin-bottom: 3rem;
 }
 .header h3 {
   font-weight: normal;
@@ -19,7 +16,7 @@ p {
 .legend {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 2rem;;
+  margin-bottom: 1.5rem;
 }
 
 .item-container {

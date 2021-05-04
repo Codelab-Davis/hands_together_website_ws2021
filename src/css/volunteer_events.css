@@ -7,11 +7,12 @@ h1 {
 .left-space {
   border: 2px solid red;
   width: auto;
-  margin: 3.5rem;
+  margin-left: 3.5rem;
+  margin-right: 3.5rem;
 }
 
 .upcoming-events-text {
-  margin-top: 4.375rem;
+  margin-top: 2.5rem;
 }
 
 .description-text {

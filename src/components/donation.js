@@ -103,7 +103,7 @@ function Donation() {
             </div>
           </div>
           <div className="text-center">
-            <button className="donate-button" type="submit"><h1>Donate</h1></button>
+            <button className="donate-button" type="submit"><h2>Donate</h2></button>
           </div>
 
         </form>
