@@ -29,16 +29,16 @@ p {
   color: var(--black);
 }
 h1 {
-  font-size: 3.5rem !important;
+  font-size: 2.5rem !important;
 }
 h2 {
-  font-size: 2.8125rem !important;
+  font-size: 1.75rem !important;
 }
 h3 {
-  font-size: 2.125rem !important;
+  font-size: 1.25rem !important;
 }
 p {
-  font-size: 1.125rem !important;
+  font-size: 1rem !important;
 }
 .caption {
   font-size: 0.75rem !important;

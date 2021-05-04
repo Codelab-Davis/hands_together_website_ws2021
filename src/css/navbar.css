@@ -29,7 +29,10 @@
 
 .imgSpacing
 {
-  margin-bottom:1.5rem;
+  margin-top: 1rem; 
+  margin-bottom:1rem;
+  max-width: 164px;
+  max-height: 111px;
 }
 
 .buttonSpacing:hover
@@ -37,17 +40,16 @@
   cursor:pointer;
 }
 
-
 .buttonSpacing
 {
-  margin-top: 2rem;
+  margin-top: 1rem;
   margin-right: 1rem; 
 }
 
 .checkOutButton
 {
-    margin-top: 2rem; 
-    margin-right: 3rem; 
-    margin-left: 1rem; 
-    background: #F2B705;
+  margin-top: 1rem; 
+  margin-right: 3rem; 
+  margin-left: 1rem; 
+  background: #F2B705;
 }
