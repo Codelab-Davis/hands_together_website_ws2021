@@ -1,18 +1,17 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/home.css"
 import { useHistory } from "react-router-dom"; 
-import about from "./about.png";
-import preschool from "./preschool.png";
-import kid from "./kid.png";
-import main from "./main.png";
-import middle from "./middle.png";
-import p1 from "./p1.png";
-import p2 from "./p2.png";
-import p3 from "./p3.png";
-import p4 from "./p4.png";
-import p5 from "./p5.png";
-import p6 from "./p6.png";
-import p7 from "./p7.png";
+import about from "../images/about.png";
+import preschool from "../images/preschool.png";
+import kid from "../images/kid.png";
+import middle from "../images/middle.png";
+import p1 from "../images/p1.png";
+import p2 from "../images/p2.png";
+import p3 from "../images/p3.png";
+import p4 from "../images/p4.png";
+import p5 from "../images/p5.png";
+import p6 from "../images/p6.png";
+import p7 from "../images/p7.png";
 
 function Home() {
     return (

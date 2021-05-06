@@ -137,7 +137,6 @@ function Volunteer_Events() {
       {/* upcoming events title + description block */}
       <div>
         <h1 className="upcoming-events-text">Upcoming Events</h1>
-        <h3 className="description-text">Description of upcoming events.</h3>
       </div>
 
       {/* This is the big first image */}

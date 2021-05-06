@@ -59,7 +59,7 @@ function App() {
           <Route exact path="/volunteer_events" component={volunteer_events} />
         </Switch>
       </Router>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }

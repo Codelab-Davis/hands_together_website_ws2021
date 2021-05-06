@@ -1,10 +1,10 @@
 .footer-content{
     background-color: var(--darkred);
     width: 90rem; 
-    height: 34.25rem;
+    height: 25rem;
     align-items: center;
     vertical-align: middle;
-    padding-top: 6.94rem;
+    padding-top: 4rem;
     padding-left: 2.375rem;
 }
 ​
@@ -12,4 +12,25 @@
     border-left: 6px solid white;
     height: 500px;
     align: "center";
+}
+
+.copyright-text{
+    font-size: 12px !important;
+}
+
+.circle-footer{
+    width: 74.25px;
+    height: 74.25px;
+    background-color: var(--gray);
+    border-radius: 50%;
+    border: none;
+    display: inline-block;
+}
+
+.circle-row-space{
+    margin-top: 25.19px;
+}
+.thank-you-text{
+    margin-top: 1rem;
+    margin-left: 30px;
 }
