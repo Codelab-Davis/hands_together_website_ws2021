@@ -18,8 +18,7 @@ function Volunteer_Events() {
   // States to track what is in the input fields
 
   //name fields
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [name, setName] = useState("");
 
   //email field
   const [email, setEmail] = useState("");
@@ -31,18 +30,14 @@ function Volunteer_Events() {
   const [gender, setGender] = useState("");
 
   //phone number field
-  const [areaCode, setAreaCode] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
 
   //Questions/Concerns field
   const [concernsBox, setConcernsBox] = useState("");
 
   // Functions to track typing changes in the input fields
-  function onFirstNameChange(event) {
-    setFirstName(event.target.value);
-  }
-  function onLastNameChange(event) {
-    setLastName(event.target.value);
+  function onNameChange(event) {
+    setName(event.target.value);
   }
   function onEmailChange(event) {
     setEmail(event.target.value);
@@ -69,9 +64,6 @@ function Volunteer_Events() {
     setGender(event.target.value);
   }
 
-  function onAreaCodeChange(event) {
-    setAreaCode(event.target.value);
-  }
   function onPhoneNumberChange(event) {
     setPhoneNumber(event.target.value);
   }
@@ -140,9 +132,12 @@ function Volunteer_Events() {
       </div>
 
       {/* This is the big first image */}
-      <div className="banner_image ">
-        <img src={Rectangle_41} />
-      </div>
+      {/* <div class="row no-gutters">
+        <div class="col-12">
+          <img className="banner_image" src={Rectangle_41} />
+          </div>
+      </div> */}
+      
       {/* This is the sign up button */}
       <div>
         {/* to do: overlap sign up button with image on top */}
@@ -152,40 +147,36 @@ function Volunteer_Events() {
               </button> */}
       </div>
 
-      {/* This is the picture tiles section */}
+      {/* This is the picture tiles section for events */}
 
       <div class="container-fluid p-0">
         <div
-          class="row no-gutters event-tile-banner-space event-tile-container"
-          style={{ border: "2px solid green" }}
+          class="row no-gutters event-tile-banner-space"
+          align="center"
         >
-          <div class="col">
-            <div className="event_tile">
-              <img src={EventTile1} />
+          <div class="col-12 col-md-4">
+            <div>
+              <img className="event_tile" src={EventTile1} />
             </div>
-            <div className="event_tile_banner" />
-            <div className="event_tile_text">
+            <div className="event_tile_banner" align="left">
               <h3> Event Name</h3>
               <p>Event Description</p>
             </div>
           </div>
-          <div class="col">
-            <div className="event_tile">
-              <img src={EventTile2} />
+          <div class="col-12 col-md-4">
+            <div>
+              <img className="event_tile" src={EventTile2} />
             </div>
-            <div className="event_tile_banner" />
-
-            <div className="event_tile_text">
+            <div className="event_tile_banner" align="left">
               <h3> Event Name</h3>
               <p>Event Description</p>
             </div>
           </div>
-          <div class="col">
-            <div className="event_tile">
-              <img src={EventTile3} />
+          <div class="col-12 col-md-4">
+            <div>
+              <img className="event_tile" src={EventTile3} />
             </div>
-            <div className="event_tile_banner" />
-            <div className="event_tile_text">
+            <div className="event_tile_banner" align="left">
               <h3> Event Name</h3>
               <p>Event Description</p>
             </div>
@@ -195,81 +186,71 @@ function Volunteer_Events() {
 
       {/* Volunteering opportunities Section */}
       <div class="container-fluid p-0">
-        <div class="row no-gutters">
+      
           <h1 className="volunteering-opportunities-text">
             Volunteering Opportunities
           </h1>
           <h3 className="description-text">
             Description of volunteering opportunities and events available.
           </h3>
-        </div>
+      
       </div>
 
       {/* Event Name + Calendar */}
       <div class="container-fluid p-0">
-        <div class="row no-gutters justify-content-between event-tile-banner-space">
-          <div class="col-5">
-            <div className="sign-up-tile">
-              <img src={SignUpTile} />
+        <div class="row no-gutters event-tile-banner-space" align="center">
+          <div class="col-6">
+            <div>
+              <img className="sign-up-tile"src={SignUpTile} />
             </div>
-            <div className="sign-up-banner" />
-            <div className="sign-up-text">
+            <div className="sign-up-banner" align="left">
               <h3>Event Name</h3>
               <p>Event Description</p>
             </div>
-            <button className="sign-up-button">Sign Up</button>
+          
+            <div className="sign-up-button">Sign Up</div>
           </div>
 
-          <div class="col-1" />
-          <div class="col-4" className="calendar" />
-          <div class="col-1" />
+          <div class="col-6">
+            <div className="calendar">
+              Calendar
+            </div>
+          </div>
         </div>
       </div>
 
       {/* Volunteer Sign Up Form To Do: appear and disapper on click*/}
       <div align="left" class="container-fluid p-0">
         {/*Form title + Description */}
-        <div class="row no-gutters">
-          <h1 className="form-title">Volunteer Sign Up Form</h1>
-          <h3 className="description-text">
-            Please fill in the information below to sign up for this
-            volunteering event.
-          </h3>
-        </div>
+        <h1 className="form-title">Volunteer Sign Up Form</h1>
+        <h3 className="description-text">
+          Please fill in the information below to sign up for this
+          volunteering event.
+        </h3>
 
         {/* First Name + Last Name  */}
         <div class="row no-gutters name-top-space">
-          <div class="col-5">
-            <h3 className="">Name</h3>
+          <div class="col-4 col-md-5">
+            <h3>Name</h3>
           </div>
-          <div class="col-3 field-column-padding">
+          <div class="col-8 col-md-6 field-column-padding">
             <input
               type="text"
-              placeholder="First Name"
-              value={firstName}
+              placeholder="Name"
+              value={name}
               class="first-name-box"
-              onChange={onFirstNameChange}
+              onChange={onNameChange}
             />
-            <p class="label-text">First Name</p>
-          </div>
-          <div class="col-3" style={{ marginLeft: "1rem" }}>
-            <input
-              type="text"
-              placeholder="Last Name"
-              value={lastName}
-              class="last-name-box"
-              onChange={onLastNameChange}
-            />
-            <p class="label-text">Last Name</p>
+            <p class="label-text">First Name, Last Name</p>
           </div>
         </div>
 
         {/* Age  */}
         <div class="row no-gutters ageSection">
-          <div class="col-5">
+          <div class="col-4 col-md-5">
             <h3 className="">Age</h3>
           </div>
-          <div class="col-3 field-column-padding">
+          <div class="col-8 col-md-6 field-column-padding">
             <input
               type="text"
               placeholder="Age"
@@ -285,7 +266,7 @@ function Volunteer_Events() {
 
         {/* Gender */}
         <div class="row no-gutters genderSection">
-          <div class="col-5">
+          <div class="col-4 col-md-5">
             <h3 className="">Gender</h3>
           </div>
           <div class="col-6 field-column-padding">
@@ -303,6 +284,7 @@ function Volunteer_Events() {
               checked={gender === "Female"}
               value="Female"
               onChange={onGenderChange}
+              style={{ marginTop: "8px"}}
             />
             <label class="gender-label">Female</label>
             <br />
@@ -312,6 +294,8 @@ function Volunteer_Events() {
               checked={gender === "Non-binary"}
               value="Non-binary"
               onChange={onGenderChange}
+              style={{ marginTop: "8px"}}
+
             />
             <label class="gender-label">Non-binary</label>
             <br />
@@ -321,6 +305,8 @@ function Volunteer_Events() {
               checked={gender === "Prefer not to say"}
               value="Prefer not to say"
               onChange={onGenderChange}
+              style={{ marginTop: "8px"}}
+
             />
             <label class="gender-label">Prefer not to say</label>
           </div>
@@ -328,46 +314,30 @@ function Volunteer_Events() {
 
         {/*Phone number */}
         <div class="row no-gutters phoneSection">
-          <div class="col-5">
+          <div class="col-4 col-md-5">
             <h3 className="">Phone Number</h3>
           </div>
-          <div class="col-2 field-column-padding">
+          <div class="col-8 col-md-6 field-column-padding">
             <input
               type="text"
-              placeholder="123"
-              value={areaCode}
-              class="area-code-box"
-              onChange={onAreaCodeChange}
-            />
-            <p class="label-text">Area Code</p>
-          </div>
-
-          {/* NEED TO FIGURE OUT HOW TO ALIGN THIS also size?! */}
-          <div>
-            <h2 class="dash">-</h2>
-          </div>
-
-          <div class="col-4">
-            <input
-              type="text"
-              placeholder="4567890"
+              placeholder="(###)-###-####"
               value={phoneNumber}
               class="phone-number-box"
               onChange={onPhoneNumberChange}
             />
-            <p class="label-text">Phone Number</p>
+            <p class="label-text">(123)-456-7890</p>
           </div>
         </div>
 
         {/*Email */}
         <div class="row no-gutters emailSection">
-          <div class="col-5">
+          <div class="col-4 col-md-5">
             <h3 className="">Email</h3>
           </div>
-          <div class="col-6 field-column-padding">
+          <div class="col-8 col-md-6 field-column-padding">
             <input
               type="text"
-              placeholder="alovelyhuman@gmail.com"
+              placeholder="example@example.com"
               value={email}
               class="email-box"
               onChange={onEmailChange}
@@ -378,11 +348,11 @@ function Volunteer_Events() {
 
         {/*Questions/Concerns */}
         <div class="row no-gutters concernsSection">
-          <div class="col-5">
-            <h3 className="">Questions/Concerns</h3>
+          <div class="col-4 col-md-5">
+            <h3 className="">Comments</h3>
           </div>
-          <div class="col-6 field-column-padding">
-            <input
+          <div class="col-8 col-md-6 field-column-padding">
+            <textarea
               type="text"
               placeholder="Feel free to ask us any questions or voice your concerns."
               value={concernsBox}
