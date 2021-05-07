@@ -14,7 +14,8 @@ const limiter = new Bottleneck({
 // Importing AWSPresigner
 const {
     generateGetUrl,
-    generatePutUrl
+    generatePutUrl,
+    deleteImage,
 } = require('./../AWSPresigner');
 
 // GET URL
@@ -25,10 +26,10 @@ limiter.schedule(() => {
         const { Key } = req.query;
         generateGetUrl(Key)
             .then(getURL => {      
-            res.send(getURL);
+                res.send(getURL);
             })
             .catch(err => {
-            res.send(err);
+                res.send(err);
             });
         });
 })
@@ -43,12 +44,27 @@ limiter.schedule(() => {
         const { Key, ContentType } =  req.query;
         generatePutUrl(Key, ContentType)
             .then(putURL => {
-            res.send({putURL});
+                res.send({putURL});
             })
             .catch(err => {
-            res.send(err);
+                res.send(err); 
             });
         });
+})
+
+limiter.schedule(() => {
+    router.route('/delete_image').delete((req,res) => {
+        const Key = req.body.Key;
+        deleteImage(Key)
+            .then(() => {
+                console.log(Key + " deleted!");
+                res.send(Key);
+            })
+            .catch(err => {
+                console.log(err);
+                res.send(err);
+            })
+    });
 })
 
 //

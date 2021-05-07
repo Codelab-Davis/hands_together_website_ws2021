@@ -5,6 +5,7 @@ p {
 #shop-wrapper {
   margin: 2.5rem auto;
   max-width: 1200px;
+  width: 90%;
 }
 .header {
   margin-bottom: 3rem;
@@ -94,6 +95,24 @@ p {
   font-size: 1.5rem;
   border-radius: 5px;
   border: none;
+}
+@media (max-width: 576px) {
+  .back-button, .next-button {
+    width: 6rem;
+    height: 2rem;
+    margin: 0 0.5rem;
+    font-size: 1.25rem;
+  }
+  .page-num-button {
+    width: 2rem;
+    height: 2rem;
+    margin: 0 0.5rem;
+    font-size: 1rem;
+  }
+}
+.selected-page-button {
+  color: white;
+  background-color: var(--darkyellow);
 }
 .back-button {
   background: rgba(242, 183, 5, 0.5);

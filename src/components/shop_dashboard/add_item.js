@@ -19,10 +19,10 @@ function Add_Item() {
     let item = {
       "name": "My Item " + Math.floor((Math.random() * 500) + 1),
       "date_added": Date.now(),
-      "price": 5000, // $10.00
+      "price": 1000, // $10.00
       "images": [],
       "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-      "quantity": 5,
+      "quantity": 3,
     }
 
     let promises = [];
@@ -72,6 +72,10 @@ function Add_Item() {
       })
   }
 
+  function handleDelete() {
+    return;
+  }
+
   return (
     <div>
       In theory, you would want to make a form here to test that you can actually capture user input. That part, however, is up to you all. :) 
@@ -87,6 +91,7 @@ function Add_Item() {
         <p>{uploadMesssage}</p>        
         <button type="submit">Click me to add an item and the uploaded images to the database</button>
       </form>
+      <button type="button" onClick={handleDelete}>Delete</button>
     </div>
   );
 }
