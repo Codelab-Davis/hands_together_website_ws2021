@@ -14,6 +14,22 @@
   vertical-align: middle;
 }
 
+@media (max-width: 768px) {
+  .navbar-content {
+    display: none;
+  }
+}
+
+.mobile-drawer { 
+  display: inline-block; 
+}
+
+@media (min-width: 768px) {
+  .mobile-drawer {
+    display: none;
+  }
+}
+
 .text {
   text-align: center;
   display: table-cell;
@@ -52,4 +68,11 @@
   margin-right: 3rem; 
   margin-left: 1rem; 
   background: #F2B705;
+}
+
+@media (max-width: 768px) {
+  .checkOutButton {
+    margin-left: 0rem;
+    margin-right: 0rem;
+  }
 }
