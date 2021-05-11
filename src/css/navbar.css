@@ -51,6 +51,15 @@
   max-height: 111px;
 }
 
+@media (max-width: 768px) { 
+  .imgSpacing { 
+    margin-left: 1rem;
+  }
+  .rightSpacing { 
+    margin-right: 1rem;
+  }
+}
+
 .buttonSpacing:hover
 {
   cursor:pointer;

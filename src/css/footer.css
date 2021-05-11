@@ -34,3 +34,21 @@
     margin-top: 1rem;
     text-align: center;
 }
+
+
+@media (max-width: 768px) {
+    .sponsor-display { 
+        display: none;
+    } 
+    .info-display { 
+        text-align: center;
+    } 
+}
+
+a { 
+    color: black; 
+}
+
+a:hover { 
+    color: var(--lightblue); 
+}

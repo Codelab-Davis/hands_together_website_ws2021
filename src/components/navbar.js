@@ -15,15 +15,16 @@ function Navbar() {
         <div className="col-4 offset-md-4" align="center">
           <div style={{display: "inline-block"}} align="center"> 
             <h1 className="navbar-title-text" onClick={() => (window.location = "/")}>
-              <img className = "imgSpacing" src={ht_logo} />
+              <img className="imgSpacing" src={ht_logo} />
             </h1>
           </div>
         </div>
         <div className="col-6 offset-2 offset-md-0 col-md-4" align="right">
-          <div align="right" style={{display: "inline-block"}}>
+          <div align="right" className="rightSpacing" style={{display: "inline-block"}}>
             {/* <img onClick={() => (window.location = "/login")} class="buttonSpacing" src={account_circle} /> */}
             {/* <img class="buttonSpacing" src={cart} /> */}
             <button className="btn checkOutButton">Check-Out</button>
+            <br/>
             <div className="mobile-drawer">
               <MobileDrawer />
             </div>
