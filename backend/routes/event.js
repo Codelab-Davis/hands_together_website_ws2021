@@ -2,6 +2,8 @@ const router = require('express').Router();
 let Event = require('../models/event.model.js');
 const Bottleneck = require('bottleneck');
 
+//minTime --> process 1 API request every 100 miliseconds
+//maxConcurrent --> limits the number of calls in the queue to a max of 10 
 const limiter = new Bottleneck({
   maxConcurrent: 10,
   minTime: 100

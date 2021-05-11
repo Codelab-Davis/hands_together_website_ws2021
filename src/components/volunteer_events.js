@@ -10,11 +10,15 @@ import EventTile1 from "../images/EventTile1.png";
 import EventTile2 from "../images/EventTile2.png";
 import EventTile3 from "../images/EventTile3.png";
 import SignUpTile from "../images/SignUpTile.png";
+const axios = require('axios');
 
 // import { useHistory } from "react-router-dom";
 //question to future self: how do we make the volunteer & events section a pointer cursor without doing it for the whole navbar?
 
 function Volunteer_Events() {
+  // States to track upcoming events to display 
+  const [upcomingEvents, setUpcomingEvents] = useState([]); 
+
   // States to track what is in the input fields
 
   //name fields
@@ -97,31 +101,67 @@ function Volunteer_Events() {
     // call axios's GET request on /event/get_all_events
     // you would have returned an array of event objects
     // parse out the next 3 upcoming events
-    let today = new Date();
-    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date
-    // loop through all of the events returned
-    // get the 3 events with a date field closest to today
-    filterThreeSoonestDates(today);
+
+    //to do: update address when relevant!
+    //.then forces the get request to complete before rendering the content of the page. 
+    axios.get('http://localhost:5000/event/get_all_events')
+    .then((res) => { 
+      let today = new Date(); //translates time to a workable date
+      
+      // Learn more about the date object here: 
+      // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date
+      // loop through all of the events returned
+      // get the 3 events with a date field closest to today
+      filterThreeSoonestDates(today, res.data);
+    })
+    .catch((error) => { 
+      console.log("error in get_all_events", error); 
+    });
   }, []);
 
+  
   function filterThreeSoonestDates(base_date, events) {
-    // try {
-    //   let three_events = [events[0], events[1], events[2]];
-    // } catch { }
-    // for (let i = 3; i < events.length; i++) {
-    //   let cur_event_date = new Date(events[i].date);
-    //   // is events[i] in the future?
-    //   if (cur_event_date.getTime() > today.getTime()) {
-    //     // get the three closest events to today
-    //     if (cur_event_date.getTime() > new Date(three_events[0].date).getTime()) {
-    //       three_events[]
-    //     }
-    //     else if (cur_event_date.getTime() > new Date(three_events[1].date).getTime()) {
-    //     }
-    //     else if (cur_event_date.getTime() > new Date(three_events[2].date).getTime()) {
-    //     }
-    //   }
-    // }
+    
+    //STEP 1: compare every pair of elements in the array to sort ALL dates in ascending order 
+    events.sort(function (a, b) {
+      //when you get date objects from MongoDB, it will no longer recognize them as date objects, that's why we make a_date and b_date as new date objects
+      let a_date = new Date(a.date);
+      let b_date = new Date(b.date);
+      //we convert is back to milisecond value, then we return the difference. Works like sort in C++, positive value will put a first, negative will put b first. 
+      return (a_date.getTime() - b_date.getTime());
+    })
+
+    //STEP 2: 
+    for (let i = 0; i < events.length; i++) {
+      //convert the thing from mongo into a recognaizable date object 
+
+      //this is the current event object we are looking at
+      let cur_event_date = new Date(events[i].date);
+      //this is the date we want to compare all event objects to
+      base_date = new Date(base_date);
+
+      //slice the array to contain only future events, the first event that is in the future/present will trigger this 
+      if (cur_event_date.getTime() >= base_date.getTime()) { 
+        
+        //if the first event is already in the future, we don't need to do anything
+        if (i == 0) { 
+          break;
+        }
+        
+        // slices the array to contain only elements from this event to future events
+        else { 
+          events = events.slice(i-1, events.length - 1);
+          break;
+        }
+      }
+      //if none of the events trigger the above statement, all events are in the past, we set our events array to be empty 
+      else if (i == events.length - 1) { 
+        events = []; 
+        
+      }
+    } 
+
+    setUpcomingEvents(events); 
   }
 
   return (
@@ -148,39 +188,28 @@ function Volunteer_Events() {
       </div>
 
       {/* This is the picture tiles section for events */}
-
       <div class="container-fluid p-0">
         <div
           class="row no-gutters event-tile-banner-space"
           align="center"
         >
-          <div class="col-12 col-md-4">
-            <div>
-              <img className="event_tile" src={EventTile1} />
-            </div>
-            <div className="event_tile_banner" align="left">
-              <h3> Event Name</h3>
-              <p>Event Description</p>
-            </div>
-          </div>
-          <div class="col-12 col-md-4">
-            <div>
-              <img className="event_tile" src={EventTile2} />
-            </div>
-            <div className="event_tile_banner" align="left">
-              <h3> Event Name</h3>
-              <p>Event Description</p>
-            </div>
-          </div>
-          <div class="col-12 col-md-4">
-            <div>
-              <img className="event_tile" src={EventTile3} />
-            </div>
-            <div className="event_tile_banner" align="left">
-              <h3> Event Name</h3>
-              <p>Event Description</p>
-            </div>
-          </div>
+          {/* If the upcoming events array is populated, we use the map function to iteratre through the first three elements in the array (event is the object, index is itis position in the array) and we display a customized tile with the object's infomration. */}
+
+          { upcomingEvents.length > 0 ? 
+            upcomingEvents.slice(0, 3).map((event, index) => 
+              <div class="col-12 col-md-4">
+                <div>
+                  <img className="event_tile" src={EventTile1} />
+                </div>
+                <div className="event_tile_banner" align="left">
+                  <h3>{event.name}</h3>
+                  <p>{event.description}</p>
+                </div>
+              </div>
+            )
+            :
+            <p>Loading...</p>
+          }
         </div>
       </div>
 
