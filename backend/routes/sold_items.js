@@ -44,11 +44,11 @@ limiter.schedule(() => {
     const date_added = req.body.date_added;
     const price = req.body.price;
     const images = req.body.images;
-    const date_sold = "2021/02/16";
-    const transaction_id = "123";
+    const date_sold = new Date();
+    const transaction_id = req.body.transaction_id;
     const tracking_link = "test_link";
     const cancelled = false;
-    const shipping_address = new Map(); 
+    const shipping_address = req.body.shipping_address; 
     const quantity = req.body.quantity;
 
     console.log(req.body)

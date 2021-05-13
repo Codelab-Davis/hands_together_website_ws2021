@@ -21,7 +21,7 @@ function Donation() {
 
     const req = {
       amount: donationAmount,
-      success_url: "http://localhost:3000/",
+      success_url: "http://localhost:3000/thank_you",
       cancel_url: "http://localhost:3000/",
       type: "donation"
     }
