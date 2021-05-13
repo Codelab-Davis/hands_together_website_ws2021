@@ -2,6 +2,7 @@ import "../css/App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import home from "./home";
 import about from "./about"; 
+import ourTeam from "./our_team"; 
 import Shop from "./shop/shop";
 import ItemPage from "./shop/item_page";
 import add_item from "./shop_dashboard/add_item"; 
@@ -30,6 +31,7 @@ function App() {
         <Switch>
           <Route exact path="/" component={home} />
           <Route exact path="/about" component={about} />
+          <Route exact path="/our_team" component={ourTeam} />
           <Route exact path="/shop" render={(props) => (<Shop {...props} />)} />
           <Route exact path="/item/:id" render={(props) => (<ItemPage {...props} />)} /> 
           <Route exact path="/shop/:id" render={(props) => (<ItemPage {...props} />)} />
