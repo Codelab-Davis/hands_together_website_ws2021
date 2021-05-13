@@ -1,11 +1,8 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/volunteer_events.css";
 import React, { useState, useEffect } from "react";
-
-import Rectangle_41 from "../images/Rectangle_41.png";
-import Rectangle_40 from "../images/Rectangle_40.png";
-import Rectangle_39 from "../images/Rectangle_39.png";
-import Rectangle_38 from "../images/Rectangle_38.png";
+import DatePicker from "./date_picker"; 
+import 'react-day-picker/lib/style.css';
 import EventTile1 from "../images/EventTile1.png";
 import EventTile2 from "../images/EventTile2.png";
 import EventTile3 from "../images/EventTile3.png";
@@ -16,6 +13,12 @@ const axios = require('axios');
 //question to future self: how do we make the volunteer & events section a pointer cursor without doing it for the whole navbar?
 
 function Volunteer_Events() {
+  const [selectedDays, setSelectedDays] = useState(); 
+
+  useEffect(() => { 
+    console.log(selectedDays); 
+  }, [selectedDays]); 
+
   // States to track upcoming events to display 
   const [upcomingEvents, setUpcomingEvents] = useState([]); 
 
@@ -93,8 +96,6 @@ function Volunteer_Events() {
     //     console.log(res);
     // })
     // }
-    // 1. Make an object containing each of the fields you've gathered
-    // 2.
   }
 
   useEffect(() => {
@@ -241,9 +242,7 @@ function Volunteer_Events() {
           </div>
 
           <div class="col-6">
-            <div className="calendar">
-              Calendar
-            </div>
+            <DatePicker setSelectedDays={setSelectedDays} />
           </div>
         </div>
       </div>
