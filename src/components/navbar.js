@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 import ht_logo from "../images/ht_logo.png";
 import cart from "../images/cart.png";
 import account_circle from "../images/account_circle.png";
+import React, { useEffect, useState } from 'react';
 const axios = require('axios');
 
 function Navbar() {
@@ -11,6 +12,10 @@ function Navbar() {
 
   function checkout() {
     let quota = window.localStorage.getItem("QUOTA")
+    if (!quota) {
+      alert("Your cart is currently empty. Add items to cart on the shop page.");
+      return;
+    }
     const cart = {"cart": []}
     for(let i = 0; i < quota; i++) {
       cart["cart"].push(window.localStorage.getItem("JXYSDFH65F" + i))
@@ -43,7 +48,7 @@ function Navbar() {
           <div align="right" style={{display: "inline-block"}}>
             <img onClick={() => (window.location = "/login")} class="buttonSpacing" src={account_circle} />
             <img class="buttonSpacing" src={cart} />
-            <button className="btn checkOutButton" onClick={checkout}>Check-Out</button>
+            <button className="btn checkOutButton" onClick={checkout}>Checkout</button>
           </div>
         </div>
       </div> 

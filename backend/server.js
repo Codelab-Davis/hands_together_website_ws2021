@@ -59,8 +59,8 @@ const loginSeeder = require("./seeders/login_seeder");
 const volunteerSeeder = require("./seeders/volunteer_seeder");
 const eventAttendeeSeeder = require("./seeders/event_attendee_seeder");
 eventAttendeeSeeder();
-eventSeeder();
-// itemSeeder(); //This should stay commented out so the items with images aren't overwritten
+// eventSeeder();
+// itemSeeder();
 // soldItemSeeder();
 loginSeeder();
 volunteerSeeder();

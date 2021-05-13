@@ -1,3 +1,7 @@
+.hidden {
+  display: none !important;
+}
+
 #item-page-wrapper {
   margin: 2.5rem auto;
   max-width: 1200px;
@@ -66,6 +70,9 @@
   font-weight: bold;
   border: none;
   border-radius: 10px;
+}
+#item-added-message {
+  margin-left: 1rem;
 }
 
 .more-items {
