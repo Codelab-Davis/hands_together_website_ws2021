@@ -55,12 +55,11 @@ function Shop(props) {
 
   useEffect(()=>{
     axios.get('http://localhost:5000/items/get_all_items')
-    .then( res => {
-      console.log(res);
+    .then(res => {
       // assign json data to itemArray 
       update({data: res.data});
     })
-    .catch ( err => {console.log(err)})
+    .catch (err => {console.log(err)})
   }, []) 
 
   useEffect(()=>{
@@ -154,6 +153,7 @@ function Shop(props) {
         window.localStorage.setItem("QUOTA", new_quota);
       }
     } else {
+      alert("The cart is limited to 10 unique items.")
       console.log("Max items in cart reached!");
     }
   }
@@ -184,7 +184,7 @@ function Shop(props) {
             + " of " + itemArray.data.length + " results"
           }</p>
           <select name="sort" id="sort" value={sortOption} onChange={handleSortChange}>
-            <option disabled selected value="default"> -- Sort -- </option>
+            <option disabled value="default"> -- Sort -- </option>
             <option value="newest">Newest</option>
             <option value="lowtohigh">Price: Low to High</option>
             <option value="hightolow">Price: High to Low</option>

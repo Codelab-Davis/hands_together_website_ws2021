@@ -7,6 +7,70 @@ const limiter = new Bottleneck({
   minTime: 100
 });
 
+//
+// AWS Routes
+//
+
+// Importing AWSPresigner
+const {
+  generateGetUrl,
+  generatePutUrl,
+  deleteImage,
+} = require('./../AWSPresigner');
+
+// GET URL
+limiter.schedule(() => {
+  router.route('/generate-get-url').get((req, res) => {
+      // Both Key and ContentType are defined in the client side.
+      // Key refers to the remote name of the file.
+      const { Key } = req.query;
+      generateGetUrl(Key)
+          .then(getURL => {      
+              res.send(getURL);
+          })
+          .catch(err => {
+              res.send(err);
+          });
+      });
+})
+
+
+// PUT URL
+limiter.schedule(() => {
+  router.route('/generate-put-url').get((req,res)=>{
+      // Both Key and ContentType are defined in the client side.
+      // Key refers to the remote name of the file.
+      // ContentType refers to the MIME content type, in this case image/jpeg
+      const { Key, ContentType } =  req.query;
+      generatePutUrl(Key, ContentType)
+          .then(putURL => {
+              res.send({putURL});
+          })
+          .catch(err => {
+              res.send(err); 
+          });
+      });
+})
+
+limiter.schedule(() => {
+  router.route('/delete_image').delete((req,res) => {
+      const Key = req.body.Key;
+      deleteImage(Key)
+          .then(() => {
+              console.log(Key + " deleted!");
+              res.send(Key);
+          })
+          .catch(err => {
+              console.log(err);
+              res.send(err);
+          })
+  });
+})
+
+//
+// Other Routes
+//
+
 limiter.schedule(() => {
   router.route('/add').post((req, res) => {
     const name = req.body.name;
@@ -15,8 +79,9 @@ limiter.schedule(() => {
     const description = req.body.description;
     const attendee_amount = req.body.attendee_amount;
     const volunteer_amount = req.body.volunteer_amount;
+    const image = req.body.image;
 
-    const newEvent = new Event({name, date, location, description, attendee_amount, volunteer_amount})
+    const newEvent = new Event({name, date, location, description, attendee_amount, volunteer_amount, image})
 
     newEvent.save()
       .then(() => res.json('Event added!'))

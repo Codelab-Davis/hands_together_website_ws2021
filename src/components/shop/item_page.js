@@ -50,6 +50,12 @@ function Item_Page(props) {
     setSelectQuantity(e.target.value);
   }
 
+  function showItemAddedMessage() {
+    const itemAddedMessage = document.getElementById("item-added-message");
+    itemAddedMessage.classList.remove("hidden");
+    setTimeout(() => itemAddedMessage.classList.add("hidden"), 2000);
+  }
+
   //
   // LOADING ALL ITEMS AND PAGINATION STARTS BELOW 
   //
@@ -201,7 +207,8 @@ function Item_Page(props) {
                   }
                 )()}
               </select>
-              <button className="add-cart-button" onClick={() => quickAddItem(item, selectQuantity)}>Add to Cart</button>
+              <button className="add-cart-button" onClick={() => {quickAddItem(item, selectQuantity); showItemAddedMessage();}}>Add to Cart</button>
+              <p id="item-added-message" className="hidden">Item(s) added!</p>
             </div>
           </div>
         </div>

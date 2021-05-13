@@ -72,10 +72,6 @@ function Add_Item() {
       })
   }
 
-  function handleDelete() {
-    return;
-  }
-
   return (
     <div>
       In theory, you would want to make a form here to test that you can actually capture user input. That part, however, is up to you all. :) 
@@ -91,7 +87,6 @@ function Add_Item() {
         <p>{uploadMesssage}</p>        
         <button type="submit">Click me to add an item and the uploaded images to the database</button>
       </form>
-      <button type="button" onClick={handleDelete}>Delete</button>
     </div>
   );
 }
