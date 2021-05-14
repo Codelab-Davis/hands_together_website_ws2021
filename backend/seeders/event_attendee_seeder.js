@@ -27,7 +27,6 @@ const data = [
 
 function eventAttendeeSeeder() {
   EventAttendee.collection.drop();
-  console.log("Event Attendee dropped");
   for (i = 0; i < data.length; i++) {
     const eventID = data[i].eventID;
     const name = data[i].name;
@@ -49,7 +48,7 @@ function eventAttendeeSeeder() {
       occupation,
       comments,
     });
-    newEventAttendee.save().then(() => console.log(`Event Attendee: ${name}, saved`));
+    newEventAttendee.save();
   }
 }
 

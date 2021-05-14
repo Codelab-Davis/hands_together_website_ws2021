@@ -10,6 +10,7 @@ function Item_Page(props) {
 
   const [item, setItem] = useState();
   const [imageLink, setImageLink] = useState("");
+  const [selectQuantity, setSelectQuantity] = useState(1);
 
   useEffect(() => {
     axios.get('http://localhost:5000/items/get_item/' + id.id)
@@ -24,16 +25,15 @@ function Item_Page(props) {
   }, [item]);
 
   function purchaseItem() {
-    let transaction_id = "abcd1234";
     const req = {
       amount: 2000,
-      success_url: "http://localhost:3000/order_summary/" + transaction_id,
+      success_url: "http://localhost:3000/order_summary/",
       cancel_url: "http://localhost:3000/",
       item_id: id.id,
       type: "purchase"
     }
     var stripe = window.Stripe('pk_test_51IMhDjDACjkjrvMm0D7gtuvvHOCY8Z9dGTjwVFxFcmWHlGfjn9CGEdvyvs5vMQrAQDwmBcELSzSb2kTNf65eyJkw00AXucR70x')
-    axios.post('http://localhost:5000/stripe/create-checkout-session/', req) // edit to also send in amount field with price info
+    axios.post('http://localhost:5000/stripe/create-checkout-session/', req) 
      .then(session => stripe.redirectToCheckout({sessionId: session.data.id}))
      .catch(error => console.log(error))
   }
@@ -44,6 +44,16 @@ function Item_Page(props) {
       document.getElementById(`image${i}`).classList.remove("selected-image");
     }
     document.getElementById(`image${index}`).classList.add("selected-image");
+  }
+
+  function updateQuantity(e) {
+    setSelectQuantity(e.target.value);
+  }
+
+  function showItemAddedMessage() {
+    const itemAddedMessage = document.getElementById("item-added-message");
+    itemAddedMessage.classList.remove("hidden");
+    setTimeout(() => itemAddedMessage.classList.add("hidden"), 2000);
   }
 
   //
@@ -96,7 +106,6 @@ function Item_Page(props) {
   useEffect(()=>{
     axios.get('http://localhost:5000/items/get_all_items')
     .then( res => {
-      console.log(res);
       // assign json data to itemArray 
       update({data: res.data});
     })
@@ -111,20 +120,47 @@ function Item_Page(props) {
   // 
   // CARTING SYSTEM STARTS BELOW 
   //
-  function addItem(item) {
-    let stringifiedItem = JSON.stringify(item); // convert the JSON object "item" into a string using the JSON.stringify function call 
-    let item_id = "JXYSDFH65F" + props.storageQuota; // generate a unique item ID for the local storage key 
-    window.localStorage.setItem(item_id, stringifiedItem);
+  function quickAddItem(newItem_, qty) {
+    // Initialize storageQuota if no items have been added yet
+    let storageQuota = window.localStorage.getItem("QUOTA");
+    if (!storageQuota) {
+      window.localStorage.setItem("QUOTA", 0);
+      storageQuota = 0;
+    }
 
-    let carted_items = props.cartedItems;
-    carted_items.push(item_id);
-    props.setCartedItems(carted_items);
+    let quantityAvailable = newItem_.quantity; // Max number of items someone can buy
+    let newItem = JSON.parse(JSON.stringify(newItem_));
+    newItem.quantity = parseInt(qty); // Quantity that is being added to cart
 
-    // increment the storage quota for each item added to the storage 
-    if (props.storageQuota < 10) {
-      let storage_quota = props.storageQuota;
-      storage_quota++;
-      props.setStorageQuota(storage_quota);
+    // Increment the storage quota for each item added to the storage 
+    // Currently allows for 10 unique items, but more than 10 items if they are duplicates 
+    if (storageQuota < 10) {
+      // Check if the item is already in localStorage
+      // Increment quantity if so
+      let itemIsInStorage = false;
+      for (let i = 0; i < storageQuota; i++) {
+        let storageItem = JSON.parse(window.localStorage.getItem("JXYSDFH65F" + i));
+        if (newItem._id == storageItem._id) {
+          if (storageItem.quantity + newItem.quantity <= quantityAvailable) {
+            storageItem.quantity += parseInt(qty);
+          } else {
+            storageItem.quantity = quantityAvailable;
+            console.log(`The max quantity of this item, ${quantityAvailable}, has been added to cart`);
+          }
+          window.localStorage.setItem("JXYSDFH65F" + i, JSON.stringify(storageItem));
+          itemIsInStorage = true;
+          break;
+        }
+      }
+      // Add a new item if it isn't already in localStorage
+      if (!itemIsInStorage) {
+        let lsItemId = "JXYSDFH65F" + storageQuota; // generate a unique item ID for the local storage key 
+        window.localStorage.setItem(lsItemId, JSON.stringify(newItem));
+  
+        let new_quota = storageQuota;
+        new_quota++;
+        window.localStorage.setItem("QUOTA", new_quota);
+      }
     }
     else
       console.log("Max items reached in the storage.");
@@ -138,36 +174,41 @@ function Item_Page(props) {
         </div>
 
         <div className="row no-gutters item-info">
-          <div className="col-md-6 row no-gutters">
-            <div className="col-md-2 side-image-container">
+          <div className="col-sm-6 row no-gutters flex-nowrap">
+            <div className="col-2 side-image-container">
               {item.images.map((image, index) =>
-                <div id={`image${index}`} onClick={() => handleImageClick(index)} className="side-image" style={{backgroundImage: `url(${image})`}}></div>
+                <div id={`image${index}`} 
+                  onClick={() => handleImageClick(index)} 
+                  className={index == 0 ? "side-image selected-image" : "side-image"}  
+                  style={{backgroundImage: `url(${image})`}}
+                ></div>
               )}
             </div>
 
-            <div className="col-md-10 main-image-container">
+            <div className="col-10 main-image-container">
               <div className="main-image" style={{backgroundImage: `url(${imageLink})`}}></div>
             </div>
           </div>
           
-          <div className="col-md-6 right">
+          <div className="col-sm-6 right">
             <h3>{item.name}</h3>
             <h4 className="price">{"$" + item.price.slice(0, -2) + "." + item.price.slice(-2)}</h4>
             <hr/>
             <h4>Description</h4>
             <p>{item.description}</p>
             <div className="form">
-              <select className="quantity" name="quanitity">
+              <select value={selectQuantity} onChange={updateQuantity} className="quantity" name="quantity">
                 {(() => {
                     let selectList = [];
-                    for (let i = 1; i < 6; i++) {
-                      selectList.push(<option value="i">{i}</option>)
+                    for (let i = 1; i <= item.quantity; i++) {
+                      selectList.push(<option value={i}>{i}</option>)
                     }
                     return selectList;
                   }
                 )()}
               </select>
-              <button className="add-cart-button" onClick={() => addItem(item)}>Add to Cart</button>
+              <button className="add-cart-button" onClick={() => {quickAddItem(item, selectQuantity); showItemAddedMessage();}}>Add to Cart</button>
+              <p id="item-added-message" className="hidden">Item(s) added!</p>
             </div>
           </div>
         </div>
@@ -181,12 +222,12 @@ function Item_Page(props) {
         <div className="row">
           { items ?
             items.map((itemIter, index) =>
-              <div className="col-md-4" key={index}>
+              <div className="col-sm-6 col-md-4" key={index}>
                 <div className="item-container">
                   <a className="wrapper-link" href={`/shop/${itemIter._id}`} onClick={() => clicked(itemIter)}></a>
                   <div className="item-image" style={{backgroundImage: `url(${itemIter.images[0]})`}}></div>
                   <div className="add-to-cart">
-                    <a className="bold" onClick={() => addItem(itemIter)}>Add to Cart</a>
+                    <a className="bold" onClick={() => quickAddItem(itemIter, 1)}>Add to Cart</a>
                   </div>
                   <div className="item-info">
                     <div className="name-price">
@@ -209,7 +250,13 @@ function Item_Page(props) {
             let pageList = [];
             for (let i = 0; i < Math.ceil(parseFloat(itemArray.data.length) / 6); i++) {
               pageList.push(
-                <button className="page-num-button" key={i} id={i + 1} onClick={handlePageClick}>{i + 1}</button>
+                <button 
+                  className={"page-num-button " + ((curPage == i + 1) ? "selected-page-button bold" : "")} 
+                  key={i} id={i + 1} 
+                  onClick={handlePageClick}
+                >
+                  {i + 1}
+                </button>
               )
             }
             return pageList;

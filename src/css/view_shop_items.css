@@ -1,0 +1,22 @@
+.view-container { 
+    margin-left: 3.5rem;
+    margin-right: 3.5rem;
+}
+
+.confirm-button, .decline-button { 
+    width: 10rem;
+    height: 3rem;
+    margin: 0 0.5rem;
+    font-size: 1.125rem;
+    border-radius: 5px;
+} 
+
+.confirm-button { 
+    background-color: var(--green); 
+    border: 1px var(--green) solid;
+} 
+
+.decline-button { 
+    background-color: var(--darkred); 
+    border: 1px var(--darkred) solid;
+} 

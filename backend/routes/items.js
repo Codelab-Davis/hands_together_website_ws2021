@@ -14,7 +14,8 @@ const limiter = new Bottleneck({
 // Importing AWSPresigner
 const {
     generateGetUrl,
-    generatePutUrl
+    generatePutUrl,
+    deleteImage,
 } = require('./../AWSPresigner');
 
 // GET URL
@@ -25,10 +26,10 @@ limiter.schedule(() => {
         const { Key } = req.query;
         generateGetUrl(Key)
             .then(getURL => {      
-            res.send(getURL);
+                res.send(getURL);
             })
             .catch(err => {
-            res.send(err);
+                res.send(err);
             });
         });
 })
@@ -43,12 +44,27 @@ limiter.schedule(() => {
         const { Key, ContentType } =  req.query;
         generatePutUrl(Key, ContentType)
             .then(putURL => {
-            res.send({putURL});
+                res.send({putURL});
             })
             .catch(err => {
-            res.send(err);
+                res.send(err); 
             });
         });
+})
+
+limiter.schedule(() => {
+    router.route('/delete_image').delete((req,res) => {
+        const Key = req.body.Key;
+        deleteImage(Key)
+            .then(() => {
+                console.log(Key + " deleted!");
+                res.send(Key);
+            })
+            .catch(err => {
+                console.log(err);
+                res.send(err);
+            })
+    });
 })
 
 //
@@ -79,6 +95,7 @@ limiter.schedule(() => {
         const price = req.body.price;
         const images = req.body.images;
         const description = req.body.description;
+        const quantity = req.body.quantity;
 
         const newItem = new Item({
             name,
@@ -86,6 +103,7 @@ limiter.schedule(() => {
             price,
             images,
             description,
+            quantity,
         });
 
         newItem.save()
@@ -94,20 +112,26 @@ limiter.schedule(() => {
     });
 })
 
-
-
-// This is a duplicate of the purchase_item route
 limiter.schedule(() => {
-    router.route('/delete_item/:id').delete((req, res) => {
-        Item.findByIdAndDelete(req.params.id)
-        .then(item => res.json(item))
-        .catch(err => res.status(400).json('Error: ' + err));
+    router.route('/update_item/:id').post((req, res) => {
+        Item.findById(req.params.id)
+         .then(item => {
+            item.name = req.body.name;
+            item.date_added = req.body.date_added;
+            item.price = req.body.price;
+            item.images = req.body.images;
+            item.description = req.body.description;
+            item.quantity = req.body.quantity;
+
+            item.save()
+             .then(() => res.status(200).json("Item Updated!"))
+             .catch(err => res.status(400).json("Error: " + err))
+         })
     });
 })
 
-
 limiter.schedule(() => {
-    router.route('/purchase_item/:id').delete((req, res) => {
+    router.route('/delete_item/:id').delete((req, res) => {
         Item.findByIdAndDelete(req.params.id)
         .then(item => res.json(item))
         .catch(err => res.status(400).json('Error: ' + err));
