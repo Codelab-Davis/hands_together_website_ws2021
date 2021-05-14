@@ -5,10 +5,15 @@ h1 {
 /*This is the first big highlight image*/
 
 .left-space {
-  border: 2px solid red;
   width: auto;
   margin-left: 3.5rem;
   margin-right: 3.5rem;
+}
+
+@media (max-width: 768px) { 
+  .left-space { 
+    margin: 0.5rem;
+  }
 }
 
 .upcoming-events-text {
@@ -17,12 +22,14 @@ h1 {
 
 .description-text {
   font-weight: 400 !important;
-  margin-top: 2.19rem;
+  /* margin-top: 2rem; */
 }
 .banner_image {
-  width: 83rem;
-  height: 43.75rem;
-  margin-top: 20.44rem; /* 327px/16 */
+  /* width: 83rem;
+  height: 43.75rem; */
+  width: 100%;
+  height: auto;
+  margin-top: 2rem; /* 327px/16 */
   filter: drop-shadow(0px 4px 4px rgba(7, 30, 53, 0.25));
 }
 
@@ -37,146 +44,159 @@ h1 {
 }
 
 .event-tile-banner-space {
-  margin-top: 5.375rem; /* 86px/16 */
+  margin-top: 2rem; /* 86px/16 */
 }
 
-.event-tile-container {
-  justify-content: space-between;
-  /* margin-right: 3.375rem; */
-}
 .event_tile {
-  width: 25.75rem;
-  height: 16.93rem;
+  width: 85%; /* 24.75rem */
+  height: auto; /*16.93rem*/
   background-color: var(--gray);
 }
 .event_tile_text {
-  position: relative;
+  position: relative; 
   left: 20.84px;
-  bottom: 205.83px;
+  bottom: 154.37px;
 }
 .event_tile_banner {
-  width: 25.75rem;
-  height: 16.0675rem; /*257.08px/16 */
+  width: 85%; /*25.75rem*/ 
+  height: 12.05rem; /*16.0675rem*/ 
   background-color: var(--darkyellow);
   filter: drop-shadow(0px 4px 4px rgba(7, 30, 53, 0.25));
 }
 
+.event_tile_banner h3 { 
+  padding-left: 1rem;
+  padding-top: 1rem;
+  font-size: 1.75rem !important;
+  font-weight: 700 !important;
+}
+
+.event_tile_banner p{
+  padding-left: 1rem;
+}
+
 .sign-up-tile {
-  width: 39.875rem;
-  height: 18.054rem;
+  width: 85%;
+  height: auto;
   background-color: var(--gray);
   filter: drop-shadow(0px 4px 4px rgba(7, 30, 53, 0.25));
 }
 .sign-up-banner {
-  width: 39.875rem;
-  height: 10.8rem;
+  width: 85%;
+  height: 7rem;
   background-color: var(--darkyellow);
-  filter: drop-shadow(0px 4px 4px rgba(7, 30, 53, 0.25));
 }
-.sign-up-text {
-  position: relative;
-  left: 32.17px;
-  bottom: 150.79px;
+
+.sign-up-banner h3{
+  padding-top: 1rem;
 }
+
+.sign-up-banner h3, p{
+  padding-left: 1rem;
+}
+
 .sign-up-button {
-  position: relative !important;
-  bottom: 91px; /*idk if this is the right way to do it but it works*/
-  border: none !important;
-  margin: none !important;
-  height: 6.25rem;
-  width: 39.88rem;
+  cursor: pointer;
+  width: 85%;
+  height: 3.5rem;
   background-color: var(--darkred);
-  font-size: 34px;
+  font-size: 1.5rem;
+  padding-top: 0.5rem;
   font-weight: 700;
   text-decoration: underline;
   color: white;
 }
+
 .volunteering-opportunities-text {
-  margin-top: 5.44rem;
+  margin-top: 2rem; 
 }
 
 .calendar {
-  width: 35rem;
-  height: 35.1875rem;
+  width: 85%;
+  height: 26rem;
   background-color: var(--darkred);
 }
 
 .form-title {
-  margin-top: 10.75rem;
+  margin-top: 2rem;
 }
 
 .name-top-space {
-  margin-top: 8.25rem;
+  margin-top: 2rem;
 }
 
 .field-column-padding {
   margin-left: 2rem !important;
 }
 
+@media (max-width: 768px) { 
+  .field-column-padding { 
+    margin-left: 0rem !important; 
+  }
+}
+
 .first-name-box {
-  width: 20.125rem !important;
+  width: 100% !important;
 }
 .last-name-box {
-  width: 24.125rem !important;
+  width: 100% !important;
 }
 .last-name-label {
   margin-top: 16px;
 }
 .area-code-box {
-  width: 132px !important;
+  width: 100% !important;
 }
 .phone-number-box {
-  width: 19.88rem !important;
+  width: 100% !important;
 }
 .email-box {
-  width: 45.44rem !important;
+  width: 100% !important;
 }
 .first-name-box,
 .last-name-box,
 .area-code-box,
 .phone-number-box,
 .email-box {
-  height: 5rem !important;
+  height: 3rem !important;
 }
 .dash {
   font-size: 56px;
 }
-.wtf {
-  margin-bottom: 11px;
-}
 
+/* originally 5rem for the next 5 classes */
 .ageSection {
-  margin-top: 9.94rem;
+  margin-top: 1.5rem;
 }
 
 .genderSection {
-  margin-top: 7.19rem;
+  margin-top: 1.5rem;
 }
 
 .phoneSection {
-  margin-top: 5.06rem;
+  margin-top: 1.5rem;
 }
 
 .emailSection {
-  margin-top: 9.94rem;
+  margin-top: 1.5rem;
 }
 
 .concernsSection {
-  margin-top: 8.75rem;
+  margin-top: 1.5rem;
 }
+
 .concernBox {
-  width: 45.44rem !important;
-  height: 23.94rem !important;
+  width: 100%;
+  height: 10rem !important; 
 }
 
 .gender-label {
-  font-size: 1.5rem;
-  margin-left: 20px;
+  font-size: 1rem;
 }
 
 .label-text {
-  font-size: 1.5rem !important;
-  margin-top: 16px !important;
+  font-size: 1rem !important;
+  margin-top: 8px !important;
 }
 
 input[type="radio"] {
@@ -185,5 +205,6 @@ input[type="radio"] {
   /* border: none; */
   width: 40px;
   height: 40px;
+  margin-right: 0.5rem !important;
   align-content: left;
-}
+} 

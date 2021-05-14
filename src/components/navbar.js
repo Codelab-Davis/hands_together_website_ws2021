@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom";
 import ht_logo from "../images/ht_logo.png";
 import cart from "../images/cart.png";
 import account_circle from "../images/account_circle.png";
+import MobileDrawer from "./mobile_drawer.js"; 
 import xicon from "../images/x-icon.png";
 import Modal from 'react-modal';
 const axios = require('axios');
@@ -228,19 +229,23 @@ function Navbar() {
         <div className="col-4 offset-4" align="center">
           <div align="center" style={{display: "inline-block"}}> 
             <h1 className="navbar-title-text" onClick={() => (window.location = "/")}>
-              <img className = "imgSpacing" src={ht_logo} />
+              <img className="imgSpacing" src={ht_logo} />
             </h1>
           </div>
         </div>
-        <div className="col-4" align="right">
-          <div align="right" style={{display: "inline-block"}}>
-            <img onClick={() => (window.location = "/login")} class="buttonSpacing" src={account_circle} />
-            <img class="buttonSpacing" src={cart} />
+        <div className="col-6 offset-2 offset-md-0 col-md-4" align="right">
+          <div align="right" className="rightSpacing" style={{display: "inline-block"}}>
+            {/* <img onClick={() => (window.location = "/login")} class="buttonSpacing" src={account_circle} /> */}
+            {/* <img class="buttonSpacing" src={cart} /> */}
             <button className="btn checkOutButton" onClick={openModal}>Check-Out</button>
+            <br/>
+            <div className="mobile-drawer">
+              <MobileDrawer />
+            </div>
           </div>
         </div>
       </div> 
-      <div className="navbar-content" align="center">
+      <div className="navbar-content .d-none .d-sm-block" align="center">
         <div class="container-fluid p-0">
           <div class="row no-gutters">
             <div class="col-2 offset-1">

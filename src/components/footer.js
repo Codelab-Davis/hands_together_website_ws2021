@@ -22,18 +22,18 @@ function Footer() {
                 <div class="container-fluid p-0">
                     <div class="row no-gutters">
                         {/* <div className="space" /> */}
-                        <div class="col-md-6" align="left">
+                        <div class="col-12 col-md-5 col-lg-6 info-display">
                             <p> <b>Hands Together:</b> a center for children</p>
                             {/* <div className="space" /> */}
                             <br></br>
                             <p>If you wish to contact us through <br/> fax, phone or letter, please contact us at:<br/><br/><b>Hands Together</b><br/>201 Civic Center Drive East<br/>Santa Ana CA 92701 <br /><b> Phone: (714) 479-0294 </b> <br />  Fax: (714) 479-0297 <br/>Federal ID #33-0857087 </p>
                             <br/>
-                            <p className="copyright-text">&#169; 2021 Hands Together. All Rights Reserved</p>
+                            <p className="copyright-text">&#169; 2021 Hands Together. All Rights Reserved <br/> Built by <a href="https://codelabdavis.com/">CodeLab</a></p>
                         </div>
                         
-                        <div className="col-md-1" style={{borderRight: "white solid 2px"}} />                     
+                        <div className="col-md-1 sponsor-display" style={{borderRight: "white solid 2px"}} />                     
                         
-                        <div class="col-md-5 align-items-center" >
+                        <div class="col-md-6 col-lg-5 sponsor-display align-items-center" >
                             <h2 class="thank-you-text bold">Thank you to our sponsors!</h2>
                             
                             <div class="row no-gutters justify-content-center circles-row" style={{paddingRight:10}}>
@@ -83,10 +83,6 @@ function Footer() {
                                 </div>
                             
                                 <div class="col-12 col-md-1"></div>
-                                
-                                <div class="col-12">
-                                    <p className="copy">&#169; Non Profit Websites by Intersection</p>
-                                </div>
                             </div>
                         </div>
                     </div>
