@@ -76,13 +76,13 @@ h1 {
 }
 
 .sign-up-tile {
-  width: 90%;
+  width: 85%;
   height: auto;
   background-color: var(--gray);
   filter: drop-shadow(0px 4px 4px rgba(7, 30, 53, 0.25));
 }
 .sign-up-banner {
-  width: 90%;
+  width: 85%;
   height: 7rem;
   background-color: var(--darkyellow);
 }
@@ -97,7 +97,7 @@ h1 {
 
 .sign-up-button {
   cursor: pointer;
-  width: 90%;
+  width: 85%;
   height: 3.5rem;
   background-color: var(--darkred);
   font-size: 1.5rem;

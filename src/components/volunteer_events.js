@@ -1,11 +1,8 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/volunteer_events.css";
 import React, { useState, useEffect } from "react";
-
-import Rectangle_41 from "../images/Rectangle_41.png";
-import Rectangle_40 from "../images/Rectangle_40.png";
-import Rectangle_39 from "../images/Rectangle_39.png";
-import Rectangle_38 from "../images/Rectangle_38.png";
+import DatePicker from "./date_picker"; 
+import 'react-day-picker/lib/style.css';
 import EventTile1 from "../images/EventTile1.png";
 import EventTile2 from "../images/EventTile2.png";
 import EventTile3 from "../images/EventTile3.png";
@@ -16,8 +13,29 @@ const axios = require('axios');
 //question to future self: how do we make the volunteer & events section a pointer cursor without doing it for the whole navbar?
 
 function Volunteer_Events() {
+  const [selectedDays, setSelectedDays] = useState(); 
   // States to track upcoming events to display 
   const [upcomingEvents, setUpcomingEvents] = useState([]); 
+  const [curDayEventData, setCurDayEventData] = useState(); 
+
+  useEffect(() => {
+    if (selectedDays != undefined && selectedDays.length != 0) {  
+      let start_of_day = new Date(selectedDays.selectedDays).setHours(0,0,0,0); 
+      let end_of_day = new Date(selectedDays.selectedDays).setHours(23,59,59,99);
+      for (let i = 0; upcomingEvents != undefined && i < upcomingEvents.length; i++) { 
+        if (new Date(upcomingEvents[i].date).getTime() >= start_of_day && new Date(upcomingEvents[i].date).getTime() <= end_of_day) { 
+          console.log("in the inner if statement"); 
+          setCurDayEventData(upcomingEvents[i]); 
+          return; 
+        } 
+      } 
+      setCurDayEventData({}); 
+    }
+    else { 
+      console.log("in the else statement"); 
+      setCurDayEventData({}); 
+    }
+  }, [selectedDays]); 
 
   // States to track what is in the input fields
 
@@ -93,8 +111,6 @@ function Volunteer_Events() {
     //     console.log(res);
     // })
     // }
-    // 1. Make an object containing each of the fields you've gathered
-    // 2.
   }
 
   useEffect(() => {
@@ -208,7 +224,7 @@ function Volunteer_Events() {
               </div>
             )
             :
-            <p>Loading...</p>
+            <h3>We currently don't have any upcoming planned events - check back soon!</h3> 
           }
         </div>
       </div>
@@ -220,7 +236,7 @@ function Volunteer_Events() {
             Volunteering Opportunities
           </h1>
           <h3 className="description-text">
-            Description of volunteering opportunities and events available.
+            Interested in volunteering to help host one of our upcoming events? Select a date to find an event and complete the sign up form - a Hands Together staff member will reach out to you soon.
           </h3>
       
       </div>
@@ -228,22 +244,34 @@ function Volunteer_Events() {
       {/* Event Name + Calendar */}
       <div class="container-fluid p-0">
         <div class="row no-gutters event-tile-banner-space" align="center">
+          {console.log(curDayEventData)}
           <div class="col-6">
+            {curDayEventData != undefined && curDayEventData._id != undefined ? 
             <div>
-              <img className="sign-up-tile"src={SignUpTile} />
+              <div>
+                <img className="sign-up-tile"src={SignUpTile} />
+              </div>
+              <div className="sign-up-banner" align="left">
+                <h3>{curDayEventData.name}</h3>
+                <p>{curDayEventData.description}</p>
+              </div>
+            
+              <div className="sign-up-button">Sign Up</div>
             </div>
-            <div className="sign-up-banner" align="left">
-              <h3>Event Name</h3>
-              <p>Event Description</p>
-            </div>
-          
-            <div className="sign-up-button">Sign Up</div>
+            :
+              <div>
+                <div>
+                  <img className="sign-up-tile"src={SignUpTile} />
+                </div>
+                <div className="sign-up-banner" align="left">
+                  <h3>We currently don't have any events planned for this day - check out another day instead!</h3>
+                </div>
+              </div>
+            }
           </div>
 
           <div class="col-6">
-            <div className="calendar">
-              Calendar
-            </div>
+            <DatePicker setSelectedDays={setSelectedDays} />
           </div>
         </div>
       </div>
