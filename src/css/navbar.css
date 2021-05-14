@@ -14,9 +14,65 @@
   vertical-align: middle;
 }
 
+@media (max-width: 768px) {
+  .navbar-content {
+    display: none;
+  }
+}
+
+.mobile-drawer { 
+  display: inline-block; 
+}
+
+@media (min-width: 768px) {
+  .mobile-drawer {
+    display: none;
+  }
+}
+
 .text {
   text-align: center;
   display: table-cell;
   vertical-align: middle;
   padding-top: 25px;
+}
+
+.text:hover
+{
+  font-weight: bold;
+  cursor:pointer;
+}
+
+.imgSpacing
+{
+  margin-top: 1rem; 
+  margin-bottom:1rem;
+  max-width: 164px;
+  max-height: 111px;
+}
+
+.buttonSpacing:hover
+{
+  cursor:pointer;
+}
+
+.buttonSpacing
+{
+  margin-top: 1rem;
+  margin-right: 1rem; 
+}
+
+.checkOutButton
+{
+  margin-top: 1rem; 
+  margin-right: 3rem; 
+  margin-left: 1rem; 
+  background: #F2B705;
+}
+
+@media (max-width: 768px) {
+  .checkOutButton {
+    margin-left: 0rem;
+    margin-right: 0rem;
+  }
 }

@@ -1,0 +1,36 @@
+.footer-content{
+    background-color: var(--darkred);
+    width: 100%; 
+    align-items: center;
+    vertical-align: middle;
+    padding: 3rem;
+}
+
+.copyright-text{
+    font-size: 12px !important;
+}
+
+.copy {
+    font-size: 12px !important;
+    padding-top: 4.5rem;
+    padding-left:20rem;
+}
+
+.circles-row {
+    margin-top: 2rem;
+}
+.circle-container {
+    padding: 0.45rem !important;
+}
+.circle-footer{
+    width: 100%;
+    padding-top: 100%;
+    background-size: cover;
+    border-radius: 50%;
+    border: none;
+}
+
+.thank-you-text{
+    margin-top: 1rem;
+    text-align: center;
+}

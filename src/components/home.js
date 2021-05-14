@@ -2,11 +2,12 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/home.css"
 import { useHistory } from "react-router-dom"; 
 import about from "../images/about.png";
-import preschool from "../images/preschool.png";
+import school from "../images/school.png";
 import kid from "../images/kid.png";
 import main from "../images/main.png";
 import middle from "../images/middle.png";
 import team from "../images/team.png"
+
 
 function Home() {
     return (
@@ -140,7 +141,7 @@ function Home() {
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Adipiscing non vitae <br></br> curabitur porta fusce quam. Et facilisis at laoreet auctor id etiam netus erat eu.</p>
                 <h4 style={{marginTop: 60}}>Event title</h4>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Adipiscing non vitae <br></br> curabitur porta fusce quam. Et facilisis at laoreet auctor id etiam netus erat eu.</p>
-                <div align="right" style={{marginTop: 30}} >
+                <div align="right" style={{marginTop: 30, marginBottom: 30}} >
                     <button className="wbutton hands-together-button">
                         <h4>View all</h4>
                     </button>

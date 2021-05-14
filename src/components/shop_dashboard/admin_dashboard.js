@@ -52,7 +52,7 @@ function Admin_Dashboard() {
 
   useEffect(() => {
     axios.get('http://localhost:5000/sold_items/get_sold_items')
-    .then( res => {
+    .then(res => {
       console.log(res)
       // assign json data to itemArray 
       update({data: res.data})

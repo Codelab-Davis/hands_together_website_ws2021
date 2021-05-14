@@ -1,0 +1,83 @@
+input[type="radio"] { 
+    margin-right: 1.625rem;
+    height: 40px;
+    width: 40px;
+    vertical-align: middle;
+    box-sizing: border-box;
+}
+
+.heading {
+    margin-top: 2.5rem;
+    padding-left: 3.375rem;
+}
+
+.donation-text {
+    padding-left: 3.375rem;
+    font-weight: 400 !important; 
+}
+
+.donation-container, .form-container {
+    width: 100%;
+    margin-top: 4rem;
+    margin-left: 3.375rem;
+}
+
+.donation-row {
+    justify-content: space-between;
+    margin-bottom: 2rem;
+}
+
+.donation-small, .donation-large {
+    box-sizing: border-box;
+    border-radius: 1.5rem;
+    margin: 0.5rem;
+    background: #F2B705;
+    text-align: center;
+}
+
+.donation-small {
+    width: 22rem;
+    height: 12rem;
+}
+
+.donation-large {
+    width: 38rem;
+    height: 12rem;
+}
+
+.donation-amount-text {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+.donation-use-text {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+}
+
+.form-container {
+    margin-top: 2.065rem;
+}
+
+.form-item {
+    margin-bottom: 4rem;
+}
+
+.form-option {
+    font-size: 1.5rem; /*Gets Over written by app.css*/
+}
+
+.amount-input {
+    height: 5rem; /*Gets Over written by app.css*/
+}
+
+.donate-button {
+    background: var(--darkred);
+    border: none;
+    justify-content: center;
+    color: white;
+    border-radius: 30px;
+    width: 16rem;
+    height: 5rem;
+    margin-bottom: 5rem;
+}
