@@ -59,7 +59,7 @@ function Home() {
                     <div class="col-6">
                         <img className="general_space" src={about}></img>
                     </div>
-                    <div class="col-6" align="left">
+                    <div class="col-5" align="left">
                         <p className="down">Hands Together has been recognized at a state and national level for preparing young children for kindergarten. We offer advanced early education to over 165 at risk children each day. We do more than preschool preparation–the facility  works with working poor parents to enrich their lives, preparing them for the work place.</p>
                         <button className="ybutton hands-together-button">
                             <h4>Learn More</h4>
@@ -84,7 +84,7 @@ function Home() {
                         <h3 className="general_space">Preschool</h3>
                         <p className="general_space">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam cras amet, purus felis. Tortor, fringilla lectus mauris adipiscing eu ut suspendisse. Sapien amet egestas at maecenas laoreet ipsum donec. Imperdiet sem in risus pharetra magna sed. Ac dolor, non vitae, suspendisse elementum tellus tristique. Convallis orci pharetra.</p>
                     </div>
-                    <div class="col-6" align="left" style={{marginLeft:70}}>
+                    <div class="col-6" align="left" style={{marginLeft:70, paddingTop: 70}}>
                         <h3 className="general_space">Morning Garden</h3>                
                         <p className="general_space">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam cras amet, purus felis. Tortor, fringilla lectus mauris adipiscing eu ut suspendisse. Sapien amet egestas at maecenas laoreet ipsum donec. Imperdiet sem in risus pharetra magna sed. Ac dolor, non vitae, suspendisse elementum tellus tristique. Convallis orci pharetra.</p>
                     </div>

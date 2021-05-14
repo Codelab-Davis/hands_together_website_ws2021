@@ -128,6 +128,7 @@ async function fulfillOrder(session) {
   let id = session.metadata['id']; 
   let cart = JSON.parse(session.metadata['cart'])['cart'];
   console.log(cart)
+  console.log("Fulfilling order")
 
   // update datebase on successful purchase (delete from items and add to sold_items)
   const cart_items = []
@@ -217,10 +218,18 @@ async function updateDB(cart_item, session) {
             item.data['quantity'] = cart_item.quantity;
 
             axios.post('http://localhost:5000/sold_items/add_item', item.data)
-             .then(res => {
-               console.log("res.data log", res.data);
-             })
-              .catch(error => errorEmail(id))
+             .then(res => console.log(res.data))
+
+            // Delete all the images associated with the item
+            for (let j = 0; j < item.data.images.length; j++) {
+              let key = {
+                data: {
+                  Key: item.data.name.replace(/[^a-zA-Z0-9]/g, "") + "_" + j
+                }
+              }
+              axios.delete('http://localhost:5000/items/delete_image/', key)
+                .then(() => console.log("--Image deleted--"))
+            }
           })
           .catch(error => errorEmail(id))
         }

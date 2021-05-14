@@ -51,7 +51,6 @@ limiter.schedule(() => {
     const shipping_address = req.body.shipping_address; 
     const quantity = req.body.quantity;
 
-    console.log("Reached here!")
     console.log(req.body)
 
     let newSoldItem = new Sold_Item({
@@ -66,8 +65,6 @@ limiter.schedule(() => {
         shipping_address,
         quantity,
     });
-
-    console.log("Reached here 2!")
 
     newSoldItem.save()
      .then(() => res.json("New Item Purchased!"))

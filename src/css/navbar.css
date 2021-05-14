@@ -48,8 +48,44 @@
 
 .checkOutButton
 {
-  margin-top: 1rem; 
-  margin-right: 3rem; 
-  margin-left: 1rem; 
   background: #F2B705;
+}
+
+.modal-input-field { 
+  margin-bottom: 1rem;
+} 
+
+.hr {
+  border-top: 1px solid #bfbfbf;
+  margin: 1.5rem 0;
+}
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  margin: 0.5rem 0;
+}
+.cart-item .cart-image {
+  width: 4rem;
+  background-size: cover;
+  padding-top: 4rem;
+  border-radius: 8px;
+  margin-right: 1rem;
+}
+.cart-item .item-info {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0;
+}
+.cart-item img {
+  height: 2rem;
+  cursor: pointer;
+}
+
+.checkout-button-container {
+  display: flex;
+  justify-content: flex-end;
 }

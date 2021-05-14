@@ -17,6 +17,7 @@ const data = [
     description: "My event description",
     attendee_amount: 10,
     volunteer_amount: 5,
+    image: "123",
   },
   {
     name: "Event 2",
@@ -24,7 +25,8 @@ const data = [
     location: "Kemper Hall",
     description: "My event description",
     attendee_amount: 10,
-    volunteer_amount: 5
+    volunteer_amount: 5,
+    image: "123",
   },
   {
     name: "Event 3",
@@ -33,6 +35,7 @@ const data = [
     description: "My event description",
     attendee_amount: 20,
     volunteer_amount: 3,
+    image: "123",
   },
   {
     name: "Event 4",
@@ -40,12 +43,13 @@ const data = [
     location: "Shields Library",
     description: "My event description",
     attendee_amount: 30,
-    volunteer_amount: 15
+    volunteer_amount: 15,
+    image: "123",
   }
 ]
 
 function eventSeeder() {
-//   Event.collection.drop();
+  Event.collection.drop();
   for (i = 0; i < data.length; i++) {
     const name = data[i].name;
     const date = Date(data[i].date);
@@ -53,13 +57,15 @@ function eventSeeder() {
     const description = data[i].description;
     const attendee_amount = data[i].attendee_amount;
     const volunteer_amount = data[i].volunteer_amount;
+    const image = data[i].image;
     const newEvent = new Event({
       name,
       date,
       location,
       description,
       attendee_amount,
-      volunteer_amount
+      volunteer_amount,
+      image,
     });
     newEvent.save();
   }
