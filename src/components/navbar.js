@@ -233,7 +233,6 @@ function Navbar() {
             </h1>
           </div>
         </div>
-<<<<<<< HEAD
         <div className="col-6 offset-2 offset-md-0 col-md-4" align="right">
           <div align="right" className="rightSpacing" style={{display: "inline-block"}}>
             {/* <img onClick={() => (window.location = "/login")} class="buttonSpacing" src={account_circle} /> */}
@@ -243,13 +242,6 @@ function Navbar() {
             <div className="mobile-drawer">
               <MobileDrawer />
             </div>
-=======
-        <div className="col-4" align="right">
-          <div align="right" style={{display: "inline-block"}}>
-            <img onClick={() => (window.location = "/login")} class="buttonSpacing" src={account_circle} />
-            <img class="buttonSpacing" src={cart} />
-            <button className="btn checkOutButton" onClick={openModal}>Check-Out</button>
->>>>>>> ABHAY_BRANCH_6
           </div>
         </div>
       </div> 

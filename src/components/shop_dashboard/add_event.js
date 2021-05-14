@@ -147,4 +147,4 @@ function AddEvent() {
 //     </div>
 //   );
 
-export default Add_Event;
+export default AddEvent;

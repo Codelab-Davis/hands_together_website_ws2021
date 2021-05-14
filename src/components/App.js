@@ -44,7 +44,6 @@ function App() {
           <Route exact path="/view_shop_items" component={view_shop_items} />
           <Route exact path="/add_event" component={add_event} />
           <Route exact path="/view_events" component={view_events} />
-          <Route exact path="/order_summary/:transaction_id" component={order_summary} />
           <Route exact path="/thank_you" component={thank_you} />
           <Route exact path="/cancel_donation/:id" component={cancel_donation} />
           <Route exact path="/donation" component={donation} />
