@@ -9,7 +9,8 @@ import Admin_Dashboard from "./shop_dashboard/admin_dashboard";
 import sold_items_test_routes from "./shop_dashboard/sold_items_test_routes"; 
 import Login from "./shop_dashboard/login";
 import donation from "./donation";
-import thank_you from "./thank_you/thank_you";
+import thank_you from "./transaction_pages/thank_you";
+import cancel_donation from "./transaction_pages/cancel_donation";
 import volunteer_events from "./volunteer_events";
 import Navbar from "./navbar";
 import Footer from "./footer"; 
@@ -38,6 +39,7 @@ function App() {
           <GuardedRoute path="/admin" component={() => <Admin_Dashboard loggedIn={loggedIn} setLoggedIn={setLoggedIn}/>} auth={loggedIn}/>
           <Route exact path="/add" component={add_item} />
           <Route exact path="/thank_you" component={thank_you} />
+          <Route exact path="/cancel_donation/:id" component={cancel_donation} />
           <Route exact path="/donation" component={donation} />
           <Route exact path="/volunteer_events" component={volunteer_events} />
           <Route exact path="/email" component={email} />

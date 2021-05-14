@@ -85,6 +85,10 @@ function Admin_Dashboard(props) {
     axios.delete('http://localhost:5000/jwt/deleteRefreshToken', { withCredentials: true })
      .then(() => props.setLoggedIn(false));
   }
+
+  function getID() {
+    console.log("Connected")
+  }
   
   return (
     <div>

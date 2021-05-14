@@ -21,7 +21,9 @@ limiter.schedule(() => {
     let amount = req.body.amount;
     let tax = (req.body.type == "purchase") ? (['txr_1IRmOEDACjkjrvMmvkTvvmYZ']) : [];
     let success_url = req.body.success_url;
-    let line_items = []
+    let line_items = [];
+
+    let recurring = (req.body.mode == "recurring") ? true : false;
 
     // All cart items with only ids and quanities
     let cart_items = { cart: [] }
@@ -39,7 +41,7 @@ limiter.schedule(() => {
             },
             unit_amount: cart_item.price,
           },
-          quantity: 1,
+          quantity: 1, // update once merge with Edward Branch
           tax_rates: tax,
         }
         line_items.push(newItem);
@@ -57,9 +59,12 @@ limiter.schedule(() => {
       newItem = {
         price_data: {
           currency: 'usd',
+          recurring: (!recurring) ? {} : {
+            interval: "month"
+          },
           product_data: {
             name: 'Donation',
-            // images: ['https://i.imgur.com/EHyR2nP.png'],
+            // images: [req.body.donate_image],
           },
           unit_amount: amount,
         },
@@ -70,6 +75,7 @@ limiter.schedule(() => {
     
     console.log("Creating Session")
       const session = await stripe.checkout.sessions.create({
+          mode: recurring ? 'subscription' : 'payment',
           billing_address_collection: 'required',
           shipping_address_collection: (req.body.type == "donation") ? {} : {
             allowed_countries: ['US'],
@@ -77,7 +83,6 @@ limiter.schedule(() => {
           payment_method_types: ['card'], // list of payment methods
           line_items: line_items,
           metadata: {'type': req.body.type, 'cart': JSON.stringify(cart_items)},
-          mode: 'payment',
           success_url: success_url,
           cancel_url: req.body.cancel_url,
         });
@@ -287,12 +292,15 @@ async function errorEmail(id) {
   });
 }
 
-const fulfillDonate = session => {
+async function fulfillDonate(session) {
   // node mailer implementation begins here
   let id = session.metadata['id']; 
   let customer_email = session.customer_details['email']; 
-  let customer_name = session.shipping.name;
   let total = session.amount_total/100;
+
+  let customer = await stripe.customers.retrieve(session.customer);
+  let customer_name = customer.name;
+
 
   let email_body = `
   <img src="cid:htlogo" style="display:block;margin-left:auto;margin-right:auto;"/> 
@@ -330,6 +338,58 @@ const fulfillDonate = session => {
   });
 }
 
+async function fulfillSubscription(session) {
+  // node mailer implementation begins here
+  let id = session.metadata.id; 
+  let customer_email = session.customer_details['email']; 
+  let total = session.amount_total/100;
+
+  let customer = await stripe.customers.retrieve(session.customer);
+  let customer_name = customer.name;
+
+  let cancellation_url = 'http://localhost:3000/cancel_donation/' + id;
+
+  let email_body = `
+  <img src="cid:htlogo" style="display:block;margin-left:auto;margin-right:auto;"/> 
+  <h1 style="text-align:center;margin-top:1.625rem;">Thank you!</h1>
+
+  <div>
+    <p> <strong>Hi ${customer_name}, </strong> <br/>Thank you so much for your donation.</p>
+  </div>
+  
+  <div>
+    <p> If you would like to ever cancel your recurring donation, please navigate to the following URL. </p>
+    <p> <strong> Cancellation Link: </strong> ${cancellation_url} </p>
+  </div>
+
+  <div>
+      <p> <strong>Donation Info</strong> <br/><strong>Subscription #:</strong> ${id}<br/><strong>Total:</strong> $${total.toFixed(2)}</p>
+  </div>
+  `; 
+
+  const mail_options = {
+    from: `"Hands Together Test" <test@test.io>`,
+    to: customer_email,
+    subject: "Thanks for your donation",
+    html: email_body, 
+    attachments: [
+      {
+        filename: 'ht_logo.png',
+        path: __dirname + '/../../src/images/ht_logo.png',
+        cid: 'htlogo'
+      },
+    ]
+  }
+
+  transporter.sendMail(mail_options, function(error, info) {
+    if(error) {
+      console.log(error);
+    } else {
+      console.log('Recurring Donation Email Sent: ' + info.response);
+    }
+  });
+}
+
 // To test webhook in development you must install the Stripe CLI
 // https://stripe.com/docs/stripe-cli#install
 // Then to forward output to the local route use:
@@ -351,15 +411,20 @@ router.post('/webhook', (req, res) => {
   if(event.type == 'checkout.session.completed') {
     const session = event.data.object;
     // console.log(session.metadata['type']);
-    if(session.metadata['type'] == "purchase") {
+    if(session.metadata.type == "purchase") {
       console.log(session);
       session.metadata['id'] = session.payment_intent;
       fulfillOrder(session);
     }
-    else {
+    else if(session.metadata.type == 'donation' && session.mode == 'payment') {
       console.log(session);
       session.metadata['id'] = session.payment_intent;
       fulfillDonate(session);
+    }
+    else if(session.metadata.type == 'donation' && session.mode == 'subscription') {
+      console.log(session);
+      session.metadata['id'] = session.subscription;
+      fulfillSubscription(session);
     }
   }
 
@@ -367,5 +432,50 @@ router.post('/webhook', (req, res) => {
   res.status(200);
   res.json("Received Request");
 });
+
+router.post('/cancel_donate/:id', async (req, res) => {
+  let subscription_id = req.params.id;
+  // const subscription = await stripe.subscriptions.retrieve(subscription_id);
+  const canceled = await stripe.subscriptions.del(subscription_id);
+  console.log("Canceled Subscription", canceled)
+
+  // node mailer implementation begins here
+  let customer = await stripe.customers.retrieve(canceled.customer);
+  let customer_email = customer.email; 
+  let customer_name = customer.name;
+
+  let email_body = `
+  <img src="cid:htlogo" style="display:block;margin-left:auto;margin-right:auto;"/> 
+  <h1 style="text-align:center;margin-top:1.625rem;">Thank you!</h1>
+
+  <div>
+    <p> <strong>Hi ${customer_name}, </strong> <br/>your recurring donation has been caneled.</p>
+  </div>
+  `; 
+
+  const mail_options = {
+    from: `"Hands Together Test" <test@test.io>`,
+    to: customer_email,
+    subject: "Donation Canceled",
+    html: email_body, 
+    attachments: [
+      {
+        filename: 'ht_logo.png',
+        path: __dirname + '/../../src/images/ht_logo.png',
+        cid: 'htlogo'
+      },
+    ]
+  }
+
+  transporter.sendMail(mail_options, function(error, info) {
+    if(error) {
+      console.log(error);
+    } else {
+      console.log('Donation Cancellation Email Sent: ' + info.response);
+    }
+  });
+
+  res.status(200).json("successfully cancelled");
+})
 
 module.exports = router;
