@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom";
 import ht_logo from "../images/ht_logo.png";
 import cart from "../images/cart.png";
 import account_circle from "../images/account_circle.png";
+import xicon from "../images/x-icon.png";
 import Modal from 'react-modal';
 const axios = require('axios');
 
@@ -136,7 +137,7 @@ function Navbar() {
           <div className="item-info">
             <p>{item.name}</p>
             <p>{item.quantity} @ {`$${item.price.slice(0, -2)}.${item.price.slice(-2)}`}/ea</p>
-            <a onClick={() => {removeItem("JXYSDFH65F" + i); forceUpdate();}}>Remove Item</a>
+            <a onClick={() => {removeItem("JXYSDFH65F" + i); forceUpdate();}}><img src={xicon}/></a>
           </div>
         </div>
       )

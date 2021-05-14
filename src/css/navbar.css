@@ -80,9 +80,8 @@
   justify-content: space-between;
   margin: 0;
 }
-.cart-item a {
-  font-size: 0.75rem;
-  text-decoration: underline !important;
+.cart-item img {
+  height: 2rem;
   cursor: pointer;
 }
 
