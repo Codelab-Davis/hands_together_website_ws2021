@@ -213,7 +213,6 @@ async function updateDB(cart_item, session) {
             item.data['quantity'] = cart_item.quantity;
 
             axios.post('http://localhost:5000/sold_items/add_item', item.data)
-<<<<<<< HEAD
              .then(res => console.log(res.data))
 
             // Delete all the images associated with the item
@@ -226,12 +225,6 @@ async function updateDB(cart_item, session) {
               axios.delete('http://localhost:5000/items/delete_image/', key)
                 .then(() => console.log("--Image deleted--"))
             }
-=======
-             .then(res => {
-               console.log("res.data log", res.data);
-             })
-              .catch(error => errorEmail(id))
->>>>>>> cba717923c9edfe92afe2045735b8c3d5e058d79
           })
           .catch(error => errorEmail(id))
         }

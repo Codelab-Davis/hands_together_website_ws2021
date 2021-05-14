@@ -1,11 +1,10 @@
-import react, { useState } from "react"; 
+import react, { useEffect, useState } from "react"; 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/navbar.css";
 import { useHistory } from "react-router-dom";
 import ht_logo from "../images/ht_logo.png";
 import cart from "../images/cart.png";
 import account_circle from "../images/account_circle.png";
-import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 const axios = require('axios');
 
@@ -91,6 +90,59 @@ function Navbar() {
      .then(session => stripe.redirectToCheckout({sessionId: session.data.id}))
      .catch(error => console.log(error))
   }
+  
+  function useForceUpdate(){
+    const [value, setValue] = useState(0); // integer state
+    return () => setValue(value => value + 1); // update the state to force render
+  }
+  const forceUpdate = useForceUpdate();
+
+  function removeItem(lsId) {
+    localStorage.removeItem(lsId);
+    let quota = window.localStorage.getItem("QUOTA");
+    realignLsIds();
+    quota--;
+    window.localStorage.setItem("QUOTA", quota);
+  }
+
+  function realignLsIds() {
+    let quota = window.localStorage.getItem("QUOTA");
+    let i;
+    for (i = 0; i < quota; i++) {
+      if (!window.localStorage.getItem("JXYSDFH65F" + i))
+        break;
+    }
+    for (let j = i + 1; j <= quota; j++) {
+      let item = window.localStorage.getItem("JXYSDFH65F" + j)
+      window.localStorage.setItem("JXYSDFH65F" + (j - 1), item)
+    }
+  }
+
+  function getCartItemList() {
+    let quota = window.localStorage.getItem("QUOTA");
+    if (quota == 0) {
+      return(
+        <div className="col-12 row justify-content-center">
+          <p>Cart is empty!</p>
+        </div>
+      );
+    }
+    const cartItems = [];
+    for(let i = 0; i < quota; i++) {
+      let item = JSON.parse(window.localStorage.getItem("JXYSDFH65F" + i));
+      cartItems.push(
+        <div className="col-12 cart-item">
+          <div className="cart-image" style={{backgroundImage: `url(${item.images[0]})`}}></div>
+          <div className="item-info">
+            <p>{item.name}</p>
+            <p>{item.quantity} @ {`$${item.price.slice(0, -2)}.${item.price.slice(-2)}`}/ea</p>
+            <a onClick={() => {removeItem("JXYSDFH65F" + i); forceUpdate();}}>Remove Item</a>
+          </div>
+        </div>
+      )
+    }
+    return cartItems;
+  }
 
   return (
     <div>
@@ -101,7 +153,7 @@ function Navbar() {
           contentLabel="Checkout Delivery Address Modal"
           style={customModalStyles}
         >
-          <div className="row no-gutters">
+          <div className="row no-gutters justify-content-center">
             <div className="col-4">
               <h3>Address</h3>
             </div>
@@ -162,7 +214,14 @@ function Navbar() {
                 onChange={onZIPChange}
               />
             </div>
-            <button className="btn checkOutButton" onClick={checkout}>Check-Out</button>
+            <div className="col-8 hr"></div>
+            <div className="col-12">
+              <h3>Your Cart</h3>
+            </div>
+            {getCartItemList()}
+            <div className="checkout-button-container col-12">
+              <button className="btn checkOutButton" onClick={checkout}>Check-Out</button>
+            </div>
           </div>
         </Modal>
         <div className="col-4 offset-4" align="center">
