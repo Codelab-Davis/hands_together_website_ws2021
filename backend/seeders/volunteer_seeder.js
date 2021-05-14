@@ -32,7 +32,6 @@ const data = [
 
 function volunteerSeeder() {
   Volunteer.collection.drop();
-  console.log("Volunteer dropped");
   for (i = 0; i < data.length; i++) {
     const name = data[i].name;
     const age = data[i].age;
@@ -50,7 +49,7 @@ function volunteerSeeder() {
       questions_concerns,
       event_id,
     });
-    newVolunteer.save().then(() => console.log(`Volunteer: ${name}, saved`));
+    newVolunteer.save();
   }
 }
 

@@ -1,6 +1,11 @@
+.hidden {
+  display: none !important;
+}
+
 #item-page-wrapper {
   margin: 2.5rem auto;
   max-width: 1200px;
+  width: 90%;
 }
 
 .header h1 { 
@@ -38,6 +43,11 @@
   padding-left: 1rem;
 }
 
+@media (max-width: 576px) {
+  .item-info .right {
+    margin-top: 2rem;
+  }
+}
 .item-info .right {
   padding-left: 1rem;
 }
@@ -48,6 +58,8 @@
 }
 .item-info .form {
   margin: 2rem 0;
+  display: flex;
+  align-items: center;
 }
 .add-cart-button {
   height: 3rem;
@@ -58,6 +70,9 @@
   font-weight: bold;
   border: none;
   border-radius: 10px;
+}
+#item-added-message {
+  margin-left: 1rem;
 }
 
 .more-items {

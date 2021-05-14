@@ -54,5 +54,17 @@ function generatePutUrl(Key, ContentType) {
   });
 }
 
+function deleteImage(Key) {
+  return new Promise((resolve, reject) => {
+    const params = { Bucket, Key };
+    s3.deleteObject(params, (err,data) => {
+      if (err) {
+        reject(err);
+      }
+      resolve(data);
+    })
+  });
+}
+
 // Finally, we export the methods so we can use it in our main application.
-module.exports = { generateGetUrl, generatePutUrl };
+module.exports = { generateGetUrl, generatePutUrl, deleteImage };

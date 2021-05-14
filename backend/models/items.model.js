@@ -9,6 +9,7 @@ const itemsSchema = new Schema(
     price: { type: String, required: true },
     images: { type: [String], required: true },
     description: { type: String, required: true },
+    quantity: { type: Number, required: true },
   },
   {
     timestamps: true,

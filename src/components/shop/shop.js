@@ -14,7 +14,7 @@ function Shop(props) {
   // intialize an integer that holds the value of the next index after slicing. 
   const [nextIndex, setNextIndex] = useState(0);
   const [curPage, setCurPage] = useState(1);
-  const [sortOption, setSortOption] = useState("newest");
+  const [sortOption, setSortOption] = useState("default");
 
   // triggered on the "next" button click 
   function next() {
@@ -55,12 +55,11 @@ function Shop(props) {
 
   useEffect(()=>{
     axios.get('http://localhost:5000/items/get_all_items')
-    .then( res => {
-      console.log(res);
+    .then(res => {
       // assign json data to itemArray 
       update({data: res.data});
     })
-    .catch ( err => {console.log(err)})
+    .catch (err => {console.log(err)})
   }, []) 
 
   useEffect(()=>{
@@ -103,9 +102,9 @@ function Shop(props) {
     return 0;
   }
   function sortNewest(a, b) {
-    if (a.date_added < b.date_added)
+    if (a.date_added > b.date_added)
       return -1;
-    else if (a.date_added > b.date_added)
+    else if (a.date_added < b.date_added)
       return 1;
     return 0;
   }
@@ -113,35 +112,49 @@ function Shop(props) {
   // 
   // CARTING SYSTEM STARTS BELOW 
   //
-  function addItem(item) {
-    let stringifiedItem = JSON.stringify(item); // convert the JSON object "item" into a string using the JSON.stringify function call 
-    let item_id = "JXYSDFH65F" + props.storageQuota; // generate a unique item ID for the local storage key 
-    window.localStorage.setItem(item_id, stringifiedItem);
-
-    let carted_items = props.cartedItems;
-    carted_items.push(item_id);
-    props.setCartedItems(carted_items);
-
-    // increment the storage quota for each item added to the storage 
-    if (props.storageQuota < 10) {
-      let storage_quota = props.storageQuota;
-      storage_quota++;
-      props.setStorageQuota(storage_quota);
+  function quickAddItem(newItem_) {
+    // Initialize storageQuota if no items have been added yet
+    let storageQuota = window.localStorage.getItem("QUOTA");
+    if (!storageQuota) {
+      window.localStorage.setItem("QUOTA", 0);
+      storageQuota = 0;
     }
-    else
-      console.log("Max items reached in the storage.");
-  }
-  
-  function checkContents() {
-    var i;
-    for (i = 0; i < 10; i++) {
-      let item_id = "JXYSDFH65F" + i; 
-      let stringifiedItem = window.localStorage.getItem("JXYSDFH65F" + i); // pull the item back from the local storage
-      if (!stringifiedItem) {
-        console.log(false); // item wasn't found
-      } else {
-        console.log(JSON.parse(stringifiedItem)); // convert the item back to a JSON object, and then log it 
+
+    let quantityAvailable = newItem_.quantity; // Max number of items someone can buy
+    let newItem = JSON.parse(JSON.stringify(newItem_));
+    newItem.quantity = 1; // Quantity that is being added to cart
+
+    // Increment the storage quota for each item added to the storage 
+    // Currently allows for 10 unique items, but more than 10 items if they are duplicates 
+    if (storageQuota < 10) {
+      // Check if the item is already in localStorage
+      // Increment quantity if so
+      let itemIsInStorage = false;
+      for (let i = 0; i < storageQuota; i++) {
+        let storageItem = JSON.parse(window.localStorage.getItem("JXYSDFH65F" + i));
+        if (newItem._id == storageItem._id) {
+          if (storageItem.quantity < quantityAvailable) {
+            storageItem.quantity++;
+            window.localStorage.setItem("JXYSDFH65F" + i, JSON.stringify(storageItem));
+          } else {
+            console.log("Max quantity of that item reached");
+          }
+          itemIsInStorage = true;
+          break;
+        }
       }
+      // Add a new item if it isn't already in localStorage
+      if (!itemIsInStorage) {
+        let lsItemId = "JXYSDFH65F" + storageQuota; // generate a unique item ID for the local storage key 
+        window.localStorage.setItem(lsItemId, JSON.stringify(newItem));
+  
+        let new_quota = storageQuota;
+        new_quota++;
+        window.localStorage.setItem("QUOTA", new_quota);
+      }
+    } else {
+      alert("The cart is limited to 10 unique items.")
+      console.log("Max items in cart reached!");
     }
   }
 
@@ -171,6 +184,7 @@ function Shop(props) {
             + " of " + itemArray.data.length + " results"
           }</p>
           <select name="sort" id="sort" value={sortOption} onChange={handleSortChange}>
+            <option disabled value="default"> -- Sort -- </option>
             <option value="newest">Newest</option>
             <option value="lowtohigh">Price: Low to High</option>
             <option value="hightolow">Price: High to Low</option>
@@ -180,12 +194,12 @@ function Shop(props) {
         <div className="row">
           { items ?
             items.map((itemIter, index) =>
-              <div className="col-md-4" key={index}>
+              <div className="col-sm-6 col-md-4" key={index}>
                 <div className="item-container">
                   <a className="wrapper-link" href={`/shop/${itemIter._id}`} onClick={() => clicked(itemIter)}></a>
                   <div className="item-image" style={{backgroundImage: `url(${itemIter.images[0]})`}}></div>
                   <div className="add-to-cart">
-                    <a className="bold" onClick={() => addItem(itemIter)}>Add to Cart</a>
+                    <a className="bold" onClick={() => quickAddItem(itemIter)}>Add to Cart</a>
                   </div>
                   <div className="item-info">
                     <div className="name-price">
@@ -208,7 +222,13 @@ function Shop(props) {
             let pageList = [];
             for (let i = 0; i < Math.ceil(parseFloat(itemArray.data.length) / 12); i++) {
               pageList.push(
-                <button className="page-num-button" key={i} id={i + 1} onClick={handlePageClick}>{i + 1}</button>
+                <button 
+                  className={"page-num-button " + ((curPage == i + 1) ? "selected-page-button bold" : "")} 
+                  key={i} id={i + 1} 
+                  onClick={handlePageClick}
+                >
+                  {i + 1}
+                </button>
               )
             }
             return pageList;

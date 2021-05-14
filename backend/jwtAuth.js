@@ -1,10 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 module.exports = function authenticateToken(req, res, next) {
-    const authHeader = req.headers['authorization']
-    // 3). here instead of receiving the token in headers, you check for it in cookies
-    // const token = req.cookies.token || '';
-    const token = authHeader && authHeader.split(' ')[1]
+    const token = req.cookies['accessToken'] || "";
     if(token == null) return res.sendStatus(401)
 
     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {

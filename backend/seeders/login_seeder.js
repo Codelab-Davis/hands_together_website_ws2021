@@ -17,7 +17,6 @@ const data = [
 
 function loginSeeder() {
   Login.collection.drop();
-  console.log("Login dropped");
   for (i = 0; i < data.length; i++) {
     const user = data[i].user;
     const pass = data[i].pass;
@@ -25,7 +24,7 @@ function loginSeeder() {
       user,
       pass
     });
-    newLogin.save().then(() => console.log(`Login: ${user}, saved`));
+    newLogin.save();
   }
 }
 

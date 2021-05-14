@@ -1,5 +1,5 @@
 .title-text {
-  margin-top: 5.3rem; /* Calculated by 85/16 to convert px to rem, as 1rem ~ 16px */
+  margin-top: 2.5rem; /* Calculated by 85/16 to convert px to rem, as 1rem ~ 16px */
   padding-left: 3.25rem;
 }
 
@@ -61,8 +61,8 @@
 }
 
 .photo-description-margin {
-  margin-top: 3rem;
-  margin-bottom: 3.5rem;
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
 }
 
 .listing-input {

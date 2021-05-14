@@ -21,7 +21,7 @@ function SoldItemsTestRoutes() {
     } 
 
     function addItem() { 
-        axios.post('http://localhost:5000/sold_items/add_item', test_item)
+        axios.post('http://localhost:5000/sold_items/add_item', test_item, { withCredentials: true })
           .then(res => {
             console.log(res);
         })
@@ -31,21 +31,21 @@ function SoldItemsTestRoutes() {
         let new_test_item = test_item 
         new_test_item.id = '607bc1788e294828789c4923'; 
         new_test_item.name = "Abhay's new test item" 
-        axios.put('http://localhost:5000/sold_items/update_item', new_test_item)
+        axios.put('http://localhost:5000/sold_items/update_item', new_test_item, { withCredentials: true })
         .then(res => {
           console.log(res);
       })
     } 
 
     function getSale() { 
-        axios.get('http://localhost:5000/sold_items/get_sale/607bc1788e294828789c4923',)
+        axios.get('http://localhost:5000/sold_items/get_sale/607bc1788e294828789c4923', { withCredentials: true })
         .then( res => {
           console.log(res)
         }) 
     }
 
     function getSoldItems() { 
-        axios.get('http://localhost:5000/sold_items/get_sold_items') 
+        axios.get('http://localhost:5000/sold_items/get_sold_items', { withCredentials: true }) 
             .then(res => { 
                 console.log(res); 
             }) 

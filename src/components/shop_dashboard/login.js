@@ -1,7 +1,6 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
-import { Redirect } from "react-router-dom";
 
 function Login(props) {
   const [userName, setUsername] = useState('');
@@ -15,10 +14,6 @@ function Login(props) {
     setPassword(e.target.value);
   };
 
-  useEffect(() => {
-    console.log(props.loggedIn);
-  })
-
   const onSubmit = e => {
     e.preventDefault();
 
@@ -31,14 +26,8 @@ function Login(props) {
       .then(res => {
         console.log(res.data);
         if (res.data) {
-          axios.post('http://localhost:5000/jwt/generateAccessToken', { user: userName })
-           .then(res => {
-             console.log(res);
-             localStorage.setItem('accessToken', JSON.stringify(res.data['accessToken']))
-             localStorage.setItem('refreshToken', JSON.stringify(res.data['refreshToken']))
-             // 2). instead of receiving the token here and storing it, we don't receive anything here (since already in cookie) and go on
-             props.setLoggedIn(true);
-           })
+          axios.post('http://localhost:5000/jwt/generateAccessToken', { user: userName }, { withCredentials: true })
+           .then(() => props.setLoggedIn(true))
         }
       });
   }
