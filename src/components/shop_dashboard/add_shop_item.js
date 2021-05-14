@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
-import "../../css/add_item_frontend.css"; 
+import "../../css/add_shop_item.css"; 
 
 function AddItemFrontend() { 
 
