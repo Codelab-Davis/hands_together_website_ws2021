@@ -8,7 +8,10 @@ require('dotenv').config();
 const app = express();
 const port = process.env.PORT || 5000;
 
-app.use(cors());
+app.use(cors({
+  origin: "http://localhost:3000",
+  credentials: true
+}));
 app.use(cookieparser());
 app.use(express.json({
     verify: (req, res, buf) => {
@@ -58,7 +61,7 @@ const eventAttendeeSeeder = require("./seeders/event_attendee_seeder");
 eventAttendeeSeeder();
 // eventSeeder();
 // itemSeeder(); This should stay commented out so the items with images aren't overwritten
-soldItemSeeder();
+// soldItemSeeder();
 loginSeeder();
 volunteerSeeder();
 

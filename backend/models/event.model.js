@@ -10,6 +10,7 @@ const eventSchema = new Schema(
     description: { type: String, required: true },
     attendee_amount: { type: Number, required: true },
     volunteer_amount: { type: Number, required: true },
+    image: { type: String, required: true },
   },
   {
     timestamps: true,

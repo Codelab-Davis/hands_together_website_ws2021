@@ -11,21 +11,21 @@ import view_events from "./shop_dashboard/view_events";
 import admin_dashboard from "./shop_dashboard/admin_dashboard";
 import sold_items_test_routes from "./shop_dashboard/sold_items_test_routes"; 
 import Login from "./shop_dashboard/login";
-import Logout from "./shop_dashboard/logout";
 import donation from "./donation";
-import order_summary from "./order_summary/order_summary";
+import thank_you from "./transaction_pages/thank_you";
+import cancel_donation from "./transaction_pages/cancel_donation";
 import volunteer_events from "./volunteer_events";
 import Navbar from "./navbar";
 import Footer from "./footer"; 
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
-import React, { useState } from 'react'; 
+import React, { useState, useEffect } from 'react'; 
 import GuardedRoute from './GuardedRoute';
 import {Switch} from 'react-router';
 
+import email from "./email";
+
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
-  const [storageQuota, setStorageQuota] = useState(0);
-  const [cartedItems, setCartedItems] = useState([]);
 
   return (
     <div id="content-container">
@@ -34,26 +34,10 @@ function App() {
         <Switch>
           <Route exact path="/" component={home} />
           <Route exact path="/about" component={about} />
-          <Route exact path="/shop" render={(props) => (<Shop {...props} 
-            storageQuota={storageQuota} 
-            setStorageQuota={setStorageQuota}
-            cartedItems={cartedItems} 
-            setCartedItems={setCartedItems} 
-          />)} />
-          <Route exact path="/item/:id" render={(props) => (<ItemPage {...props} 
-            storageQuota={storageQuota} 
-            setStorageQuota={setStorageQuota}
-            cartedItems={cartedItems} 
-            setCartedItems={setCartedItems} 
-          />)} /> 
-          <Route exact path="/shop/:id" render={(props) => (<ItemPage {...props} 
-            storageQuota={storageQuota} 
-            setStorageQuota={setStorageQuota}
-            cartedItems={cartedItems} 
-            setCartedItems={setCartedItems} 
-          />)} />
+          <Route exact path="/shop" render={(props) => (<Shop {...props} />)} />
+          <Route exact path="/item/:id" render={(props) => (<ItemPage {...props} />)} /> 
+          <Route exact path="/shop/:id" render={(props) => (<ItemPage {...props} />)} />
           <Route exact path="/login" render={(props) => !loggedIn ? (<Login {...props} loggedIn={loggedIn} setLoggedIn={setLoggedIn} />) : <Redirect to="/admin" />} />
-          <Route exact path="/logout" render={(props) => (<Logout {...props} loggedIn={loggedIn} setLoggedIn={setLoggedIn} />)}/>
           <Route exact path="/sold_items_test_routes" component={sold_items_test_routes} /> 
           <GuardedRoute path="/admin" component={admin_dashboard} auth={loggedIn} />
           <Route exact path="/add_shop_item" component={add_shop_item} />
@@ -61,11 +45,14 @@ function App() {
           <Route exact path="/add_event" component={add_event} />
           <Route exact path="/view_events" component={view_events} />
           <Route exact path="/order_summary/:transaction_id" component={order_summary} />
+          <Route exact path="/thank_you" component={thank_you} />
+          <Route exact path="/cancel_donation/:id" component={cancel_donation} />
           <Route exact path="/donation" component={donation} />
           <Route exact path="/volunteer_events" component={volunteer_events} />
+          <Route exact path="/email" component={email} />
         </Switch>
       </Router>
-      <Footer />
+      <Footer/>
     </div>
   );
 }

@@ -4,7 +4,7 @@ const Refresh_Token = require('../models/refresh_tokens.model')
 require('dotenv').config();
 
 function generateAccessToken(user) {
-    return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '30s' }) //update time after testing done
+    return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '10m' }) 
 }
 
 router.post('/generateAccessToken', (req, res) => {
@@ -17,19 +17,19 @@ router.post('/generateAccessToken', (req, res) => {
     })
     newToken.save()
      .then(() => {
-        res.json({ accessToken: accessToken, refreshToken: token }) 
-        // 1). instead of return token here, return a cookie with token
-        // return res.cookie('token', token, {
-        //     expires: new Date(Date.now() + expiration),
-        //     secure: false, // set to true if your using https
-        //     httpOnly: true,
-        //   });
+        res.cookie('accessToken', accessToken, {
+            httpOnly: true,
+        });
+        res.cookie('refreshToken', token, {
+            httpOnly: true,
+        });
+        res.status(200).send("Cookies Set");
      })
 })
 
 router.post('/token', (req, res) => {
     console.log("Creating new token")
-    const refreshToken = req.body.token;
+    const refreshToken = req.cookies['refreshToken'] || ""
     if(refreshToken == null) return res.sendStatus(401)
 
     const token = { token: refreshToken }
@@ -39,8 +39,11 @@ router.post('/token', (req, res) => {
         else {
             jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
                 if(err) return res.sendStatus(403)
-                const accessToken = generateAccessToken({ name: user.name })
-                res.status(200).json({ accessToken: accessToken })
+                accessToken = generateAccessToken({ name: user.name })
+                res.cookie('accessToken', accessToken, {
+                    httpOnly: true,
+                });
+                res.status(200).send("New Access Token Set");
             })
         }
     })
@@ -48,9 +51,12 @@ router.post('/token', (req, res) => {
 
 // call this route when logging out to delete refresh token
 router.delete('/deleteRefreshToken', (req, res) => {
-    const token = { token: req.body.token }
+    const refreshToken = req.cookies['refreshToken']
+    const token = { token: refreshToken }
     Refresh_Token.findOneAndDelete(token)
      .then(() => {
+         console.log("Deleting Token")
+         res.cookie('accessToken', "")
          return res.sendStatus(204)
      })
 })

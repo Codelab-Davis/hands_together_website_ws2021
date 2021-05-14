@@ -28,7 +28,7 @@ limiter.schedule(() => {
 
 
 limiter.schedule(() => {
-  router.get('/get_sale/:id', tokenAuth, (req,res) => {
+  router.get('/get_sale/:id', (req,res) => {
     const transaction_id = req.params.id;  // JSON in format { transaction_id: "" }
     console.log(transaction_id); 
     Sold_Item.findById(req.params.id)
@@ -39,16 +39,19 @@ limiter.schedule(() => {
 
 
 limiter.schedule(() => {
-  router.post('/add_item', tokenAuth, (req,res) => {
+  router.post('/add_item', (req,res) => {
     const name = req.body.name;
     const date_added = req.body.date_added;
     const price = req.body.price;
     const images = req.body.images;
-    const date_sold = "2021/02/16";
+    const date_sold = new Date();
     const transaction_id = req.body.transaction_id;
     const tracking_link = "test_link";
     const cancelled = false;
-    const shipping_address = new Map(); 
+    const shipping_address = req.body.shipping_address; 
+    const quantity = req.body.quantity;
+
+    console.log(req.body)
 
     let newSoldItem = new Sold_Item({
         name,
@@ -60,6 +63,7 @@ limiter.schedule(() => {
         tracking_link,
         cancelled,
         shipping_address,
+        quantity,
     });
 
     newSoldItem.save()

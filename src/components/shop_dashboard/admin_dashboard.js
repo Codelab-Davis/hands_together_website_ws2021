@@ -1,10 +1,11 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import Modal from 'react-bootstrap/Modal';
 import React, { useEffect, useState } from 'react';
+import { propTypes } from "react-bootstrap/esm/Image";
 const axios = require('axios');
 //https://react-bootstrap.github.io/components/modal/#modal-dialog-props
 //https://rangle.io/blog/simplifying-controlled-inputs-with-hooks/
-function Admin_Dashboard() {
+function Admin_Dashboard(props) {
   const [show, setShow] = useState(false);
   const [trackingLink, updateTrackingLink] = useState('');
   const [input, setInput] = useState('');
@@ -51,7 +52,7 @@ function Admin_Dashboard() {
   }
 
   useEffect(() => {
-    axios.get('http://localhost:5000/sold_items/get_sold_items')
+    axios.get('http://localhost:5000/sold_items/get_sold_items', { withCredentials: true })
     .then(res => {
       console.log(res)
       // assign json data to itemArray 
@@ -78,10 +79,21 @@ function Admin_Dashboard() {
       axios.post('http://localhost:5000/stripe/cancel_order')
        .then(res => console.log(res));
   }
+
+  function logout() {
+    console.log(props.loggedIn);
+    axios.delete('http://localhost:5000/jwt/deleteRefreshToken', { withCredentials: true })
+     .then(() => props.setLoggedIn(false));
+  }
+
+  function getID() {
+    console.log("Connected")
+  }
   
   return (
     <div>
       <p>HELLOOO </p>
+      <button onClick={logout}>Logout</button>
 
       <button type="button" onClick={check}>Check Contents</button>
       {soldItems.map((itemIter, index) =>
