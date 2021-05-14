@@ -1,0 +1,24 @@
+.page-container { 
+    margin: 2.5rem;
+}
+
+.top-page-container { 
+    background-image: url(../images/our_team_top_hand.png); 
+    background-repeat: no-repeat; 
+    background-size: 40%; 
+} 
+
+.bottom-page-container { 
+    background-image: url(../images/our_team_bottom_hand.png); 
+    background-repeat: no-repeat; 
+    background-size: 35%; 
+    background-position: right bottom; 
+} 
+
+.page-container h3 { 
+    font-weight: 400 !important;
+} 
+
+.person { 
+    margin-top: 1.5rem;
+}
