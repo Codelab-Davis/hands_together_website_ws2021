@@ -26,7 +26,7 @@ function OurTeam() {
                 </div>
             </div>
             <div className="row no-gutters bottom-page-container">
-                <div className="col-6" align="center">
+                <div className="col-12 col-md-6" align="center">
                     <div className="person">
                         <h3><strong>Glenn Howard</strong>, Ph.D., President</h3>
                         <h3>Nonprofit Attorney, CPA (inactive)<br/>
@@ -35,7 +35,7 @@ function OurTeam() {
                         </h3>
                     </div>
                 </div>
-                <div className="col-6" align="center">
+                <div className="col-12 col-md-6" align="center">
                     <div className="person">
                         <h3><strong>Juanita Doby</strong>, Vice President</h3>
                         <h3>Independent Consulting<br/>
@@ -44,7 +44,7 @@ function OurTeam() {
                         </h3>
                     </div>
                 </div>
-                <div className="col-6" align="center">
+                <div className="col-12 col-md-6" align="center">
                     <div className="person">
                         <h3><strong>Courtney Williams</strong>, Treasurer</h3>
                         <h3>FVP, CRA Officer<br/>
@@ -53,7 +53,7 @@ function OurTeam() {
                         </h3>
                     </div>
                 </div>
-                <div className="col-6" align="center">
+                <div className="col-12 col-md-6" align="center">
                     <div className="person">
                         <h3><strong>Ellen Mogasemi</strong>, Secretary</h3>
                         <h3>Director of Administration and Operations<br/>
@@ -62,7 +62,7 @@ function OurTeam() {
                         </h3>
                     </div>
                 </div>
-                <div className="col-6" align="center">
+                <div className="col-12 col-md-6" align="center">
                     <div className="person">
                         <h3><strong>Glenn Howard</strong>, Ph.D., President</h3>
                         <h3>Nonprofit Attorney, CPA (inactive)<br/>
@@ -71,7 +71,7 @@ function OurTeam() {
                         </h3>
                     </div>
                 </div>
-                <div className="col-6" align="center">
+                <div className="col-12 col-md-6" align="center">
                     <div className="person">
                         <h3><strong>Melissa Figge</strong>, MS, PPS, IEC</h3>
                         <h3>Independent Educational Consultant<br/>
@@ -79,7 +79,7 @@ function OurTeam() {
                         </h3>
                     </div>
                 </div>
-                <div className="col-6" align="center">
+                <div className="col-12 col-md-6" align="center">
                     <div className="person">
                         <h3><strong>Sister Paulette Deters</strong>, CSJ</h3>
                         <h3>Retired, Catholic Elementary School Educator, 40+ years<br/>
@@ -88,7 +88,7 @@ function OurTeam() {
                         </h3>
                     </div>
                 </div>
-                <div className="col-6" align="center">
+                <div className="col-12 col-md-6" align="center">
                     <div className="person">
                         <h3><strong>Phil Bacerra</strong></h3>
                         <h3>Santa Ana City Councilmember<br/>

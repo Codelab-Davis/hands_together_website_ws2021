@@ -21,7 +21,7 @@ function About() {
                     <div class="row no-gutters">
                         {/* Adding md makes it so that the cols stack up on top of each other when scren size < 768 */}
                         <div class="col-md-6">
-                            <h1 className="sub abttxt">About Us</h1>
+                            <h1 className="abttxt">About Us</h1>
                             <p className="abttxt"> 
                             Hands Together has been recognized at a state and national level for preparing young children for kindergarten. <br /><br />
                             We offer advanced early education to over 165 at risk children each day. <br /><br />

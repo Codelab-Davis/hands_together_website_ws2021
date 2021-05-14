@@ -1,169 +1,291 @@
-.lbutton {
-    background-color: var(--gray); 
-    height: 106px; 
-    width: 284px; 
+.smbutton {
+  height: 3.625rem; 
+  width: 9.6875rem;
+  text-align: center;
+  background-color: darkorange;
+}
+
+@media (max-width: 768px) {
+  .smbutton {
+      height: 2rem; 
+      width: 6rem;
+      margin-left: 7rem;
+      margin-bottom: 1rem;
+  }
+}
+
+.button-text{ 
+  font-size: 18px;
+  line-height: 21.09px;
+  font-weight: bold;
+}
+
+@media (max-width: 768px) {
+  .button-text {
+      font-size: 12px;
+      line-height: 21.09px;
+  }
 }
 
 .wbutton {
-    height: 45px; 
-    width: 144px; 
-    padding-top: 5px;
-    text-align: center;
-    background-color: rgb(202, 33, 33);
+  height: 3.50rem; 
+  width: 9rem; 
+  margin-left: 3rem;
+  text-align: center;
+  background-color: var(--darkred); 
+}
+
+@media (max-width: 768px) {
+  .wbutton {
+      margin-left: 3rem;
+      height: 3.50rem; 
+      width: 9rem; 
+  }
+}
+
+.button-container { 
+  margin-top: -2rem;
 }
 
 .ybutton {
-    height: 70px; 
-    width: 200px; 
-    padding-top: 5px;
-    text-align: center;
-    background-color: darkorange;
+  height: 3.5rem; 
+  width: 9rem; 
+  padding-top: 0.3125rem;
+  margin-top: 12rem;
+  background-color: darkorange;
 }
 
+@media (max-width: 768px) {
+  .ybutton {
+      margin-top: 8rem;
+      height: 3rem; 
+      width: 9rem; 
+  }
+}
 .nbutton {
-    height: 20%; 
-    width: 25%; 
-    padding-top: 5px;
-    text-align: center;
-    background-color: darkorange;
+  height: 5.6875rem; 
+  width: 15.125rem; 
+  padding-top: 0.3125rem;
+  text-align: center;
+  background-color: darkorange;
 }
 
-
-.title {
-    width: 244px; 
-    height: 77px;
-    text-align: center; 
-    display:table-cell;
-    vertical-align: middle;
-    font-family: Roboto;
+.banner-text {
+  margin-bottom: 1.25rem;
+  text-decoration: underline;     
+  text-align: center;
 }
 
-.general_space { 
-    padding-top: 25px; 
+.optext {
+  font-size: 56px;
+  line-height: 65.63px;
+  font-weight: bold;
+  padding-top: 1rem;
 }
 
-.down {
-    padding-top: 150px;
+@media (max-width: 768px) {
+  .optext {
+      font-size: 40px;        /* fix the align for the text */
+      line-height: 60px;
+  }
 }
 
-.insert_space {
-    margin-top: 60px; 
+.pre-sub {
+  font-size: 34px;
+  line-height: 39.84px;
+  font-weight: bold;
+  padding-top: 2rem;
+  text-align: left;
+  padding-left: 7rem;
 }
 
-.space {
-    padding-top: 100px;
+@media (max-width: 768px) {
+  .pre-sub {
+      font-size: 30px;
+      line-height: 35px;
+      padding-top: 2rem;
+      text-align: left;
+      padding-left: 1rem;
+  }
 }
 
-.shift {
-    padding-left: 80px;
+.pre-text {
+  font-size: 18px;
+  line-height: 21.09px;
+  font-weight: 400;
+  padding-top: 2rem;
+  padding-left: 7rem;
 }
 
-.h_space { 
-    padding-top: 50px;
-}
-
-.text {
-    margin-bottom: 20px;
-}
-
-.container-content {
-    background-color: var(--gray); 
-    width: 1440px; 
-    height: 508px;
-    align-items: center;
-    vertical-align: middle;
-    padding-top: 300px;
-}
-
-.container-blue {
-    background-color: rgb(0, 195, 255); 
-    width: 1440px; 
-    height: 870px;
-    align-items: center;
-    vertical-align: middle;
-}
-
-.container-light {
-    background-color: rgb(0, 195, 255); 
-    width: 1440px; 
-    height: 691px;
-    align-items: center;
-    vertical-align: middle;
+@media (max-width: 768px) {
+  .pre-text {
+      padding-right: 4rem;      /* fix the align for the text */
+      text-align: left;
+  }
 }
 
 .word {
-    text-align: left;
-    display: flex;
-    padding-bottom: 10px;
-    font-style: normal;
+  font-size: 56px; 
+  line-height: 65.63px;
+  font-weight: bold;
+  margin-top: 3.75rem; 
 }
 
-.sub-title {
-    padding-top: 80px;
-    line-height: 65px;
-    display: flex;
-    width: 400px;
-    height: 143px;
-    left: 92px;
-    top: 744px;
+@media (max-width: 768px) {
+  .word {
+      margin-top: 6rem;
+      font-size: 40px;
+      line-height: 60px;
+  }
 }
 
-.ss-title {
-    display: flex;
-    width: 249px;
-    height: 73px;
-    align-items: center;
-    font-weight: bold;
-    font-size: 34px;
+.phrase {
+  font-size: 1.25rem;
+  line-height: 28.13px;
+  width: 665px;
+  height: 168px;
+  font-weight: 400;
+  padding-top: 10rem;
 }
 
-.container-small {
-    background-color: var(--gray); 
-    height: 312px;
-    width: 312px;
+@media (max-width: 768px) {
+  .phrase {
+      width: 100%;
+      height: 50%;
+      padding-right: 2rem;
+      font-size: 18px;
+      line-height: 25px;
+      text-align: inherit;
+      padding-top: 0rem;
+}
 }
 
-.sub {
-    padding-top: 50px;
-    line-height: 65px;
-    display: flex;
-    width: 434px;
-    height: 143px;
-    left: 92px;
-    top: 1633px;
+.container-content {
+  background-color: var(--gray); 
+  width: 90rem; 
+  height: 31.75rem;
+  align-items: center;
+  vertical-align: middle;
+  padding-top: 18.75rem;
 }
 
-.circle {
-    width: 160px;
-    height: 163px;
-    background-color: var(--gray);
-    border-radius: 50%;
-    display: inline-block;
+.container-blue {
+  background-color: rgb(0, 195, 255); 
+  width: 90rem; 
+  height: 54.375rem;
+  margin-top: 2rem;
+  align-items: center;
+  vertical-align: middle;
+}
+
+@media (max-width: 768px) {
+  .container-blue {
+      margin-top: 0rem;
+      width: 100%;
+      height: 50%;
+  }   
+}
+
+.container-light {
+  width: 90rem; 
+  height: 43.1875rem;
+  align-items: center;
+  vertical-align: middle;
 }
 
 .box {
-    width: 577px;
-    height: 292px;
-    background-color: var(--gray);
+  width: 614px; 
+  height: 460px; 
+  background-image: url(../images/about.png);
+  background-size: cover;
 }
 
-.rec {
-    background-color: var(--gray); 
-    width: 1440px; 
-    height: 508px;
-    align-items: center;
-    vertical-align: middle;
-    padding-top: 40px;
+@media (max-width: 768px) {
+  .box {
+      width: 100%;
+      height: 20rem;
+  }   
+}
+
+.opbox {
+  width: 31.8125rem;
+  height: 21.1875rem;
+  background-image: url(../images/school.png);
+  background-size: cover;
+}
+
+@media (max-width: 768px) {
+  .opbox {
+      width: 22rem;
+      height: 14rem;
+  }   
+}
+
+.opkid {
+  width: 31.8125rem;
+  height: 21.1875rem;
+  background-image: url(../images/kid.png);
+  background-size: cover;
+}
+
+@media (max-width: 768px) {
+  .opkid {
+      width: 22rem;
+      height: 14rem;
+  }   
+}
+
+.osbox {
+  width: 34.375rem; 
+  height: 23.04125rem;
 }
 
 .my-div { 
-    background-image: url(../images/main.png);  
-    background-size: cover;            
-    width: 100%;   
-    padding-top: 45%;         
-    -webkit-mask-image: -webkit-gradient(linear, left center, left bottom, from(rgba(0,0,0,1)), to(rgba(0,0,0,0)));     
+  background-image: url(../images/main.png);  
+  background-size: cover;            
+  width: 100%;   
+  padding-top: 45%;  
+  -webkit-mask-image: -webkit-gradient(linear, left center, left bottom, from(rgba(0,0,0,1)), to(rgba(0,0,0,0)));     
+} 
+
+.text-opacity {
+  margin-top: -13rem;
+  margin-bottom: 2rem;
+  line-height: 39.84px;
+  font-weight: bold;
+  padding-left: 50px;
+  padding-bottom: 10px;
 }
 
-.space-text {
-    margin-top: 50px;
+@media (max-width: 768px) {
+  .text-opacity {
+      padding-top: 13rem;     /* fix the align for the text */
+      padding-right: 3rem;
+      font-size: 25px;
+      text-align: initial;
+  }
+}
+
+.vocab {
+  font-size: 28px;
+  line-height: 39.84px;
+  font-weight: 700;
+}
+
+.vocab-au {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+@media (max-width: 768px) {
+  .vocab-au{
+  font-size: 22px;
+  line-height: 39.84px;
+  }
+}
+
+.team {
+  margin-top: -23rem;
+  margin-bottom: 10rem;
+  text-decoration: underline;     
 }

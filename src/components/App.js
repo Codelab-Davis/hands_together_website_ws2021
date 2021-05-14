@@ -41,7 +41,7 @@ function App() {
           <Route exact path="/shop/:id" render={(props) => (<ItemPage {...props} />)} />
           <Route exact path="/login" render={(props) => !loggedIn ? (<Login {...props} loggedIn={loggedIn} setLoggedIn={setLoggedIn} />) : <Redirect to="/admin" />} />
           <Route exact path="/sold_items_test_routes" component={sold_items_test_routes} /> 
-          <GuardedRoute path="/adamin" component={admin_dashboard} auth={loggedIn} />
+          <GuardedRoute path="/admin" component={admin_dashboard} auth={loggedIn} />
           <Route exact path="/add_shop_item" component={add_shop_item} />
           <Route exact path="/view_shop_items" component={view_shop_items} />
           <Route exact path="/add_event" component={add_event} />

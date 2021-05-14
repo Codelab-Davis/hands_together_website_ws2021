@@ -5,7 +5,7 @@
 .aboutImgFormat
 {
     /* able to resize images when resize window */
-    max-width:100%;
+    max-width:75%;
     /* TODO: center after resize */
 
     filter: drop-shadow(0px 4px 4px rgba(7, 30, 53, 0.25)); 
@@ -28,7 +28,6 @@
 .abttxt
 {
     margin-left:3rem;
-    margin-right:3rem;
 }
 
 .imgFormat 
