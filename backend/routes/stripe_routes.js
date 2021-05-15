@@ -458,7 +458,7 @@ router.post('/cancel_donate/:id', async (req, res) => {
   <h1 style="text-align:center;margin-top:1.625rem;">Thank you!</h1>
 
   <div>
-    <p> <strong>Hi ${customer_name}, </strong> <br/>your recurring donation has been caneled.</p>
+    <p> <strong>Hi ${customer_name}, </strong> <br/>your recurring donation has been canceled.</p>
   </div>
   `; 
 
