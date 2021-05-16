@@ -21,20 +21,20 @@ function Admin_Dashboard(props) {
         <h1 className="title-text">Welcome to your admin dashboard!</h1>
       </div> 
         <a className="col-5 admin-box" href="/add_shop_item">
-          <h2>Add Shop Items</h2> 
-          <p>Click here to add a new item to your shop!</p>  
+          <h2 className="text-padding">Add Shop Items</h2> 
+          <p className="text-padding">Click here to add a new item to your shop!</p>  
         </a> 
         <a className="col-5 admin-box" href="/add_event">
-          <h2>Add an event</h2> 
-          <p>Click here to create a new event!</p>  
+          <h2 className="text-padding">Add an event</h2> 
+          <p className="text-padding">Click here to create a new event!</p>  
         </a> 
         <a className="col-5 admin-box" href="/view_shop_items">
-          <h2>View Listed and Sold Shop Items</h2> 
-          <p>Click here to view your active shop listings and all sold shop items.</p>  
+          <h2 className="text-padding">View Listed and Sold Shop Items</h2> 
+          <p className="text-padding">Click here to view your active shop listings and all sold shop items.</p>  
         </a> 
         <a className="col-5 admin-box" href="/view_events">
-          <h2>View Listed Events and Volunteers</h2> 
-          <p>Click here to view your listed events and the volunteers signed up for each one.</p>  
+          <h2 className="text-padding">View Listed Events and Volunteers</h2> 
+          <p className="text-padding">Click here to view your listed events and the volunteers signed up for each one.</p>  
         </a> 
       </div>
     </div>
