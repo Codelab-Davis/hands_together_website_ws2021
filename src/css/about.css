@@ -5,7 +5,7 @@
 .aboutImgFormat
 {
     /* able to resize images when resize window */
-    max-width:75%;
+    max-width:90%;
     /* TODO: center after resize */
 
     filter: drop-shadow(0px 4px 4px rgba(7, 30, 53, 0.25)); 
@@ -21,13 +21,14 @@
     }
     .smallScreenTextShift {
         margin-left:3rem;
-    margin-right:3rem;
+        margin-right:3rem;
     }
   }
 
 .abttxt
 {
     margin-left:3rem;
+    margin-right:3rem;
 }
 
 .imgFormat 
@@ -40,11 +41,15 @@
 }
 .preschoolFormat
 {
-    background: #50B4F2;
+    background-color: #50B4F2;
+    margin-left: 0rem;
+    margin-right: 0rem;
 }
 .morningFormat
 {
-    background: #F2B705;
+    background-color: #F2B705;
+    margin-left: 0rem;
+    margin-right: 0rem;
 }
 
 .preschoolButton
@@ -58,39 +63,23 @@
     background: #50B4F2;
     font-weight: bold;
 }
-/* Sets the size to empty div with th background image */
-/* position is relative so we can put text on top of it */
+
 .teamdiv
 {
-    position: relative; 
-    height: 50%;
-    width: 100%;
-    display: flex;
-    /*align horizontally and vertically*/
-    align-items: center; 
-    justify-content: center;
-}
-/* Makes background image transparent, but not the things inside the div itself */
-/* Creates an empty container that has a background image that stretches across the div */
-.teamdiv:before
-{
-    content: "";
-    background-image: url(../images/ourteam.png);
-    background-size: cover;
-    position: absolute;
-    top: 0px;
-    right: 0px;
-    bottom: 0px;
-    left: 0px;
-    opacity: 0.25;
-
+    align-items: center;
+    vertical-align: middle;
+    opacity: 0.5;
+    display: inline-block;
 }
 
 .teamlink
 {
-    position:relative;
+    position: absolute;
     text-decoration: underline;
     color: black;
+    width:100%;
+    margin-top:20rem;
+    margin-bottom:20rem;
 }
 
 .teamlink:hover
