@@ -4,7 +4,6 @@ import about_us from  "../images/about_us.png";
 import school from  "../images/school.png";
 import morning from  "../images/morning.png";
 
-
 function About() {
     return (
         <div>
