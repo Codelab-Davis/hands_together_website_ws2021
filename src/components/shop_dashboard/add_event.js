@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../../css/add_event.css"; 
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 function AddEvent() { 
 
@@ -27,6 +29,13 @@ function AddEvent() {
         setlocation(event.target.value); 
     } 
 
+    const [curDate, setCurDate] = useState(new Date()); 
+    
+    function handleDateChange(date) { 
+        console.log(date); 
+        setCurDate(date); 
+    }
+
     return ( 
         // I use bootstrap rows to fluidly force content onto new lines throughout 
         <div className="container-fluid p-0"> 
@@ -35,25 +44,32 @@ function AddEvent() {
                 
                 <div className="listing-box"> 
                     <h2>Event Details</h2> 
-                    <div className="row no-gutters listing-input"> 
-                        <div className="col-10 col-md-6">
-                            <input type="text" placeholder="Event Title" value={title} onChange={onTitleChange} /> 
+                    <div className="row no-gutters"> 
+                        <div className="col-6">
+                            <div className="col-10 listing-input">
+                                <input type="text" placeholder="Event Title" value={title} onChange={onTitleChange} /> 
+                            </div>
+                            <div className="col-10 listing-input">
+                                <input type="text" placeholder="Event Description" value={description} onChange={onDescriptionChange} /> 
+                            </div>
+                            <div className="col-10 listing-input">
+                                <DatePicker
+                                    selected={curDate}
+                                    onChange={handleDateChange}
+                                    showTimeSelect
+                                    dateFormat="Pp"
+                                />
+                            </div>
+                            <div className="col-10 listing-input">
+                                <input type="text" placeholder="Event Location" value={location} onChange={onlocationChange} /> 
+                            </div>
                         </div>
-                    </div>
-                    <div className="row no-gutters listing-input"> 
-                        <div className="col-10 col-md-6">
-                            <input type="text" placeholder="Event Description" value={description} onChange={onDescriptionChange} /> 
+                        <div className="col-6">
+                            Image Upload Would Go Here 
                         </div>
-                    </div>
-                    <div className="row no-gutters listing-input"> 
-                        <div className="col-10 col-md-6">
-                            <input type="text" placeholder="Event Date" value={description} onChange={onDescriptionChange} /> 
-                        </div>
-                    </div>
-                    <div className="row no-gutters listing-input"> 
-                        <div className="col-10 col-md-6">
-                            <input type="text" placeholder="Event Location" value={location} onChange={onlocationChange} /> 
-                        </div>
+                        <div className="col-12">
+                            <button className="submit-button submit-event hands-together-button">Create</button>
+                        </div> 
                     </div> 
                 </div>
             </div>

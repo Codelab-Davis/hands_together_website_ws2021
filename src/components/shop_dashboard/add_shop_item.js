@@ -78,6 +78,9 @@ function AddItemFrontend() {
                             <input type="text" placeholder="Quantity: 0" value={quantity} onChange={onQuantityChange} /> 
                         </div>
                     </div> 
+                    <div className="col-12">
+                        <button className="submit-button hands-together-button">Create</button>
+                    </div> 
                 </div>
             </div>
         </div>

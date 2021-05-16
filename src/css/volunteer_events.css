@@ -87,11 +87,12 @@ h1 {
   background-color: var(--darkyellow);
 }
 
-.sign-up-banner h3{
+.sign-up-banner-h3 {
   padding-top: 1rem;
+  padding-left: 1rem;
 }
 
-.sign-up-banner h3, p{
+.sign-up-banner-p {
   padding-left: 1rem;
 }
 

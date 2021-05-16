@@ -1,0 +1,21 @@
+.admin-box { 
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    box-sizing: border-box;
+    border-radius: 5px;
+    width: 90%;
+    margin-left: 3.5rem;
+    margin-right: 3.5rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem; 
+    cursor: pointer;
+}
+
+.admin-box:hover { 
+    color: var(--black); 
+    text-decoration: none; 
+} 
+
+.admin-box h2, p { 
+    padding-top: 0.5rem;
+    padding-left: 0.5rem;
+} 
