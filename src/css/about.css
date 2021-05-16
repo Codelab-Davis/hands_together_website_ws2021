@@ -63,7 +63,7 @@
 .teamdiv
 {
     position: relative; 
-    height: 100vh;
+    height: 50%;
     width: 100%;
     display: flex;
     /*align horizontally and vertically*/
