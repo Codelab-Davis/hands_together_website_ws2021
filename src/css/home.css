@@ -9,8 +9,8 @@
   .smbutton {
       height: 2rem; 
       width: 6rem;
-      margin-left: 7rem;
-      margin-bottom: 1rem;
+      margin-left: 1rem;
+      margin-bottom: 2rem;
   }
 }
 
@@ -28,28 +28,25 @@
 }
 
 .wbutton {
-  height: 3.50rem; 
-  width: 9rem; 
+  height: 4.25rem; 
+  width: 11.25rem; 
+  padding-top: 0.3125rem;
   margin-left: 3rem;
   text-align: center;
-  background-color: var(--darkred); 
+  background-color: red;
 }
 
 @media (max-width: 768px) {
   .wbutton {
-      margin-left: 3rem;
-      height: 3.50rem; 
+      margin-left:6rem;
+      height: 3rem; 
       width: 9rem; 
   }
 }
 
-.button-container { 
-  margin-top: -2rem;
-}
-
 .ybutton {
-  height: 3.5rem; 
-  width: 9rem; 
+  height: 5.6875rem; 
+  width: 15.125rem; 
   padding-top: 0.3125rem;
   margin-top: 12rem;
   background-color: darkorange;
@@ -57,23 +54,33 @@
 
 @media (max-width: 768px) {
   .ybutton {
-      margin-top: 8rem;
+      margin-top: 7rem;
+      margin-left: 2rem;
       height: 3rem; 
       width: 9rem; 
   }
 }
 .nbutton {
-  height: 5.6875rem; 
-  width: 15.125rem; 
+  height: 91px; 
+  width: 242px; 
   padding-top: 0.3125rem;
   text-align: center;
   background-color: darkorange;
+  margin-left: 100px;
 }
 
-.banner-text {
+
+@media (max-width: 768px) {
+  .nbutton {
+  width: 180px;
+  height: 60px;
+  margin-left: 1rem;
+  }
+}
+
+.text {
   margin-bottom: 1.25rem;
   text-decoration: underline;     
-  text-align: center;
 }
 
 .optext {
@@ -87,6 +94,23 @@
   .optext {
       font-size: 40px;        /* fix the align for the text */
       line-height: 60px;
+      margin-left: 1rem;
+  }
+}
+
+.ostext {
+  font-size: 56px;
+  line-height: 65.63px;
+  font-weight: bold;
+  padding-top: 1rem;
+  margin-left: 7rem;
+}
+
+@media (max-width: 768px) {
+  .ostext {
+      font-size: 40px;        
+      line-height: 60px;
+      margin-left: 6rem;
   }
 }
 
@@ -104,7 +128,6 @@
       font-size: 30px;
       line-height: 35px;
       padding-top: 2rem;
-      text-align: left;
       padding-left: 1rem;
   }
 }
@@ -119,8 +142,7 @@
 
 @media (max-width: 768px) {
   .pre-text {
-      padding-right: 4rem;      /* fix the align for the text */
-      text-align: left;
+      padding-left: 1rem;
   }
 }
 
@@ -140,7 +162,7 @@
 }
 
 .phrase {
-  font-size: 1.25rem;
+  font-size: 24px;
   line-height: 28.13px;
   width: 665px;
   height: 168px;
@@ -152,11 +174,31 @@
   .phrase {
       width: 100%;
       height: 50%;
-      padding-right: 2rem;
+      padding-right: 3rem;
       font-size: 18px;
-      line-height: 25px;
-      text-align: inherit;
+      line-height: 22px;
       padding-top: 0rem;
+}
+}
+
+.ourtext{
+  font-size: 24px;
+  line-height: 28.13px;
+  font-weight: 400;
+  padding-bottom: 30px;
+  margin-top: 30px;
+  margin-left: 100px;
+}
+
+@media (max-width: 768px) {
+  .ourtext {
+      width: 100%;
+      font-size: 18px;
+      line-height: 22px;
+      padding-top: 0rem;
+      margin-left: 0px;;
+      padding-right: 1rem;
+      padding-left: 1rem;
 }
 }
 
@@ -187,14 +229,22 @@
 }
 
 .container-light {
+  background-image: url(../images/team.png);  
+  background-size: cover;            
   width: 90rem; 
   height: 43.1875rem;
   align-items: center;
   vertical-align: middle;
 }
 
+@media (max-width: 768px) {
+  .container-light{
+  height: 30rem;
+  }
+}
+
 .box {
-  width: 614px; 
+  width: 614px;
   height: 460px; 
   background-image: url(../images/about.png);
   background-size: cover;
@@ -236,8 +286,19 @@
 }
 
 .osbox {
+  background-image: url(../images/middle.png);  
+  background-size: cover;    
   width: 34.375rem; 
   height: 23.04125rem;
+  margin-left: 5rem;
+}
+
+@media (max-width: 768px) {
+  .osbox{
+  width: 100%;
+  height: 20rem;
+  margin-left: 0rem;
+  }
 }
 
 .my-div { 
@@ -251,29 +312,30 @@
 .text-opacity {
   margin-top: -13rem;
   margin-bottom: 2rem;
+  font-size: 34px;
   line-height: 39.84px;
   font-weight: bold;
-  padding-left: 50px;
-  padding-bottom: 10px;
 }
 
 @media (max-width: 768px) {
   .text-opacity {
       padding-top: 13rem;     /* fix the align for the text */
-      padding-right: 3rem;
+      padding-left: 2rem;
       font-size: 25px;
-      text-align: initial;
+      line-height: 35px;
+      text-align: inherit;
   }
 }
 
 .vocab {
-  font-size: 28px;
+  font-size: 34px;
   line-height: 39.84px;
   font-weight: 700;
 }
 
 .vocab-au {
-  font-size: 1.25rem;
+  font-size: 34px;
+  line-height: 39.84px;
   font-weight: 700;
 }
 
@@ -288,4 +350,10 @@
   margin-top: -23rem;
   margin-bottom: 10rem;
   text-decoration: underline;     
+}
+
+@media (max-width: 768px) {
+  .team{
+      margin-top: -19rem;
+  }
 }

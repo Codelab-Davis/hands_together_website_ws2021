@@ -106,16 +106,16 @@ function ViewShopItems() {
                         items.map((itemIter, index) =>
                         <div className="col-md-4" key={index}>
                             <div className="item-container">
-                            <a className="wrapper-link" onClick={() => openModal()}></a>
+                            <a className="wrapper-link"></a>
                             <div className="item-image" style={{backgroundImage: `url(${itemIter.images[0]})`}}></div>
                             <div className="add-to-cart">
-                                <a className="bold">Delete Item</a>
+                                <a className="bold" onClick={() => openModal()}>Delete Item</a>
                             </div>
                             <div className="item-info">
                                 <div className="name-price">
                                 <p className="name bold">{itemIter.name}</p>
                                 <p className="price">{getFormattedPrice(itemIter.price)}</p>
-                                <button href={`/shop/${itemIter._id}`}>Preview Listing</button>
+                                <a className="preview-button" href={`/shop/${itemIter._id}`}>Preview Listing</a>
                                 </div>
                                 <p className="caption description">{itemIter.description.length < 100 ? itemIter.description : itemIter.description.slice(0, 100) + "..."}</p>
                             </div>

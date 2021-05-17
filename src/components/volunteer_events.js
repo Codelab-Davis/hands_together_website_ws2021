@@ -252,8 +252,8 @@ function Volunteer_Events() {
                 <img className="sign-up-tile"src={SignUpTile} />
               </div>
               <div className="sign-up-banner" align="left">
-                <h3>{curDayEventData.name}</h3>
-                <p>{curDayEventData.description}</p>
+                <h3 className="sign-up-banner-h3">{curDayEventData.name}</h3>
+                <p className="sign-up-banner-p">{curDayEventData.description}</p>
               </div>
             
               <div className="sign-up-button">Sign Up</div>
@@ -264,7 +264,7 @@ function Volunteer_Events() {
                   <img className="sign-up-tile"src={SignUpTile} />
                 </div>
                 <div className="sign-up-banner" align="left">
-                  <h3>We currently don't have any events planned for this day - check out another day instead!</h3>
+                  <h3 className="sign-up-banner-h3">We currently don't have any events planned for this day - check out another day instead!</h3>
                 </div>
               </div>
             }

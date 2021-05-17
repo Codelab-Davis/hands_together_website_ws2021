@@ -1,22 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../../css/add_event.css"; 
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+const axios = require('axios');
 
-function AddEvent() { 
+function AddEvent() {   
 
     // States to track what is in the input fields 
     const [title, setTitle] = useState(''); 
-    const [date, setdate] = useState(''); 
     const [description, setDescription] = useState(''); 
     const [location, setlocation] = useState(''); 
 
     // Functions to track typing changes in the input fields 
     function onTitleChange(event) { 
         setTitle(event.target.value); 
-    } 
-
-    function ondateChange(event) { 
-        setdate(event.target.value); 
     } 
 
     function onDescriptionChange(event) { 
@@ -27,33 +25,146 @@ function AddEvent() {
         setlocation(event.target.value); 
     } 
 
+    const [curDate, setCurDate] = useState(new Date()); 
+    
+    function handleDateChange(date) { 
+        console.log(date); 
+        setCurDate(date); 
+    }
+
+    function handleImgUpload(event) {
+        if (event.target.files.length <= 1)
+          setImgFile(event.target.files);
+        else
+          setUploadMessage("Max One Image Allowed");
+    }
+
+    const [uploadMesssage, setUploadMessage] = useState("");
+    const [imgFile, setImgFile] = useState();
+
+    function handleImgUpload(e) {
+        if (e.target.files.length == 1)
+            setImgFile(e.target.files);
+        else
+            setUploadMessage("One image only");
+    }
+
+    useEffect(() => { 
+        console.log(imgFile); 
+    }, [imgFile])
+
+    function add_event_to_db() { 
+        setUploadMessage("Uploading");
+        if (title.length == 0 || description.length == 0 || location.length == 0) { 
+            setUploadMessage("Sorry, all fields must be filled out."); 
+            return; 
+        }
+
+        let event = {
+            "name": title,
+            "date": curDate,
+            "location": location,
+            "description": description,
+            "attendee_amount": 0,
+            "volunteer_amount": 0,
+            "image": "",
+        }
+
+        let promises = [];
+
+        let contentType = imgFile[0].type;
+        let options = {
+            params: {
+                Key: event.name.replace(/[^a-zA-Z0-9]/g, ""),
+                ContentType: contentType
+            },
+            headers: {
+                'Content-Type': contentType
+            }
+        };
+        // Upload the image
+        promises.push(
+            axios.get('http://localhost:5000/event/generate-put-url', options)
+                .then(res => {
+                    const {
+                        data: { putURL }
+                    } = res;
+                    promises.push(
+                        axios.put(putURL, imgFile[0], options)
+                        .then(res => {
+                            setUploadMessage("Upload successful");
+                        })
+                        .catch(err => {
+                            setUploadMessage("Sorry something went wrong uploading your image.");
+                            console.log('err', err);
+                        })
+                    )
+                })
+        )
+
+        // Add the image's url
+        event.image = "https://handstogetherimages.s3-us-west-1.amazonaws.com/" + options.params.Key
+        // Add item to database after urls are finished generating
+        Promise.all(promises)
+            .then(() => {
+                axios.post('http://localhost:5000/event/add', event)
+                .then(res => {
+                    console.log(event);
+                })
+            })
+    }
+
+    function renderImage(imgFile) { 
+        try { 
+            return URL.createObjectURL(imgFile[0]); 
+        }
+        catch { 
+            return null; 
+        }
+    }
+
     return ( 
         // I use bootstrap rows to fluidly force content onto new lines throughout 
         <div className="container-fluid p-0"> 
             <div className="row no-gutters"> 
-                <h1 className="title-text">Add Event</h1> 
-                
+                <h1 className="title-text">Add Event</h1>
+
                 <div className="listing-box"> 
                     <h2>Event Details</h2> 
-                    <div className="row no-gutters listing-input"> 
-                        <div className="col-10 col-md-6">
-                            <input type="text" placeholder="Event Title" value={title} onChange={onTitleChange} /> 
+                    <div className="row no-gutters"> 
+                        <div className="col-6">
+                            <div className="col-10 listing-input">
+                                <input type="text" placeholder="Event Title" value={title} onChange={onTitleChange} /> 
+                            </div>
+                            <div className="col-10 listing-input">
+                                <input type="text" placeholder="Event Description" value={description} onChange={onDescriptionChange} /> 
+                            </div>
+                            <div className="col-10 listing-input">
+                                <DatePicker
+                                    selected={curDate}
+                                    onChange={handleDateChange}
+                                    showTimeSelect
+                                    dateFormat="Pp"
+                                />
+                            </div>
+                            <div className="col-10 listing-input">
+                                <input type="text" placeholder="Event Location" value={location} onChange={onlocationChange} /> 
+                            </div>
                         </div>
-                    </div>
-                    <div className="row no-gutters listing-input"> 
-                        <div className="col-10 col-md-6">
-                            <input type="text" placeholder="Event Description" value={description} onChange={onDescriptionChange} /> 
+                        <div className="col-6">
+                            <input
+                                id='upload-image'
+                                type='file'
+                                accept='image/*'
+                                onChange={handleImgUpload}
+                            />
+                            <p>Image Preview</p>
+                            <img className="render-image-style" src={renderImage(imgFile)} /> 
                         </div>
-                    </div>
-                    <div className="row no-gutters listing-input"> 
-                        <div className="col-10 col-md-6">
-                            <input type="text" placeholder="Event Date" value={description} onChange={onDescriptionChange} /> 
-                        </div>
-                    </div>
-                    <div className="row no-gutters listing-input"> 
-                        <div className="col-10 col-md-6">
-                            <input type="text" placeholder="Event Location" value={location} onChange={onlocationChange} /> 
-                        </div>
+                        <div className="col-12">
+                            <button className="submit-button submit-event hands-together-button" onClick={add_event_to_db}>Create</button>
+                            <p>{uploadMesssage}</p>
+                        </div> 
                     </div> 
                 </div>
             </div>
