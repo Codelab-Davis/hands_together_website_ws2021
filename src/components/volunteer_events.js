@@ -243,9 +243,9 @@ function Volunteer_Events() {
 
       {/* Event Name + Calendar */}
       <div class="container-fluid p-0">
-        <div class="row no-gutters event-tile-banner-space" align="center">
+        <div class="row no-gutters" align="center">
           {console.log(curDayEventData)}
-          <div class="col-6">
+          <div class="event-tile-banner-space col-12 col-md-6">
             {curDayEventData != undefined && curDayEventData._id != undefined ? 
             <div>
               <div>
@@ -270,8 +270,8 @@ function Volunteer_Events() {
             }
           </div>
 
-          <div class="col-6">
-            <DatePicker setSelectedDays={setSelectedDays} />
+          <div class="col-12 col-md-6 calendar-mobile-vertical">
+            <DatePicker class="Date-Picker" setSelectedDays={setSelectedDays} />
           </div>
         </div>
       </div>
@@ -418,10 +418,15 @@ function Volunteer_Events() {
             />
           </div>
         </div>
-
+            
         {/*submit button*/}
-        <button onClick={submit}>Submit</button>
+        <div class="submit-button-container" align="center">
+          <div class="col justify-content-around">
+            <button className="submitButton h3" onClick={submit}>Submit</button>
+          </div>
+        </div>
       </div>
+
     </div>
   );
 }

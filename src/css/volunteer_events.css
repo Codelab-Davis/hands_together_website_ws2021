@@ -1,3 +1,6 @@
+.container-fluid{
+   padding: 0 !important;
+}
 h1 {
   font-weight: 700 !important;
 }
@@ -194,10 +197,41 @@ h1 {
 .gender-label {
   font-size: 1rem;
 }
+.submitButton{
+  background-color: var(--darkred) !important;
+  width: 25% !important;
+  /* height: 7.01rem !important; */
+  border-radius: 15px;
+  border-width: 0px;
+  margin-top: 1.5rem;
+  margin-bottom: 3.5rem;
+  font-size: 2.4rem;
+  padding: 15px !important;
+  color: white;
+
+}
+.submit-button-container {
+  display: flex;
+  justify-content: flex-end;
+}
+@media (max-width: 768px) { 
+  .submitButton{
+    font-size: 1.5rem;
+    width: 50% !important;
+    
+  }
+}
 
 .label-text {
   font-size: 1rem !important;
   margin-top: 8px !important;
+}
+
+.Date-Picker{
+ width: 85% !important;
+}
+.calendar-mobile-vertical{
+margin-top: 3rem;
 }
 
 input[type="radio"] {
