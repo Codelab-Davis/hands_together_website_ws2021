@@ -21,7 +21,7 @@ function About() {
                     <div class="row no-gutters">
                         {/* Adding md makes it so that the cols stack up on top of each other when scren size < 768 */}
                         <div class="col-md-6">
-                            <h1 className="abttxt">About Us</h1>
+                            <h1 className="abttxt"><br/>About Us</h1>
                             <p className="abttxt"> 
                             Hands Together has been recognized at a state and national level for preparing young children for kindergarten. <br /><br />
                             We offer advanced early education to over 165 at risk children each day. <br /><br />
@@ -30,7 +30,7 @@ function About() {
                             </p>
                         </div>
                         <div class="col-1" />
-                        <div class="col-5" >
+                        <div class="col-md-5" >
                             <br />
                             <img class = "aboutImgFormat" align = "center" src={about_us}/>
                         </div>
@@ -50,18 +50,18 @@ function About() {
             <div className="vertical_space" />
             <div class="container-fluid p-0">
                 <div class="row align-items-center preschoolFormat">
-                    <div class="col-md-4 p-5" > 
-                        <img class = "imgFormat" src={preschool}/>
+                    <div class="col-md-5 p-5" > 
+                        <img class="imgFormat" src={preschool}/>
                     </div>
 
-                    <div class="col-2" />
+                    <div class="col-1" />
                     <div class="col-md-5"> 
                     <br /> <br />
                         <h3 className = "abttxt">Preschool</h3>
                         <p className = "abttxt"> Hands Together is a licensed, award-winning preschool and childcare program serving children ages 6 weeks to 5 years. 
                             Our preschool is designed to meet the academic and social needs of the predominantly Latino community in Santa Ana, 
                             and our goal is to prepare every student for successful entry into kindergarten.<br /><br /></p>
-                        <button className="btn preschoolButton abttxt">Learn More</button>
+                        <button onClick={() => (window.location = "/programs")} className="btn preschoolButton abttxt">Learn More</button>
                         <br /> <br /> <br /> <br />
                     </div>
                     
@@ -77,9 +77,11 @@ function About() {
                         <p className="smallScreenTextShift"> Morning Garden is a unique preschool and workforce development program for housing-insecure families and families in transition. 
                             We offer developmentally appropriate, structured activities that help young children learn how to play well together, share resources, 
                             and respect others.<br /><br /></p>
-                            <button className="btn morningButton smallScreenTextShift">Learn More</button>
+                            <button onClick={() => (window.location = "/programs")} className="btn morningButton smallScreenTextShift">Learn More</button>
+                            <br /> <br /> <br /> <br />
                     </div>
-                    <div class="col-md-4 p-5" > 
+                    <div class="col-1" />
+                    <div class="col-md-5 p-5" > 
                         <img class = "imgFormat" src={morning}/>
                     </div>
                     
@@ -88,11 +90,18 @@ function About() {
             {/* Our Team Link */}
             {/* TODO: Insert redirection link to "our team" page */}
             
-            <div class = "teamdiv">
-                <h1 onClick={() => (window.location = "/about")}class="teamlink">Our Team</h1>
+            <div class = "container-fluid p-0">
+                <div class = "row no-gutters">
+                    <div className="teamdiv">
+                        <img src ={team}/>
+                    </div>
+                    
+                    <div class="teamlink" align="center">
+                        <h1 onClick={() => (window.location = "/our_team")}>Our Team</h1>
+                    </div>
+                </div>
+                    
             </div>
-           
-            
             
         </div> 
     </div>
