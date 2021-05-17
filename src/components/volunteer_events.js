@@ -213,14 +213,16 @@ function Volunteer_Events() {
 
           { upcomingEvents.length > 0 ? 
             upcomingEvents.slice(0, 3).map((event, index) => 
-              <div class="col-12 col-md-4">
+              <div class="event-tile-container col-12 col-md-4">
                 <div>
-                  <img className="event_tile" src={EventTile1} />
+                  <img className="event_tile" src={event.image || EventTile1} />
                 </div>
                 <div className="event_tile_banner" align="left">
                   <h3>{event.name}</h3>
                   <p>{event.description}</p>
+                  <p>Location: {event.location}</p>
                 </div>
+                <div className="top-sign-up-button">Sign Up</div>
               </div>
             )
             :
@@ -245,23 +247,24 @@ function Volunteer_Events() {
       <div class="container-fluid p-0">
         <div class="row no-gutters" align="center">
           {console.log(curDayEventData)}
-          <div class="event-tile-banner-space col-12 col-md-6">
+          <div class="event-tile-banner-space col-12 col-md-6 d-flex align-items-center">
             {curDayEventData != undefined && curDayEventData._id != undefined ? 
-            <div>
+            <div className="volunteer-event-tile">
               <div>
-                <img className="sign-up-tile"src={SignUpTile} />
+                <img className="sign-up-tile" src={curDayEventData.image || SignUpTile} />
               </div>
               <div className="sign-up-banner" align="left">
                 <h3 className="sign-up-banner-h3">{curDayEventData.name}</h3>
                 <p className="sign-up-banner-p">{curDayEventData.description}</p>
+                <p className="sign-up-banner-p">Location: {curDayEventData.location}</p>
               </div>
             
               <div className="sign-up-button">Sign Up</div>
             </div>
             :
-              <div>
+              <div className="volunteer-event-tile">
                 <div>
-                  <img className="sign-up-tile"src={SignUpTile} />
+                  <img className="sign-up-tile" src={SignUpTile} />
                 </div>
                 <div className="sign-up-banner" align="left">
                   <h3 className="sign-up-banner-h3">We currently don't have any events planned for this day - check out another day instead!</h3>
@@ -307,7 +310,7 @@ function Volunteer_Events() {
           <div class="col-4 col-md-5">
             <h3 className="">Age</h3>
           </div>
-          <div class="col-8 col-md-6 field-column-padding">
+          <div class="col-8 col-md-2 field-column-padding">
             <input
               type="text"
               placeholder="Age"
@@ -374,7 +377,7 @@ function Volunteer_Events() {
           <div class="col-4 col-md-5">
             <h3 className="">Phone Number</h3>
           </div>
-          <div class="col-8 col-md-6 field-column-padding">
+          <div class="col-8 col-md-2 field-column-padding">
             <input
               type="text"
               placeholder="(###)-###-####"

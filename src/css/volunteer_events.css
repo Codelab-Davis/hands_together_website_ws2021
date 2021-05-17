@@ -50,6 +50,10 @@ h1 {
   margin-top: 2rem; /* 86px/16 */
 }
 
+.event-tile-container { 
+  filter: drop-shadow(0px 4px 4px rgba(7, 30, 53, 0.25));
+} 
+
 .event_tile {
   width: 85%; /* 24.75rem */
   height: auto; /*16.93rem*/
@@ -62,9 +66,8 @@ h1 {
 }
 .event_tile_banner {
   width: 85%; /*25.75rem*/ 
-  height: 12.05rem; /*16.0675rem*/ 
+  height: 10rem; /*16.0675rem*/ 
   background-color: var(--darkyellow);
-  filter: drop-shadow(0px 4px 4px rgba(7, 30, 53, 0.25));
 }
 
 .event_tile_banner h3 { 
@@ -78,15 +81,19 @@ h1 {
   padding-left: 1rem;
 }
 
+.volunteer-event-tile { 
+  filter: drop-shadow(0px 4px 4px rgba(7, 30, 53, 0.25));
+} 
+
 .sign-up-tile {
-  width: 85%;
+  width: 80%;
   height: auto;
   background-color: var(--gray);
   filter: drop-shadow(0px 4px 4px rgba(7, 30, 53, 0.25));
 }
 .sign-up-banner {
-  width: 85%;
-  height: 7rem;
+  width: 80%;
+  height: 8rem;
   background-color: var(--darkyellow);
 }
 
@@ -99,9 +106,9 @@ h1 {
   padding-left: 1rem;
 }
 
-.sign-up-button {
+.sign-up-button, .top-sign-up-button {
   cursor: pointer;
-  width: 85%;
+  width: 80%;
   height: 3.5rem;
   background-color: var(--darkred);
   font-size: 1.5rem;
@@ -110,6 +117,10 @@ h1 {
   text-decoration: underline;
   color: white;
 }
+
+.top-sign-up-button { 
+  width: 85%; 
+} 
 
 .volunteering-opportunities-text {
   margin-top: 2rem; 

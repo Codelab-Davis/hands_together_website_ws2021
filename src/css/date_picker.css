@@ -61,8 +61,19 @@
   box-shadow:inset 0px 0px 0px 9px var(--white); 
   border-radius: 0em; 
   padding: 1.2em;
-
 }
+
+@media (max-width: 450px) { 
+  .DayPicker-Day { 
+    padding: 0.7em;
+  }
+} 
+
+@media (max-width: 300px) { 
+  .DayPicker-Day { 
+    padding: 0.5em;
+  }
+} 
 
 .DayPicker-Weekday {
   color: var(--mediumgray);

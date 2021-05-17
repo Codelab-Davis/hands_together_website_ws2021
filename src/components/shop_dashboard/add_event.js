@@ -41,10 +41,13 @@ function AddEvent() {
 
     const [uploadMesssage, setUploadMessage] = useState("");
     const [imgFile, setImgFile] = useState();
+    const [uploadedImage, setUploadedImage] = useState(false); 
 
     function handleImgUpload(e) {
-        if (e.target.files.length == 1)
+        if (e.target.files.length == 1) { 
+            setUploadedImage(true); 
             setImgFile(e.target.files);
+        }
         else
             setUploadMessage("One image only");
     }
@@ -67,49 +70,48 @@ function AddEvent() {
             "description": description,
             "attendee_amount": 0,
             "volunteer_amount": 0,
-            "image": "",
         }
 
         let promises = [];
-
-        let contentType = imgFile[0].type;
-        let options = {
-            params: {
-                Key: event.name.replace(/[^a-zA-Z0-9]/g, ""),
-                ContentType: contentType
-            },
-            headers: {
-                'Content-Type': contentType
-            }
-        };
-        // Upload the image
-        promises.push(
-            axios.get('http://localhost:5000/event/generate-put-url', options)
-                .then(res => {
-                    const {
-                        data: { putURL }
-                    } = res;
-                    promises.push(
-                        axios.put(putURL, imgFile[0], options)
-                        .then(res => {
-                            setUploadMessage("Upload successful");
-                        })
-                        .catch(err => {
-                            setUploadMessage("Sorry something went wrong uploading your image.");
-                            console.log('err', err);
-                        })
-                    )
-                })
-        )
-
-        // Add the image's url
-        event.image = "https://handstogetherimages.s3-us-west-1.amazonaws.com/" + options.params.Key
+        
+        if (uploadedImage) { 
+            let contentType = imgFile[0].type;
+            let options = {
+                params: {
+                    Key: event.name.replace(/[^a-zA-Z0-9]/g, ""),
+                    ContentType: contentType
+                },
+                headers: {
+                    'Content-Type': contentType
+                }
+            };
+            // Upload the image
+            promises.push(
+                axios.get('http://localhost:5000/event/generate-put-url', options)
+                    .then(res => {
+                        const {
+                            data: { putURL }
+                        } = res;
+                        promises.push(
+                            axios.put(putURL, imgFile[0], options)
+                            .then(res => {})
+                            .catch(err => {
+                                setUploadMessage("Sorry something went wrong uploading your image.");
+                                console.log('err', err);
+                            })
+                        )
+                    })
+            )
+            // Add the image's url
+            event.image = "https://handstogetherimages.s3-us-west-1.amazonaws.com/" + options.params.Key
+        }
         // Add item to database after urls are finished generating
         Promise.all(promises)
             .then(() => {
                 axios.post('http://localhost:5000/event/add', event)
                 .then(res => {
                     console.log(event);
+                    setUploadMessage("Upload successful");
                 })
             })
     }
