@@ -7,24 +7,34 @@
     /* able to resize images when resize window */
     max-width:90%;
     /* TODO: center after resize */
-
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
     filter: drop-shadow(0px 4px 4px rgba(7, 30, 53, 0.25)); 
 }
 
+/* .border
+{
+    border-color: black;
+    border-style: solid;
+} */
 /* Fix the images on a smaller screen */
 @media (max-width: 768px) {
-    .aboutImgFormat {
-      max-width:200%;
-    }
-    .imgFormat {
-        max-width:200%;
-    }
+    /* .aboutImgFormat {
+      margin-left:1rem;
+    } */
     .smallScreenTextShift {
         margin-left:3rem;
         margin-right:3rem;
     }
+    .teamlink {
+        position: absolute;
+        text-decoration: underline;
+        color: blue;
+        width:100%;
+        margin-top: 15%;
+    }
   }
-
 .abttxt
 {
     margin-left:3rem;
@@ -34,7 +44,7 @@
 .imgFormat 
 {
     /* centers and shrinks image */
-    max-width: 150%; /* won't center image if max-width = 100% */
+    max-width: 100%;
     display: block;
     filter: drop-shadow(0px 4px 4px rgba(7, 30, 53, 0.25)); 
 
@@ -42,10 +52,14 @@
 .preschoolFormat
 {
     background-color: #50B4F2;
+    margin-left:0rem;
+    margin-right:0rem;
 }
 .morningFormat
 {
     background-color: #F2B705;
+    margin-left:0rem;
+    margin-right:0rem;
 }
 
 .preschoolButton
@@ -66,17 +80,26 @@
     vertical-align: middle;
     opacity: 0.5;
     display: inline-block;
+    
 }
-
+.teamdiv img
+{
+    max-width:100%;
+    width:100%;
+}
 .teamlink
 {
     position: absolute;
     text-decoration: underline;
     color: black;
     width:100%;
-    margin-top:20rem;
-    margin-bottom:20rem;
+    margin-top: 20%;
 }
+
+/* .border
+{
+    border-style: solid;
+} */
 
 .teamlink:hover
 {

@@ -30,7 +30,7 @@ function About() {
                             </p>
                         </div>
                         <div class="col-1" />
-                        <div class="col-5" >
+                        <div class="col-md-5" >
                             <br />
                             <img class = "aboutImgFormat" align = "center" src={about_us}/>
                         </div>
@@ -50,11 +50,11 @@ function About() {
             <div className="vertical_space" />
             <div class="container-fluid p-0">
                 <div class="row align-items-center preschoolFormat">
-                    <div class="col-md-4 p-5" > 
-                        <img class = "imgFormat" src={preschool}/>
+                    <div class="col-md-5 p-5" > 
+                        <img class="imgFormat" src={preschool}/>
                     </div>
 
-                    <div class="col-2" />
+                    <div class="col-1" />
                     <div class="col-md-5"> 
                     <br /> <br />
                         <h3 className = "abttxt">Preschool</h3>
@@ -78,8 +78,10 @@ function About() {
                             We offer developmentally appropriate, structured activities that help young children learn how to play well together, share resources, 
                             and respect others.<br /><br /></p>
                             <button onClick={() => (window.location = "/programs")} className="btn morningButton smallScreenTextShift">Learn More</button>
+                            <br /> <br /> <br /> <br />
                     </div>
-                    <div class="col-md-4 p-5" > 
+                    <div class="col-1" />
+                    <div class="col-md-5 p-5" > 
                         <img class = "imgFormat" src={morning}/>
                     </div>
                     
