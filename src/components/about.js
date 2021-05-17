@@ -48,7 +48,7 @@ function About() {
             </div>
             
             <div className="vertical_space" />
-            <div class="container-fluid p-0 bg-primary">
+            <div class="container-fluid p-0">
                 <div class="row align-items-center preschoolFormat">
                     <div class="col-md-4 p-5" > 
                         <img class = "imgFormat" src={preschool}/>
@@ -68,7 +68,7 @@ function About() {
                 </div>
             </div>
 
-            <div class="container-fluid p-0 bg-warning">
+            <div class="container-fluid p-0">
                 <div class="row align-items-center morningFormat">
                     <div class="col-1" />
                     <div class="col-md-5"> 

@@ -15,7 +15,7 @@
     text-decoration: none; 
 } 
 
-.admin-box h2, p { 
+.text-padding { 
     padding-top: 0.5rem;
     padding-left: 0.5rem;
-} 
+}
