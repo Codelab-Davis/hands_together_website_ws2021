@@ -5,21 +5,108 @@ import "../../css/admin_dashboard.css";
 import kid from "../../images/kid.png";  
 import { propTypes } from "react-bootstrap/esm/Image";
 const axios = require('axios');
+
 //https://react-bootstrap.github.io/components/modal/#modal-dialog-props
 //https://rangle.io/blog/simplifying-controlled-inputs-with-hooks/
+
 function Admin_Dashboard(props) {
+  const [curAnnouncement, setCurAnnouncement] = useState({}); 
+  const [curAnnouncementText, setCurAnnouncementText] = useState(""); 
+  const [newAnnouncement, setNewAnnouncement] = useState(""); 
+  const [statusMessage, setStatusMessage] = useState(""); 
+
   function logout() {
     console.log(props.loggedIn);
     axios.delete('http://localhost:5000/jwt/deleteRefreshToken', { withCredentials: true })
      .then(() => props.setLoggedIn(false));
   }
+
+  useEffect(() => { 
+    axios.get('http://localhost:5000/announcements/get_announcement')
+      .then((res) => {
+        console.log(res.data); 
+        console.log(res.data[0]); 
+        setCurAnnouncement(res.data[0]); 
+        setCurAnnouncementText(res.data[0].text); 
+      }) 
+      .catch((error) => console.log("Error getting announcement:", error)); 
+  }, []);
+
+  function onNewAnnouncementChange(event) { 
+    setNewAnnouncement(event.target.value); 
+  }
+
+  function deleteCurrentAnnouncement() { 
+    if (curAnnouncement != undefined && curAnnouncement._id != undefined && curAnnouncement._id != "") { 
+      axios.delete(`http://localhost:5000/announcements/delete_announcement/${curAnnouncement._id}`)
+        .then(() => { 
+          setCurAnnouncement({});
+          setCurAnnouncementText("");
+          setStatusMessage("Announcement successfully deleted");
+        })
+        .catch((error) => {
+          console.log("Error Deleting Announcement:", error)
+          setStatusMessage("You cannot delete this announcement right now. This might be because there is no announcement right now, or you need to refresh the page."); 
+        });
+    } 
+    else { 
+      setStatusMessage("You cannot delete this announcement right now. This might be because there is no announcement right now, or you need to refresh the page."); 
+    }
+  }
+  
+  function addAnnouncement() {
+    if (newAnnouncement.length == 0) {
+      setStatusMessage("Please enter an announcement."); 
+      return; 
+    } 
+
+    const new_announcement = { 
+      "text": newAnnouncement,
+    }
+    
+    console.log(curAnnouncement); 
+    if (curAnnouncement != undefined && curAnnouncement._id != undefined && curAnnouncement._id != "") { 
+      axios.delete(`http://localhost:5000/announcements/delete_announcement/${curAnnouncement._id}`)
+        .then(() => add(new_announcement))
+        .catch((error) => console.log("Error deleting announcement", error));
+    } 
+    else { 
+      axios.get('http://localhost:5000/announcements/get_announcement')
+      .then((res) => {
+        if (res.data.length == 0) { 
+          add(new_announcement); 
+        }
+        else { 
+          setStatusMessage("To modify your current announcement, please refresh the page."); 
+        }
+      }) 
+      .catch((error) => { 
+        console.log("Error getting announcement:", error); 
+        setStatusMessage("There was an error updating your announcement."); 
+      }); 
+    } 
+  }
+  
+  function add(new_announcement) { 
+    axios.post('http://localhost:5000/announcements/add_announcement', new_announcement) 
+      .then(() => { 
+        setCurAnnouncementText(new_announcement.text);
+        setCurAnnouncement({});
+        setNewAnnouncement(""); 
+        setStatusMessage("Announcement successfully updated. To modify this same announcement, please refresh the page."); 
+      })
+      .catch((error) => { 
+        console.log("Error adding new announcement:", error); 
+        setStatusMessage("There was an error updating your announcement."); 
+      })
+  }
   
   return ( 
     <div className="container-fluid p-0"> 
       <div className="row no-gutters"> 
-      <div className="col-12"> 
-        <h1 className="title-text">Welcome to your admin dashboard!</h1>
-      </div> 
+        <div className="col-12"> 
+          <h1 className="title-text">Welcome to your admin dashboard!</h1>
+        </div> 
         <a className="col-5 admin-box" href="/add_shop_item">
           <h2 className="text-padding">Add Shop Items</h2> 
           <p className="text-padding">Click here to add a new item to your shop!</p>  
@@ -35,7 +122,20 @@ function Admin_Dashboard(props) {
         <a className="col-5 admin-box" href="/view_events">
           <h2 className="text-padding">View Listed Events and Volunteers</h2> 
           <p className="text-padding">Click here to view your listed events and the volunteers signed up for each one.</p>  
-        </a> 
+        </a>
+        <div className="admin-box" style={{cursor: "default", paddingLeft: "1rem"}}>
+          <h2 style={{marginTop: "1rem"}}>Edit Announcement</h2>
+          <p>Current Announcement: <strong>{curAnnouncementText}</strong></p>
+          <button className="submit-button" style={{marginBottom: "0.5rem", width: "18rem"}} onClick={deleteCurrentAnnouncement}>Delete Current Announcement</button>
+          <div className="row no-gutters listing-input"> 
+            <p style={{marginTop: "1rem", marginRight: "1rem"}}>New Announcement:</p>
+              <div className="col-10 col-md-6">
+                  <input type="text" placeholder="New Announcement" value={newAnnouncement} onChange={onNewAnnouncementChange} /> 
+              </div>
+          </div>
+          <button className="submit-button" style={{marginBottom: "0.5rem", width: "16rem"}} onClick={addAnnouncement}>Create New Announcement</button>
+          <p style={{marginBottom: "2rem"}}>{statusMessage}</p>
+        </div>  
       </div>
     </div>
   );
