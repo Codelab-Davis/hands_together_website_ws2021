@@ -63,6 +63,12 @@
   padding: 1.2em;
 }
 
+@media (max-width: 1280px) { 
+  .DayPicker-Day { 
+    padding: 0.8em;
+  }
+} 
+
 @media (max-width: 450px) { 
   .DayPicker-Day { 
     padding: 0.7em;

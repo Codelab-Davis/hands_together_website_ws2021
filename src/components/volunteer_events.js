@@ -222,7 +222,6 @@ function Volunteer_Events() {
                   <p>{event.description}</p>
                   <p>Location: {event.location}</p>
                 </div>
-                <div className="top-sign-up-button">Sign Up</div>
               </div>
             )
             :

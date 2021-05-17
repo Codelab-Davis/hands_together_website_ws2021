@@ -40,6 +40,7 @@ const login_router = require('./routes/login');
 const volunteer_router = require('./routes/volunteer');
 const event_router = require('./routes/event');
 const event_attendees_router = require('./routes/event_attendees');
+const announcements_router = require('./routes/announcements'); 
 const stripe_router = require('./routes/stripe_routes');
 const jwt_router = require('./routes/jwt_routes');
 
@@ -49,6 +50,7 @@ app.use('/login', login_router);
 app.use('/volunteer', volunteer_router);
 app.use('/event', event_router);
 app.use('/event_attendees', event_attendees_router);
+app.use('/announcements', announcements_router); 
 app.use('/stripe', stripe_router);
 app.use('/jwt', jwt_router);
 
