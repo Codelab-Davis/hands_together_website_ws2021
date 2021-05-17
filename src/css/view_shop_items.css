@@ -20,3 +20,10 @@
     background-color: var(--darkred); 
     border: 1px var(--darkred) solid;
 } 
+
+.preview-button { 
+    background-color: var(--darkyellow); 
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    height: 3rem;
+}

@@ -1,6 +1,7 @@
 import react, { useEffect, useState } from "react"; 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/navbar.css";
+import "../css/mobile_drawer.css";
 import { useHistory } from "react-router-dom";
 import ht_logo from "../images/ht_logo.png";
 import cart from "../images/cart.png";
@@ -17,7 +18,14 @@ function Navbar() {
   const [address2, setAddress2] = useState(''); 
   const [city, setCity] = useState(''); 
   const [state, setState] = useState(''); 
-  const [ZIP, setZIP] = useState(''); 
+  const [ZIP, setZIP] = useState('');
+  const [drawerState, setDrawerState] = useState(false);
+  const [modalWidth, setModalWidth] = useState(window.innerWidth > 1024 ? '50%' : '90%'); 
+
+  function handleDrawerState() {
+    let newState = !drawerState;
+    setDrawerState(newState);
+  } 
 
   function openModal() {
     setModalIsOpen(true);
@@ -54,7 +62,7 @@ function Navbar() {
       right                 : 'auto',
       bottom                : 'auto',
       marginRight           : '-50%',
-      width                 : '50%',
+      width                 : modalWidth,
       transform             : 'translate(-50%, -50%)'
     }
   };
@@ -76,8 +84,7 @@ function Navbar() {
       cart: cart,
       type: "purchase"
     }
-
-    // ABHAY: This is your resulting object for Shippo after the intermediary address screen. 
+ 
     const addressInfo = { 
       address: address1,
       address2: address2,
@@ -146,6 +153,15 @@ function Navbar() {
     return cartItems;
   }
 
+  useEffect(() => { 
+    function handleResize() {
+      // console.log('resized to: ', window.innerWidth, 'x', window.innerHeight) 
+      setModalWidth(window.innerWidth > 1024 ? '50%' : '90%'); 
+    }
+  
+    window.addEventListener('resize', handleResize); 
+  });
+
   return (
     <div>
       <div className="row no-gutters">
@@ -156,6 +172,8 @@ function Navbar() {
           style={customModalStyles}
         >
           <div className="row no-gutters justify-content-center">
+            <h2>Address Info</h2>
+            <p className="address-vertical-padding">Before you check out, please provide your address information and verify your cart appears correct. Upon clicking the check-out button, an extra item will be added to your cart to account for shipping costs.</p>
             <div className="col-4">
               <h3>Address</h3>
             </div>
@@ -217,8 +235,8 @@ function Navbar() {
               />
             </div>
             <div className="col-8 hr"></div>
-            <div className="col-12">
-              <h3>Your Cart</h3>
+            <div className="col-12" align="center">
+              <h2>Your Cart</h2>
             </div>
             {getCartItemList()}
             <div className="checkout-button-container col-12">
@@ -229,18 +247,46 @@ function Navbar() {
         <div className="col-4 offset-4" align="center">
           <div align="center" style={{display: "inline-block"}}> 
             <h1 className="navbar-title-text" onClick={() => (window.location = "/")}>
-              <img className="imgSpacing" src={ht_logo} />
+              <img className = "imgSpacing" src={ht_logo} />
             </h1>
           </div>
         </div>
-        <div className="col-6 offset-2 offset-md-0 col-md-4" align="right">
-          <div align="right" className="rightSpacing" style={{display: "inline-block"}}>
-            {/* <img onClick={() => (window.location = "/login")} class="buttonSpacing" src={account_circle} /> */}
-            {/* <img class="buttonSpacing" src={cart} /> */}
-            <button className="btn checkOutButton" onClick={openModal}>Check-Out</button>
-            <br/>
+        <div className="col-4" align="right">
+          <div align="right">
+            <img class="buttonSpacing" src={cart} onClick={openModal} />
             <div className="mobile-drawer">
-              <MobileDrawer />
+              <div>
+              <img onClick={handleDrawerState} src="https://img.icons8.com/ios/36/000000/menu--v6.png"/>
+              {!drawerState ? 
+              <></>
+              :
+              <div class="container-fluid fade-animation p-0">
+                <div class="row no-gutters">
+                    <div class="col-12">
+                    <p onClick={() => (window.location = "/about")} className="text">About</p>
+                    </div>
+                    <div class="col-12">
+                    {/* Link to programs */}
+                    <p>Programs</p> 
+                    </div>
+                    <div class="col-12">
+                    <p onClick={() => (window.location = "/volunteer_events")}>
+                        Volunteer & Events
+                    </p>
+                    </div>
+                    <div class="col-12">
+                    <p onClick={() => (window.location = "/shop")}>Shop</p>
+                    </div>
+                    <div class="col-12">
+                    <p onClick={() => (window.location = "/donation")}>Donate</p>
+                    </div>
+                    <div class="col-12">
+                    <p onClick={openModal}>Check Out</p>
+                    </div>
+                  </div>
+                </div>
+                }
+              </div> 
             </div>
           </div>
         </div>
