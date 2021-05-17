@@ -46,7 +46,7 @@ function Donation() {
         <h1 className="heading">Your Donation Matters</h1>
 
         <h3 className="donation-text">
-          Your gift to Hands Together allows us to provide greater resources to the advanced early childhood education for the children of our working families in the center of Santa Ana and surrounding areas. <br/><br/>A big thank you for your generous donation - we are thrilled you have chosen to support Hands Together. The children’s success is vastly broadened through the generosity of donations like yours.
+          Your gift to Hands Together allows us to provide greater resources to the advanced early childhood education for the children of our working families in the center of Santa Ana and surrounding areas.
         </h3>
 
         <div className="donation-container">
@@ -78,19 +78,19 @@ function Donation() {
 
         <form className="donation-container" method="" action="" onSubmit={customDonation}>
           <div className="row no-gutters form-item">
-            <div className="col-6 col-md-6">
+            <div className="col-12 col-sm-6 col-md-6">
               <h3>Give a custom amount</h3>
             </div>
-            <div className="col-6 col-md-6">
+            <div className="col-12 col-sm-6 col-md-6">
               <input type="text" onChange={onDonationChange} required/>
               <p className="form-option">Custom Amount</p>
             </div>
           </div>
           <div className="row no-gutters form-item">
-            <div className="col-8 col-md-8">
+            <div className="col-12 col-sm-7 col-md-7">
               <h3>What type of donate are you making?</h3>
             </div>
-            <div className="col-4 col-md-4">
+            <div className="col-12 col-sm-5 col-md-5">
               <input type="radio" id="one-time" name="donation-type" value="one-time" onClick={() => setType("one-time")} required/>
               <label for="one-time"><p className="form-option">One-time Donation</p></label><br/>
               <input type="radio" id="recurring" name="donation-type" value="recurring" onClick={() => setType("recurring")} required/>
@@ -98,10 +98,10 @@ function Donation() {
             </div>
           </div>
           <div className="row no-gutters form-item">
-            <div className="col-8 col-md-8">
+            <div className="col-sm-7 col-md-7">
               <h3>Payment Method</h3>
             </div>
-            <div className="col-4 col-md-4">
+            <div className="col-sm-5 col-md-5">
               <input type="radio" id="credit-card" name="payment-method" value="credit-card" required/>
               <label for="credit-card"><p className="form-option">Credit Card</p></label><br/>
               <input type="radio" id="debit-card" name="payment-method" value="debit-card" required/>
