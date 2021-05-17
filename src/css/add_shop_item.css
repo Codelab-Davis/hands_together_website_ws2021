@@ -56,6 +56,10 @@
   margin: 0.5rem;
 }
 
+.add-a-photo { 
+  border: none;
+}
+
 .photo-preview {
   background: rgba(196, 196, 196, 0.5);
 }
