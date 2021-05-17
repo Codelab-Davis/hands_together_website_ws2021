@@ -5,46 +5,61 @@
 .aboutImgFormat
 {
     /* able to resize images when resize window */
-    max-width:75%;
+    max-width:90%;
     /* TODO: center after resize */
-
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
     filter: drop-shadow(0px 4px 4px rgba(7, 30, 53, 0.25)); 
 }
 
+/* .border
+{
+    border-color: black;
+    border-style: solid;
+} */
 /* Fix the images on a smaller screen */
 @media (max-width: 768px) {
-    .aboutImgFormat {
-      max-width:200%;
-    }
-    .imgFormat {
-        max-width:200%;
-    }
+    /* .aboutImgFormat {
+      margin-left:1rem;
+    } */
     .smallScreenTextShift {
         margin-left:3rem;
-    margin-right:3rem;
+        margin-right:3rem;
+    }
+    .teamlink {
+        position: absolute;
+        text-decoration: underline;
+        color: blue;
+        width:100%;
+        margin-top: 15%;
     }
   }
-
 .abttxt
 {
     margin-left:3rem;
+    margin-right:3rem;
 }
 
 .imgFormat 
 {
     /* centers and shrinks image */
-    max-width: 150%; /* won't center image if max-width = 100% */
+    max-width: 100%;
     display: block;
     filter: drop-shadow(0px 4px 4px rgba(7, 30, 53, 0.25)); 
 
 }
 .preschoolFormat
 {
-    background: #50B4F2;
+    background-color: #50B4F2;
+    margin-left:0rem;
+    margin-right:0rem;
 }
 .morningFormat
 {
-    background: #F2B705;
+    background-color: #F2B705;
+    margin-left:0rem;
+    margin-right:0rem;
 }
 
 .preschoolButton
@@ -58,40 +73,32 @@
     background: #50B4F2;
     font-weight: bold;
 }
-/* Sets the size to empty div with th background image */
-/* position is relative so we can put text on top of it */
+
 .teamdiv
 {
-    position: relative; 
-    height: 100vh;
-    width: 100%;
-    display: flex;
-    /*align horizontally and vertically*/
-    align-items: center; 
-    justify-content: center;
+    align-items: center;
+    vertical-align: middle;
+    opacity: 0.5;
+    display: inline-block;
 }
-/* Makes background image transparent, but not the things inside the div itself */
-/* Creates an empty container that has a background image that stretches across the div */
-.teamdiv:before
+.teamdiv img
 {
-    content: "";
-    background-image: url(../images/ourteam.png);
-    background-size: cover;
-    position: absolute;
-    top: 0px;
-    right: 0px;
-    bottom: 0px;
-    left: 0px;
-    opacity: 0.25;
-
+    max-width:100%;
+    width:100%;
 }
-
 .teamlink
 {
-    position:relative;
+    position: absolute;
     text-decoration: underline;
     color: black;
+    width:100%;
+    margin-top: 20%;
 }
+
+/* .border
+{
+    border-style: solid;
+} */
 
 .teamlink:hover
 {

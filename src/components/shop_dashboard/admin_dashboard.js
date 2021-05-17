@@ -1,84 +1,19 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import Modal from 'react-bootstrap/Modal';
 import React, { useEffect, useState } from 'react';
+import "../../css/admin_dashboard.css";
+import kid from "../../images/kid.png";  
 import { propTypes } from "react-bootstrap/esm/Image";
 const axios = require('axios');
+
 //https://react-bootstrap.github.io/components/modal/#modal-dialog-props
 //https://rangle.io/blog/simplifying-controlled-inputs-with-hooks/
+
 function Admin_Dashboard(props) {
-  const [show, setShow] = useState(false);
-  const [trackingLink, updateTrackingLink] = useState('');
-  const [input, setInput] = useState('');
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
-
-  // LOADING ALL ITEMS AND PAGINATION STARTS BELOW 
-  const [soldItemArray, update] = useState({data: []});
-  
-  // log whatever item is clicked 
-  function clicked(val) {
-    console.log(val.name)
-  }
-
-  // initialize an empty array using UseState. Next value assignment, use setCurItems
-  const [soldItems, setCurItems] = useState([]);
-  // intialize an integer that holds the value of the next index after slicing. 
-  const [nextIndex, setNextIndex] = useState(0);
-  // triggered on the "next" button click 
-  function next() {
-    if (soldItemArray.data[nextIndex] != undefined) // there are more items to see 
-    {
-      //slice the next 12 items in the data array. 
-      setCurItems(soldItemArray.data.slice(nextIndex, nextIndex + 12));
-      //set the next index to the first in the next set of 12 objects
-      setNextIndex(nextIndex + 12);
-    }
-  }
-    // triggered on the "previous" button click 
-  function back() {
-    if (soldItemArray.data[nextIndex - 13] != undefined) // there are previous items to go back to
-    { 
-      setCurItems(soldItemArray.data.slice(nextIndex - 24, nextIndex - 12));
-      setNextIndex(nextIndex - 12);
-    }
-  }
-  function check()
-  {
-    setCurItems(soldItemArray.data.slice(0,12));
-    setNextIndex(12);
-    console.log(soldItems);
-  }
-
-  useEffect(() => {
-    axios.get('http://localhost:5000/sold_items/get_sold_items', { withCredentials: true })
-    .then(res => {
-      console.log(res)
-      // assign json data to itemArray 
-      update({data: res.data})
-    })
-    .catch ( err => {console.log(err)})
-  }, [])
-
-  function handleChange()
-  {
-    alert('handleChange was executed');
-  }
-  
-
-  function handleSubmit (evt) { 
-    evt.preventDefault();
-    //updateTrackingLink(trackingLink);
-    updateTrackingLink(input);
-    //alert(`tracking link input ${trackingLink}`);
-    
-  }
-
-  function cancelOrder(e) {
-      axios.post('http://localhost:5000/stripe/cancel_order')
-       .then(res => console.log(res));
-  }
+  const [curAnnouncement, setCurAnnouncement] = useState({}); 
+  const [curAnnouncementText, setCurAnnouncementText] = useState(""); 
+  const [newAnnouncement, setNewAnnouncement] = useState(""); 
+  const [statusMessage, setStatusMessage] = useState(""); 
 
   function logout() {
     console.log(props.loggedIn);
@@ -86,72 +21,124 @@ function Admin_Dashboard(props) {
      .then(() => props.setLoggedIn(false));
   }
 
-  function getID() {
-    console.log("Connected")
+  useEffect(() => { 
+    axios.get('http://localhost:5000/announcements/get_announcement')
+      .then((res) => {
+        console.log(res.data); 
+        console.log(res.data[0]); 
+        setCurAnnouncement(res.data[0]); 
+        setCurAnnouncementText(res.data[0].text); 
+      }) 
+      .catch((error) => console.log("Error getting announcement:", error)); 
+  }, []);
+
+  function onNewAnnouncementChange(event) { 
+    setNewAnnouncement(event.target.value); 
+  }
+
+  function deleteCurrentAnnouncement() { 
+    if (curAnnouncement != undefined && curAnnouncement._id != undefined && curAnnouncement._id != "") { 
+      axios.delete(`http://localhost:5000/announcements/delete_announcement/${curAnnouncement._id}`)
+        .then(() => { 
+          setCurAnnouncement({});
+          setCurAnnouncementText("");
+          setStatusMessage("Announcement successfully deleted");
+        })
+        .catch((error) => {
+          console.log("Error Deleting Announcement:", error)
+          setStatusMessage("You cannot delete this announcement right now. This might be because there is no announcement right now, or you need to refresh the page."); 
+        });
+    } 
+    else { 
+      setStatusMessage("You cannot delete this announcement right now. This might be because there is no announcement right now, or you need to refresh the page."); 
+    }
   }
   
-  return (
-    <div>
-      <p>HELLOOO </p>
-      <button onClick={logout}>Logout</button>
+  function addAnnouncement() {
+    if (newAnnouncement.length == 0) {
+      setStatusMessage("Please enter an announcement."); 
+      return; 
+    } 
 
-      <button type="button" onClick={check}>Check Contents</button>
-      {soldItems.map((itemIter, index) =>
-        <div key={index}>
-            <button onClick={handleShow}>
-              name: {itemIter.name}<br />
-              transaction_id: {itemIter.transaction_id}<br />
-              tracking link: {itemIter.tracking_link} <br />
-              cancelled: {itemIter.cancelled} <br />
-            </button>
-         
-        </div>
-      )}
+    const new_announcement = { 
+      "text": newAnnouncement,
+    }
     
-      
-      <button onClick={handleShow}>
-        Launch demo modal
-      </button>
-      <div>
-        <p>
-          tracking link: {trackingLink}
-        </p>
-        </div>
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
-        <Modal.Body>Tracking Link:</Modal.Body>
-
-        {/* created a form element */}
-      <form onSubmit={event => handleSubmit(event)}>
-          <div>
-        {/* this creates a text box that live updates the value of the tracking # */}
-            <input type="text" onChange={e => setInput(e.target.value)} />
-
-            {/* in order to avoid random unsubmitted inputs changing the value (due to the live update), 
-            we have an intermediate step inside the handleSubmit function that changes the true trackingNumber 
-            variable when the button is clicked */}
-
-        <input type="submit" value ="Submit"/>
-        
-      </div> <p>after input = {trackingLink}</p>
-      </form>
-      <form onSubmit={e => cancelOrder(e)}>
-            <input type="submit" value="Cancel Order"/>
-      </form>
-      
-        <Modal.Footer>
-          <button onClick={handleClose}>
-            Close
-          </button>
-        </Modal.Footer>
-      </Modal>
+    console.log(curAnnouncement); 
+    if (curAnnouncement != undefined && curAnnouncement._id != undefined && curAnnouncement._id != "") { 
+      axios.delete(`http://localhost:5000/announcements/delete_announcement/${curAnnouncement._id}`)
+        .then(() => add(new_announcement))
+        .catch((error) => console.log("Error deleting announcement", error));
+    } 
+    else { 
+      axios.get('http://localhost:5000/announcements/get_announcement')
+      .then((res) => {
+        if (res.data.length == 0) { 
+          add(new_announcement); 
+        }
+        else { 
+          setStatusMessage("To modify your current announcement, please refresh the page."); 
+        }
+      }) 
+      .catch((error) => { 
+        console.log("Error getting announcement:", error); 
+        setStatusMessage("There was an error updating your announcement."); 
+      }); 
+    } 
+  }
+  
+  function add(new_announcement) { 
+    axios.post('http://localhost:5000/announcements/add_announcement', new_announcement) 
+      .then(() => { 
+        setCurAnnouncementText(new_announcement.text);
+        setCurAnnouncement({});
+        setNewAnnouncement(""); 
+        setStatusMessage("Announcement successfully updated. To modify this same announcement, please refresh the page."); 
+      })
+      .catch((error) => { 
+        console.log("Error adding new announcement:", error); 
+        setStatusMessage("There was an error updating your announcement."); 
+      })
+  }
+  
+  return ( 
+    <div className="container-fluid p-0"> 
+      <div className="row no-gutters"> 
+        <div className="col-12"> 
+          <h1 className="title-text">Welcome to your admin dashboard!</h1>
+        </div> 
+        <a className="col-5 admin-box" href="/add_shop_item">
+          <h2 className="text-padding">Add Shop Items</h2> 
+          <p className="text-padding">Click here to add a new item to your shop!</p>  
+        </a> 
+        <a className="col-5 admin-box" href="/add_event">
+          <h2 className="text-padding">Add an event</h2> 
+          <p className="text-padding">Click here to create a new event!</p>  
+        </a> 
+        <a className="col-5 admin-box" href="/view_shop_items">
+          <h2 className="text-padding">View Listed and Sold Shop Items</h2> 
+          <p className="text-padding">Click here to view your active shop listings and all sold shop items.</p>  
+        </a> 
+        <a className="col-5 admin-box" href="/view_events">
+          <h2 className="text-padding">View Listed Events and Volunteers</h2> 
+          <p className="text-padding">Click here to view your listed events and the volunteers signed up for each one.</p>  
+        </a>
+        <div className="admin-box" style={{cursor: "default", paddingLeft: "1rem"}}>
+          <h2 style={{marginTop: "1rem"}}>Edit Announcement</h2>
+          <p>Current Announcement: <strong>{curAnnouncementText}</strong></p>
+          <button className="submit-button" style={{marginBottom: "0.5rem", width: "18rem"}} onClick={deleteCurrentAnnouncement}>Delete Current Announcement</button>
+          <div className="row no-gutters listing-input"> 
+            <p style={{marginTop: "1rem", marginRight: "1rem"}}>New Announcement:</p>
+              <div className="col-10 col-md-6">
+                  <input type="text" placeholder="New Announcement" value={newAnnouncement} onChange={onNewAnnouncementChange} /> 
+              </div>
+          </div>
+          <button className="submit-button" style={{marginBottom: "0.5rem", width: "16rem"}} onClick={addAnnouncement}>Create New Announcement</button>
+          <p style={{marginBottom: "2rem"}}>{statusMessage}</p>
+        </div>  
       </div>
-      
+    </div>
   );
 }
 
 export default Admin_Dashboard;
-

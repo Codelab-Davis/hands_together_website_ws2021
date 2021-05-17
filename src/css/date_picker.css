@@ -1,5 +1,8 @@
 
 /* Calendar Styles */
+.calendar-size{
+  width: 85% !important;
+}
 
 .DayPicker { 
   font-size: 0.875rem;
@@ -9,23 +12,28 @@
   border: 4px solid var(--darkred); 
   box-sizing: border-box;
   border-radius: 4px;
+
 }
 
 .DayPicker-TodayButton { 
   color: #999999;
+
 }
 
 .DayPicker-Day--today {
   color: #999999;
+
 }
 
 .DayPicker-Day--disabled {
   color: #999999;
+
 }
 
 .DayPicker-NavButton--prev {
   background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAQCAYAAAAvf+5AAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAB4SURBVHgBjdJRCoAgDAbgNfAeXqF3EXaTulmdZHSj3gWr9RCaOv1hsIcPhnMASpjZSkk/acgYw9KHEGbsIBtjPIjonDpo994vxegWyqCGPthDLxxBkuzViHhBI8Xopzbn3FqFI7i5nj9WF57i6l/X8OhREGhJz+wGqFhg7Vv341wAAAAASUVORK5CYII=);
   outline: none;
+  
 }
 
 .DayPicker-NavButton--next {
@@ -35,10 +43,13 @@
 
 .DayPicker-Months {
   font-weight: 700;
+  
+
 }
 
 .DayPicker-Caption {
   font-weight: 700;
+
 }
 
 .DayPicker-Day {
@@ -52,26 +63,50 @@
   padding: 1.2em;
 }
 
+@media (max-width: 1280px) { 
+  .DayPicker-Day { 
+    padding: 0.8em;
+  }
+} 
+
+@media (max-width: 450px) { 
+  .DayPicker-Day { 
+    padding: 0.7em;
+  }
+} 
+
+@media (max-width: 300px) { 
+  .DayPicker-Day { 
+    padding: 0.5em;
+  }
+} 
+
 .DayPicker-Weekday {
   color: var(--mediumgray);
+
+  
 }
 
 .DayPicker-Day--today {
   color: var(--darkred);
   font-weight: 700;
+
 }
 
 .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) {
   background-color: var(--darkred);
   color: var(--white);
+
 }
 
 .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside):hover {
   background-color: var(--darkred);
+
 }
 
 .DayPicker:not(.DayPicker--interactionDisabled)
 .DayPicker-Day:not(.DayPicker-Day--disabled):not(.DayPicker-Day--selected):not(.DayPicker-Day--outside):hover {
   background-color: var(--darkred);
   color: var(--white);
+
 }
