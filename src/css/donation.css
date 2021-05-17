@@ -24,30 +24,24 @@ input[type="radio"] {
 
 .donation-row {
     justify-content: space-between;
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
 }
 
-.donation-small, .donation-large {
+.donation-box {
     box-sizing: border-box;
     border-radius: 1.5rem;
-    margin: 0.75rem;
     background: #F2B705;
     text-align: center;
+    height: 13rem;
 }
 
-.donation-small {
-    width: 28%;
-    height: 12rem;
-}
-
-.donation-large {
-    width: 45%;
-    height: 12rem;
+.donation-padding {
+    padding: 0.5rem;
 }
 
 .donation-amount-text {
-    margin-top: 2rem;
-    margin-bottom: 1rem;
+    padding-top: 2rem;
+    padding-bottom: 1rem;
 }
 
 .donation-use-text {
@@ -67,6 +61,10 @@ input[type="radio"] {
     font-size: 1.5rem;
 }
 
+.form-text {
+    padding-right: 2rem;
+}
+
 .amount-input {
     height: 5rem; 
 }
@@ -83,18 +81,18 @@ input[type="radio"] {
 }
 
 @media (max-width: 1114px) {
-    .donation-small, .donation-large {
-        margin: 0rem;
-        margin-top: 0.75rem;
-        height: 14rem;
-    }
-    .donation-small {
-        width: 32%;
-    }
-    .donation-large {
-        width: 49%;
+    .donation-box {
+        height: 17rem;
     }
     .form-item {
         margin-bottom: 3rem;
+    }
+}
+@media (max-width: 766px) {
+    .donation-box {
+        height: 18rem;
+    }
+    .donation-row {
+        margin-bottom: 0.25rem;
     }
 }
