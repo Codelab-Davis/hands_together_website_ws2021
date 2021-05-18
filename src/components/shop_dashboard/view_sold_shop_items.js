@@ -1,8 +1,39 @@
 import react, { useState, useEffect } from "react"; 
 import "../../css/view_shop_items.css";
+import Modal from 'react-modal'; 
 const axios = require('axios');
 
-function ViewSoldShopItems() { 
+function ViewSoldShopItems() {
+    // MODAL STATES, FUNCTIONS, AND STYLING START BELOW 
+    const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [selectedItem, setSelectedItem] = useState();  
+    
+    function openModal(item) {
+        setModalIsOpen(true);
+        setSelectedItem(item); 
+    }
+    
+    function closeModal(){
+        setModalIsOpen(false);
+    }
+
+    function logCurItemID() { 
+        console.log(selectedItem); 
+    }
+
+    const customModalStyles = {
+        content : {
+            top                   : '50%',
+            left                  : '50%',
+            right                 : 'auto',
+            bottom                : 'auto',
+            marginRight           : '-50%',
+            width                 : '50%',
+            transform             : 'translate(-50%, -50%)'
+        }
+    };
+
+
     // LOADING ALL ITEMS AND PAGINATION STARTS BELOW 
     const [itemArray, update] = useState({data: []});
     // initialize an empty array using UseState. Next value assignment, use setCurItems
@@ -58,7 +89,15 @@ function ViewSoldShopItems() {
     }, [itemArray]) 
 
     return ( 
-        <div className="container-fluid p-0"> 
+        <div className="container-fluid p-0">
+            <Modal
+                isOpen={modalIsOpen}
+                onRequestClose={closeModal}
+                contentLabel="Checkout Delivery Address Modal"
+                style={customModalStyles}
+            >
+                <button onClick={logCurItemID()}>Open up your console and click me to see the current item's information</button>
+            </Modal> 
             <div className="row no-gutters view-container"> 
                 <h1 className="title-text">Sold Items</h1>
                 <p className="title-text"><br/>{
@@ -71,16 +110,10 @@ function ViewSoldShopItems() {
                         items.map((itemIter, index) =>
                         <div className="col-md-4" key={index}>
                             <div className="item-container">
-                            <a className="wrapper-link" href={`/shop/${itemIter._id}`} onClick={() => clicked(itemIter)}></a>
-                            <div className="item-image" style={{backgroundImage: `url(${itemIter.images[0]})`}}></div>
-                            <div className="add-to-cart">
-                                <a className="bold">Delete Item</a>
-                            </div>
-                            <div className="item-info">
+                            <div className="item-info" style={{cursor: "pointer"}} onClick={() => openModal(itemIter)}> 
                                 <div className="name-price">
                                 <p className="name bold">{itemIter.name}</p>
                                 <p className="price">{getFormattedPrice(itemIter.price)}</p>
-                                <button onClick={() => clicked(itemIter)}>Preview Listing</button>
                                 </div>
                                 <p className="caption description">{itemIter.description.length < 100 ? itemIter.description : itemIter.description.slice(0, 100) + "..."}</p>
                             </div>

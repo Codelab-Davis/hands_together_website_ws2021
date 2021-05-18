@@ -1,6 +1,7 @@
 import react, { useEffect, useState } from "react"; 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/navbar.css";
+import "../css/mobile_drawer.css";
 import { useHistory } from "react-router-dom";
 import ht_logo from "../images/ht_logo.png";
 import cart from "../images/cart.png";
@@ -10,6 +11,8 @@ import xicon from "../images/x-icon.png";
 import Modal from 'react-modal';
 const axios = require('axios');
 
+var shippo = require('shippo')('shippo_test_1e5dfe70515f773e34da3713d3ecfdc0203a80a9');
+
 function Navbar() {
   const history = useHistory();
   const [modalIsOpen, setModalIsOpen] = useState(false); 
@@ -17,7 +20,14 @@ function Navbar() {
   const [address2, setAddress2] = useState(''); 
   const [city, setCity] = useState(''); 
   const [state, setState] = useState(''); 
-  const [ZIP, setZIP] = useState(''); 
+  const [ZIP, setZIP] = useState('');
+  const [drawerState, setDrawerState] = useState(false);
+  const [modalWidth, setModalWidth] = useState(window.innerWidth > 1024 ? '50%' : '90%'); 
+
+  function handleDrawerState() {
+    let newState = !drawerState;
+    setDrawerState(newState);
+  } 
 
   function openModal() {
     setModalIsOpen(true);
@@ -54,43 +64,96 @@ function Navbar() {
       right                 : 'auto',
       bottom                : 'auto',
       marginRight           : '-50%',
-      width                 : '50%',
+      width                 : modalWidth,
       transform             : 'translate(-50%, -50%)'
     }
   };
 
-  function checkout() {
+  async function checkout() {
     let quota = window.localStorage.getItem("QUOTA")
     if (!quota) {
       alert("Your cart is currently empty. Add items to cart on the shop page.");
       return;
     }
+
+    // ABHAY: This is your resulting object for Shippo after the intermediary address screen. 
+    var addressTo = await shippo.address.create({ 
+      name: "Customer",
+      street1: address1,
+      street2: address2,
+      city: city,
+      state: state, 
+      zip: ZIP,
+      country: "US",
+      validate: true,
+    }, function(err, address) {
+      console.log(address);
+    });
+
+    if(city.length == 0 || state.length == 0 || !addressTo.validation_results.is_valid) {
+      alert("The address you entered is invalid. Please enter a valid address.");
+      return;
+    }
+
+    const addressFrom = await shippo.address.create({
+      name: "test",
+      street1: "201 Civic Center Drive East",
+      street2: "",
+      city: "Santa Ana",
+      state: "CA", 
+      zip: "92701",
+      country: "US",
+      validate: true,
+    }, function(err, address) {
+      console.log(address);
+    })
+
+    const parcelSmall = {
+      length: '8',
+      width: '7',
+      height: '6',
+      distance_unit: 'in',
+      weight: '15',
+      mass_unit: 'oz',
+    }
+    const parcelMed = {
+      length: '11.25',
+      width: '8.75',
+      height: '6',
+      distance_unit: 'in',
+      weight: '30', // what do I do with this?
+      mass_unit: 'oz',
+    }
+
+    var shipment = await shippo.shipment.create({
+      address_from: addressFrom,
+      address_to: addressTo,
+      parcels: [parcelSmall],
+      async: false,
+    }, function(err, shipment) {
+      console.log(shipment);
+    });
+
+  
     const cart = {"cart": []}
     for(let i = 0; i < quota; i++) {
       cart["cart"].push(window.localStorage.getItem("JXYSDFH65F" + i))
     }
+
     const req = {
       amount: 0,
       success_url: "http://localhost:3000/thank_you",
       cancel_url: "http://localhost:3000/",
       cart: cart,
+      shipping_rate: 1000,// $10
+      shipping_address: addressTo,
       type: "purchase"
     }
 
-    // ABHAY: This is your resulting object for Shippo after the intermediary address screen. 
-    const addressInfo = { 
-      address: address1,
-      address2: address2,
-      city: city,
-      state: state, 
-      ZIP: ZIP,
-    }
-    console.log(addressInfo); 
-
-    var stripe = window.Stripe('pk_test_51IMhDjDACjkjrvMm0D7gtuvvHOCY8Z9dGTjwVFxFcmWHlGfjn9CGEdvyvs5vMQrAQDwmBcELSzSb2kTNf65eyJkw00AXucR70x')
-    axios.post('http://localhost:5000/stripe/create-checkout-session/', req) 
-     .then(session => stripe.redirectToCheckout({sessionId: session.data.id}))
-     .catch(error => console.log(error))
+    // var stripe = window.Stripe('pk_test_51IMhDjDACjkjrvMm0D7gtuvvHOCY8Z9dGTjwVFxFcmWHlGfjn9CGEdvyvs5vMQrAQDwmBcELSzSb2kTNf65eyJkw00AXucR70x')
+    // axios.post('http://localhost:5000/stripe/create-checkout-session/', req) 
+    //  .then(session => stripe.redirectToCheckout({sessionId: session.data.id}))
+    //  .catch(error => console.log(error))
   }
   
   function useForceUpdate(){
@@ -146,8 +209,17 @@ function Navbar() {
     return cartItems;
   }
 
+  useEffect(() => { 
+    function handleResize() {
+      // console.log('resized to: ', window.innerWidth, 'x', window.innerHeight) 
+      setModalWidth(window.innerWidth > 1024 ? '50%' : '90%'); 
+    }
+  
+    window.addEventListener('resize', handleResize); 
+  });
+
   return (
-    <div>
+    <div style={{fontWeight: "700"}}> 
       <div className="row no-gutters">
         <Modal
           isOpen={modalIsOpen}
@@ -156,6 +228,8 @@ function Navbar() {
           style={customModalStyles}
         >
           <div className="row no-gutters justify-content-center">
+            <h2>Address Info</h2>
+            <p className="address-vertical-padding">Before you check out, please provide your address information and verify your cart appears correct. Upon clicking the check-out button, an extra item will be added to your cart to account for shipping costs.</p>
             <div className="col-4">
               <h3>Address</h3>
             </div>
@@ -183,7 +257,7 @@ function Navbar() {
             <div className="col-4">
               <h3>City</h3>
             </div>
-            <div className="col-8">
+            <div className="col-4">
               <input
                 type="text"
                 placeholder=""
@@ -192,10 +266,13 @@ function Navbar() {
                 onChange={onCityChange}
               />
             </div>
+            <div className="col-4" />
+          </div>
+          <div className="row no-gutters justify-content-center">
             <div className="col-4">
               <h3>State</h3>
             </div>
-            <div className="col-8">
+            <div className="col-4">
               <input
                 type="text"
                 placeholder=""
@@ -204,10 +281,13 @@ function Navbar() {
                 onChange={onStateChange}
               />
             </div>
+            <div className="col-4" />
+          </div>
+          <div className="row no-gutters justify-content-center">
             <div className="col-4">
               <h3>ZIP</h3>
             </div>
-            <div className="col-8">
+            <div className="col-4">
               <input
                 type="text"
                 placeholder=""
@@ -216,9 +296,10 @@ function Navbar() {
                 onChange={onZIPChange}
               />
             </div>
+            <div className="col-4" />
             <div className="col-8 hr"></div>
-            <div className="col-12">
-              <h3>Your Cart</h3>
+            <div className="col-12" align="center">
+              <h2>Your Cart</h2>
             </div>
             {getCartItemList()}
             <div className="checkout-button-container col-12">
@@ -226,24 +307,51 @@ function Navbar() {
             </div>
           </div>
         </Modal>
-        <div className="col-4 offset-4" align="center">
-          <div align="center" style={{display: "inline-block"}}> 
-            <h1 className="navbar-title-text" onClick={() => (window.location = "/")}>
-              <img className="imgSpacing" src={ht_logo} />
-            </h1>
+        <div className="col-2 offset-md-5" align="center">
+          <div className="logo-container" style={{display: "inline-block"}}> 
+            <img onClick={() => (window.location = "/")} className="imgSpacing" src={ht_logo} />
           </div>
         </div>
-        <div className="col-6 offset-2 offset-md-0 col-md-4" align="right">
-          <div align="right" className="rightSpacing" style={{display: "inline-block"}}>
-            {/* <img onClick={() => (window.location = "/login")} class="buttonSpacing" src={account_circle} /> */}
-            {/* <img class="buttonSpacing" src={cart} /> */}
-            <button className="btn checkOutButton" onClick={openModal}>Check-Out</button>
-            <br/>
+        <div className="col-10 col-md-5" align="right">
+          <div align="right">
+            <img class="buttonSpacing" src={cart} onClick={openModal} />
             <div className="mobile-drawer">
-              <MobileDrawer />
+              <div>
+              <img onClick={handleDrawerState} className="hamburger-spacing" src="https://img.icons8.com/ios/36/000000/menu--v6.png"/>
+              </div> 
             </div>
           </div>
         </div>
+        <hr/>
+        {!drawerState ? 
+              <></>
+              :
+              <div class="container-fluid fade-animation p-0 dropdown-container">
+                <div class="row no-gutters">
+                    <div class="col-12">
+                    <p onClick={() => (window.location = "/about")} className="text">About</p>
+                    </div>
+                    <div class="col-12">
+                    {/* Link to programs */}
+                    <p>Programs</p> 
+                    </div>
+                    <div class="col-12">
+                    <p onClick={() => (window.location = "/volunteer_events")}>
+                        Volunteer & Events
+                    </p>
+                    </div>
+                    <div class="col-12">
+                    <p onClick={() => (window.location = "/shop")}>Shop</p>
+                    </div>
+                    <div class="col-12">
+                    <p onClick={() => (window.location = "/donation")}>Donate</p>
+                    </div>
+                    <div class="col-12">
+                    <p onClick={openModal}>Check Out</p>
+                    </div>
+                  </div>
+                </div>
+                }
       </div> 
       <div className="navbar-content .d-none .d-sm-block" align="center">
         <div class="container-fluid p-0">

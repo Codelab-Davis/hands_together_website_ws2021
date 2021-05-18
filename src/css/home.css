@@ -28,12 +28,12 @@
 }
 
 .wbutton {
-  height: 4.25rem; 
-  width: 11.25rem; 
+  height: 3.625rem; 
+  width: 9.6875rem;
   padding-top: 0.3125rem;
   margin-left: 3rem;
   text-align: center;
-  background-color: red;
+  background-color: var(--darkred); 
 }
 
 @media (max-width: 768px) {
@@ -45,8 +45,8 @@
 }
 
 .ybutton {
-  height: 5.6875rem; 
-  width: 15.125rem; 
+  height: 3.625rem; 
+  width: 9.6875rem;
   padding-top: 0.3125rem;
   margin-top: 12rem;
   background-color: darkorange;
@@ -61,8 +61,8 @@
   }
 }
 .nbutton {
-  height: 91px; 
-  width: 242px; 
+  height: 3.625rem; 
+  width: 9.6875rem;
   padding-top: 0.3125rem;
   text-align: center;
   background-color: darkorange;
@@ -72,15 +72,14 @@
 
 @media (max-width: 768px) {
   .nbutton {
-  width: 180px;
-  height: 60px;
-  margin-left: 1rem;
+    height: 3.625rem; 
+    width: 9.6875rem;
+    margin-left: 1rem;
   }
 }
 
 .text {
-  margin-bottom: 1.25rem;
-  text-decoration: underline;     
+  margin-bottom: 1.25rem;   
 }
 
 .optext {
@@ -328,7 +327,7 @@
 }
 
 .vocab {
-  font-size: 34px;
+  font-size: 28px;
   line-height: 39.84px;
   font-weight: 700;
 }

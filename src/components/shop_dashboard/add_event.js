@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../../css/add_event.css"; 
+import EventTile1 from "../../images/EventTile1.png";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 const axios = require('axios');
@@ -41,10 +42,13 @@ function AddEvent() {
 
     const [uploadMesssage, setUploadMessage] = useState("");
     const [imgFile, setImgFile] = useState();
+    const [uploadedImage, setUploadedImage] = useState(false); 
 
     function handleImgUpload(e) {
-        if (e.target.files.length == 1)
+        if (e.target.files.length == 1) { 
+            setUploadedImage(true); 
             setImgFile(e.target.files);
+        }
         else
             setUploadMessage("One image only");
     }
@@ -67,49 +71,48 @@ function AddEvent() {
             "description": description,
             "attendee_amount": 0,
             "volunteer_amount": 0,
-            "image": "",
         }
 
         let promises = [];
-
-        let contentType = imgFile[0].type;
-        let options = {
-            params: {
-                Key: event.name.replace(/[^a-zA-Z0-9]/g, ""),
-                ContentType: contentType
-            },
-            headers: {
-                'Content-Type': contentType
-            }
-        };
-        // Upload the image
-        promises.push(
-            axios.get('http://localhost:5000/event/generate-put-url', options)
-                .then(res => {
-                    const {
-                        data: { putURL }
-                    } = res;
-                    promises.push(
-                        axios.put(putURL, imgFile[0], options)
-                        .then(res => {
-                            setUploadMessage("Upload successful");
-                        })
-                        .catch(err => {
-                            setUploadMessage("Sorry something went wrong uploading your image.");
-                            console.log('err', err);
-                        })
-                    )
-                })
-        )
-
-        // Add the image's url
-        event.image = "https://handstogetherimages.s3-us-west-1.amazonaws.com/" + options.params.Key
+        
+        if (uploadedImage) { 
+            let contentType = imgFile[0].type;
+            let options = {
+                params: {
+                    Key: event.name.replace(/[^a-zA-Z0-9]/g, ""),
+                    ContentType: contentType
+                },
+                headers: {
+                    'Content-Type': contentType
+                }
+            };
+            // Upload the image
+            promises.push(
+                axios.get('http://localhost:5000/event/generate-put-url', options)
+                    .then(res => {
+                        const {
+                            data: { putURL }
+                        } = res;
+                        promises.push(
+                            axios.put(putURL, imgFile[0], options)
+                            .then(res => {})
+                            .catch(err => {
+                                setUploadMessage("Sorry something went wrong uploading your image.");
+                                console.log('err', err);
+                            })
+                        )
+                    })
+            )
+            // Add the image's url
+            event.image = "https://handstogetherimages.s3-us-west-1.amazonaws.com/" + options.params.Key
+        }
         // Add item to database after urls are finished generating
         Promise.all(promises)
             .then(() => {
                 axios.post('http://localhost:5000/event/add', event)
                 .then(res => {
                     console.log(event);
+                    setUploadMessage("Upload successful");
                 })
             })
     }
@@ -123,6 +126,16 @@ function AddEvent() {
         }
     }
 
+    function determineImage() { 
+        if (renderImage(imgFile) != undefined) { 
+            return `url(${renderImage(imgFile)})`; 
+        }
+        else { 
+            console.log("in else statement"); 
+            return `url(${EventTile1})`; 
+        }
+    } 
+
     return ( 
         // I use bootstrap rows to fluidly force content onto new lines throughout 
         <div className="container-fluid p-0"> 
@@ -131,7 +144,17 @@ function AddEvent() {
 
                 <div className="listing-box"> 
                     <h2>Event Details</h2> 
-                    <div className="row no-gutters"> 
+                    <li>Adding a photo is optional for events. If you don't, the default image shown will be displayed.</li>
+                    <li><strong>It's highly recommended your photo is already cropped to an aspect ratio near 1.5:1. Otherwise, it will be automatically cropped as shown in the preview below.</strong></li>
+                    <input
+                        id='upload-image'
+                        type='file'
+                        accept='image/*'
+                        onChange={handleImgUpload}
+                        style={{marginTop: "1rem"}} 
+                    />
+                    <p style={{marginTop: "1rem"}}>Edit title for item, price, description, and quantity. <strong>The price must be formatted as xx.xx. If it is not, the item will not be purchaseable.</strong></p> 
+                    <div className="row no-gutters">
                         <div className="col-6">
                             <div className="col-10 listing-input">
                                 <input type="text" placeholder="Event Title" value={title} onChange={onTitleChange} /> 
@@ -152,14 +175,18 @@ function AddEvent() {
                             </div>
                         </div>
                         <div className="col-6">
-                            <input
-                                id='upload-image'
-                                type='file'
-                                accept='image/*'
-                                onChange={handleImgUpload}
-                            />
-                            <p>Image Preview</p>
-                            <img className="render-image-style" src={renderImage(imgFile)} /> 
+                            <h2 style={{marginTop: "1rem", marginBottom: "1rem"}}>Event Preview</h2>
+                            <div class="event-tile-container col-12 col-md-8">
+                                <div>
+                                    <div className="event-image" style={{backgroundImage: determineImage()}} />
+                                </div>
+                                    <div className="event_tile_banner" align="left">
+                                    <h3>{title}</h3>
+                                    <p>{description}</p>
+                                    <p><strong>Location:</strong> {location}</p>
+                                    <p><strong>Time & Date:</strong> {new Date(curDate).toLocaleString('en-US')}</p>
+                                </div>
+                            </div>
                         </div>
                         <div className="col-12">
                             <button className="submit-button submit-event hands-together-button" onClick={add_event_to_db}>Create</button>

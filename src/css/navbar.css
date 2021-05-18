@@ -22,6 +22,8 @@
 
 .mobile-drawer { 
   display: inline-block; 
+  margin-top: 1rem;
+  margin-right: 1rem;
 }
 
 @media (min-width: 768px) {
@@ -44,12 +46,18 @@
   cursor:pointer;
 }
 
+.logo-container { 
+  align-items: center;
+  justify-content: center;
+} 
+
 .imgSpacing
 {
   margin-top: 1rem; 
   margin-bottom:1rem;
   max-width: 164px;
   max-height: 111px;
+  cursor: pointer;
 }
 
 @media (max-width: 768px) { 
@@ -74,7 +82,8 @@
 
 .checkOutButton
 {
-  background: #F2B705;
+  background: var(--darkyellow); 
+  margin-top: 1rem;
 }
 
 @media (max-width: 768px) {
@@ -82,7 +91,19 @@
     margin-left: 0rem;
     margin-right: 0rem;
   }
+  .buttonSpacing { 
+    display: none;
+  }
 }
+
+.hamburger-spacing { 
+  margin-top: 1.5rem;
+} 
+
+.dropdown-container { 
+  margin-left: 2rem;
+  margin-top: -1rem;
+} 
 
 .modal-input-field { 
   margin-bottom: 1rem;
@@ -122,3 +143,7 @@
   display: flex;
   justify-content: flex-end;
 }
+
+.address-vertical-padding { 
+  padding-bottom: 1rem;
+} 
