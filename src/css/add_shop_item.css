@@ -46,18 +46,12 @@
     box regardless of screen size, so it's okay to hard code it, as it isn't that big.   */
 /*  Because add-a-photo and photo-preview share so many common attributes, I can save space 
     by assigning them both the same values in one go */
-.add-a-photo,
 .photo-preview {
-  border: 1px solid rgba(0, 0, 0, 0.5);
-  box-sizing: border-box;
-  border-radius: 4px;
-  width: 215px;
-  height: 215px;
-  margin: 0.5rem;
-}
-
-.add-a-photo { 
-  border: none;
+  width: 380px;
+  height: 380px;
+  overflow: hidden;
+  background-size: cover;
+  padding-top: 100%;
 }
 
 .photo-preview {
@@ -83,4 +77,8 @@
   margin-bottom: 1rem;
   margin-top: 1rem;
   border: none;
+}
+
+.item-page-padding { 
+  margin: 1rem;
 }

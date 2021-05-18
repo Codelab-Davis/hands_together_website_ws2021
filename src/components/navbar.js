@@ -90,7 +90,7 @@ function Navbar() {
       console.log(address);
     });
 
-    if(!addressTo.validation_results.is_valid) {
+    if(city.length == 0 || state.length == 0 || !addressTo.validation_results.is_valid) {
       alert("The address you entered is invalid. Please enter a valid address.");
       return;
     }
@@ -219,7 +219,7 @@ function Navbar() {
   });
 
   return (
-    <div>
+    <div style={{fontWeight: "700"}}> 
       <div className="row no-gutters">
         <Modal
           isOpen={modalIsOpen}
@@ -257,7 +257,7 @@ function Navbar() {
             <div className="col-4">
               <h3>City</h3>
             </div>
-            <div className="col-8">
+            <div className="col-4">
               <input
                 type="text"
                 placeholder=""
@@ -266,10 +266,13 @@ function Navbar() {
                 onChange={onCityChange}
               />
             </div>
+            <div className="col-4" />
+          </div>
+          <div className="row no-gutters justify-content-center">
             <div className="col-4">
               <h3>State</h3>
             </div>
-            <div className="col-8">
+            <div className="col-4">
               <input
                 type="text"
                 placeholder=""
@@ -278,10 +281,13 @@ function Navbar() {
                 onChange={onStateChange}
               />
             </div>
+            <div className="col-4" />
+          </div>
+          <div className="row no-gutters justify-content-center">
             <div className="col-4">
               <h3>ZIP</h3>
             </div>
-            <div className="col-8">
+            <div className="col-4">
               <input
                 type="text"
                 placeholder=""
@@ -290,6 +296,7 @@ function Navbar() {
                 onChange={onZIPChange}
               />
             </div>
+            <div className="col-4" />
             <div className="col-8 hr"></div>
             <div className="col-12" align="center">
               <h2>Your Cart</h2>
@@ -300,23 +307,26 @@ function Navbar() {
             </div>
           </div>
         </Modal>
-        <div className="col-4 offset-4" align="center">
-          <div align="center" style={{display: "inline-block"}}> 
-            <h1 className="navbar-title-text" onClick={() => (window.location = "/")}>
-              <img className = "imgSpacing" src={ht_logo} />
-            </h1>
+        <div className="col-2 offset-md-5" align="center">
+          <div className="logo-container" style={{display: "inline-block"}}> 
+            <img onClick={() => (window.location = "/")} className="imgSpacing" src={ht_logo} />
           </div>
         </div>
-        <div className="col-4" align="right">
+        <div className="col-10 col-md-5" align="right">
           <div align="right">
             <img class="buttonSpacing" src={cart} onClick={openModal} />
             <div className="mobile-drawer">
               <div>
-              <img onClick={handleDrawerState} src="https://img.icons8.com/ios/36/000000/menu--v6.png"/>
-              {!drawerState ? 
+              <img onClick={handleDrawerState} className="hamburger-spacing" src="https://img.icons8.com/ios/36/000000/menu--v6.png"/>
+              </div> 
+            </div>
+          </div>
+        </div>
+        <hr/>
+        {!drawerState ? 
               <></>
               :
-              <div class="container-fluid fade-animation p-0">
+              <div class="container-fluid fade-animation p-0 dropdown-container">
                 <div class="row no-gutters">
                     <div class="col-12">
                     <p onClick={() => (window.location = "/about")} className="text">About</p>
@@ -342,10 +352,6 @@ function Navbar() {
                   </div>
                 </div>
                 }
-              </div> 
-            </div>
-          </div>
-        </div>
       </div> 
       <div className="navbar-content .d-none .d-sm-block" align="center">
         <div class="container-fluid p-0">
