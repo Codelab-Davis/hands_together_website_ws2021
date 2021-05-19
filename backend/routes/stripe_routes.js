@@ -504,7 +504,7 @@ router.post('/cancel_donate/:id', async (req, res) => { //protect w/JWTs once do
   res.status(200).json("successfully cancelled");
 })
 
-router.post('/cancel_order/:id', async (req,res) => {
+router.post('/cancel_order/:id', tokenAuth, async (req,res) => {
   let transaction_id = req.params.id;
   const transaction = await stripe.paymentIntents.retrieve(transaction_id);
   console.log("Payment Intent: ", transaction);
