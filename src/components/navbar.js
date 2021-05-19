@@ -299,7 +299,9 @@ function Navbar() {
             </div>
             <div class="col-2">
               {/* Link to programs */}
-              <h4 className="text">Programs</h4> 
+              <h4 onClick={() => (window.location = "/programs")} className="text">
+                Programs
+              </h4> 
             </div>
             <div class="col-2">
               <h4 onClick={() => (window.location = "/volunteer_events")} className="text">

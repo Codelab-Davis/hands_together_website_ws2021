@@ -16,6 +16,7 @@ import donation from "./donation";
 import thank_you from "./transaction_pages/thank_you";
 import cancel_donation from "./transaction_pages/cancel_donation";
 import volunteer_events from "./volunteer_events";
+import programs from "./programs"
 import Navbar from "./navbar";
 import Footer from "./footer"; 
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
@@ -51,6 +52,7 @@ function App() {
           <Route exact path="/donation" component={donation} />
           <Route exact path="/volunteer_events" component={volunteer_events} />
           <Route exact path="/email" component={email} />
+          <Route exact path="/programs" component={programs} />
         </Switch>
       </Router>
       <Footer/>
