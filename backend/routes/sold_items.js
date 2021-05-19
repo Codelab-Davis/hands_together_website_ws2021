@@ -19,7 +19,7 @@ limiter.schedule(() => {
 })
 
 limiter.schedule(() => {
-  router.get('/get_sold_items', tokenAuth, (req, res) => {
+  router.get('/get_sold_items', (req, res) => {
     Sold_Item.find()
       .then(Sold_Item => res.json(Sold_Item))
       .catch(err => res.status(400).json('Error: ' + err));

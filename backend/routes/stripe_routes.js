@@ -506,7 +506,7 @@ router.post('/cancel_donate/:id', async (req, res) => { //protect w/JWTs once do
 
 router.post('/cancel_order/:id', async (req,res) => {
   let transaction_id = req.params.id;
-  const transaction = await stripe.paymentIntents.retrieve(transaction_id, { expand: [''] });
+  const transaction = await stripe.paymentIntents.retrieve(transaction_id);
   console.log("Payment Intent: ", transaction);
   const refund = await stripe.refunds.create({payment_intent: transaction_id});
   console.log("Refund: ", refund);
@@ -557,7 +557,7 @@ router.post('/cancel_order/:id', async (req,res) => {
     if(error) {
       console.log(error);
     } else {
-      console.log('Donation Cancellation Email Sent: ' + info.response);
+      console.log('Order Cancellation Email Sent: ' + info.response);
     }
   });
 
