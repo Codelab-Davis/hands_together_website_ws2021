@@ -5,7 +5,6 @@ input[type="radio"] {
     height: 40px;
     width: 40px;
     vertical-align: middle;
-    box-sizing: border-box;
 }
 
 #donation-wrapper {
