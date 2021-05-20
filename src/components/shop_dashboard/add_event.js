@@ -156,7 +156,7 @@ function AddEvent() {
                         onChange={handleImgUpload}
                         style={{marginTop: "1rem"}} 
                     />
-                    <p style={{marginTop: "1rem"}}>Edit title for item, price, description, and quantity. <strong>The price must be formatted as xx.xx. If it is not, the item will not be purchaseable.</strong></p> 
+                    <p style={{marginTop: "1rem"}}>Edit event name, description, date, and location.</p> 
                     <div className="row no-gutters">
                         <div className="col-6">
                             <div className="col-10 listing-input">

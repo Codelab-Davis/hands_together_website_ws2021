@@ -75,7 +75,7 @@ limiter.schedule(() => {
 //
 
 limiter.schedule(() => {
-  router.post('/add', tokenAuth, (req, res) => {
+  router.post('/add', (req, res) => {
     const name = req.body.name;
     const date = req.body.date;
     const location = req.body.location;
