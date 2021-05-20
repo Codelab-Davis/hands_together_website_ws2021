@@ -1,5 +1,6 @@
 const router = require('express').Router();
-const Announcement = require('../models/announcements.model')
+const Announcement = require('../models/announcements.model');
+const tokenAuth = require('../jwtAuth');
 
 const Bottleneck = require('bottleneck');
 
@@ -9,7 +10,7 @@ const limiter = new Bottleneck({
 });
 
 limiter.schedule(() => {
-  router.route('/add_announcement').post((req, res) => { 
+  router.post('/add_announcement', tokenAuth, (req, res) => { 
     const text = req.body.text;
 
     let new_announcement = new Announcement({

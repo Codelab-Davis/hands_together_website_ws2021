@@ -15,15 +15,18 @@ function AddEvent() {
 
     // Functions to track typing changes in the input fields 
     function onTitleChange(event) { 
-        setTitle(event.target.value); 
+        if (event.target.value.length < 25) 
+            setTitle(event.target.value); 
     } 
 
     function onDescriptionChange(event) { 
-        setDescription(event.target.value); 
+        if (event.target.value.length < 75) 
+            setDescription(event.target.value); 
     } 
 
     function onlocationChange(event) { 
-        setlocation(event.target.value); 
+        if (event.target.value.length < 35) 
+            setlocation(event.target.value); 
     } 
 
     const [curDate, setCurDate] = useState(new Date()); 
@@ -158,9 +161,11 @@ function AddEvent() {
                         <div className="col-6">
                             <div className="col-10 listing-input">
                                 <input type="text" placeholder="Event Title" value={title} onChange={onTitleChange} /> 
+                                <p>Max 25 characters</p> 
                             </div>
                             <div className="col-10 listing-input">
                                 <input type="text" placeholder="Event Description" value={description} onChange={onDescriptionChange} /> 
+                                <p>Max 75 characters</p> 
                             </div>
                             <div className="col-10 listing-input">
                                 <DatePicker
@@ -169,9 +174,11 @@ function AddEvent() {
                                     showTimeSelect
                                     dateFormat="Pp"
                                 />
+                                <p>Date and Time</p>
                             </div>
                             <div className="col-10 listing-input">
                                 <input type="text" placeholder="Event Location" value={location} onChange={onlocationChange} /> 
+                                <p>Max 35 characters</p> 
                             </div>
                         </div>
                         <div className="col-6">
