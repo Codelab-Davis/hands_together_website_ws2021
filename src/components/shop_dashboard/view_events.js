@@ -136,6 +136,17 @@ function ViewEvents() {
             })
     } 
 
+    function determineImage(imgFile) { 
+        if (imgFile != undefined) { 
+            console.log("in if statement"); 
+            return `url(${imgFile})`; 
+        }
+        else { 
+            console.log("in else statement"); 
+            return `url(${EventTile1})`; 
+        }
+    } 
+
     return ( 
         <div className="container-fluid p-0">
             <Modal
@@ -186,34 +197,35 @@ function ViewEvents() {
                     + Math.min((6 * curPage), itemArray.data.length) 
                     + " of " + itemArray.data.length + " results"
                 }</p> 
-                <div className="row">
-                    { items && items.length > 0 ?
-                        items.map((itemIter, index) =>
-                        <div class="event-tile-container col-12 col-md-4" style={{marginBottom: "3rem"}}>
-                            <div>
-                                <img className="event_tile" src={itemIter.image || EventTile1} />
-                            </div>
-                            <div className="event_tile_banner" align="left">
-                                <h3>{itemIter.name}</h3>
-                                <p>{itemIter.description}</p>
-                                <p><strong>Location:</strong> {itemIter.location}</p>
-                                <p><strong>Date:</strong> {formatDate(itemIter.date)}</p>
-                            </div>
-                            <div className="row no-gutters" style={{marginTop: "1rem", width: "85%"}}> 
-                                <div className="col-4"> 
-                                    <p>Volunteers: {itemIter.volunteer_amount}</p>
+                <div className="col-12">
+                    <div className="row">
+                        { items && items.length > 0 ?
+                            items.map((itemIter, index) =>
+                            <div class="event-tile-container col-12 col-md-4" style={{marginBottom: "3rem"}}>
+                            <div className="event-image" style={{backgroundImage: determineImage(itemIter.image)}} />
+                                <div className="event_tile_banner" align="left">
+                                    <h3>{itemIter.name}</h3>
+                                    <p>{itemIter.description}</p>
+                                    <p><strong>Location:</strong> {itemIter.location}</p>
+                                    <p><strong>Date:</strong> {formatDate(itemIter.date)}</p>
                                 </div>
-                                <div className="col-4">
-                                    <button onClick={() => openModal(itemIter)}>Delete Event</button> 
+                                <div className="row no-gutters" style={{marginTop: "1rem", width: "85%"}}> 
+                                    <div className="col-4"> 
+                                        <p>Volunteers: {itemIter.volunteer_amount}</p>
+                                    </div>
+                                    <div className="col-4">
+                                        <button onClick={() => openModal(itemIter)}>Delete Event</button> 
+                                    </div> 
+                                    <div className="col-4" style={{paddingLeft: "1.25rem"}}>
+                                        <button onClick={() => openVolunteerModal(itemIter)}>View volunteers</button>
+                                    </div> 
                                 </div> 
-                                <div className="col-4" style={{paddingLeft: "1.25rem"}}>
-                                    <button onClick={() => openVolunteerModal(itemIter)}>View volunteers</button>
-                                </div> 
-                            </div> 
-                        </div>
-                        )
-                        : <p style={{marginTop: "5rem"}}>There are no upcoming events.</p>
-                    }
+                            </div>
+                            )
+                            : <p style={{marginTop: "5rem"}}>There are no upcoming events.</p>
+                        }
+                        <div className="col-12" /> 
+                    </div>
                 </div>
 
                 <nav aria-label="pages" style={{marginBottom: "3rem"}}> 
