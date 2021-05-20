@@ -36,6 +36,12 @@ h1 {
   filter: drop-shadow(0px 4px 4px rgba(7, 30, 53, 0.25));
 }
 
+.event-image { 
+  width: 85%;
+  background-size: cover;
+  padding-top: 50%;
+}
+
 .event_sign_up_button {
   /*change to rem */
   width: 1330px;

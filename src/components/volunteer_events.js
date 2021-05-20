@@ -147,6 +147,8 @@ function Volunteer_Events() {
       return (a_date.getTime() - b_date.getTime());
     })
 
+    console.log(events); 
+
     //STEP 2: 
     for (let i = 0; i < events.length; i++) {
       //convert the thing from mongo into a recognaizable date object 
@@ -158,27 +160,36 @@ function Volunteer_Events() {
 
       //slice the array to contain only future events, the first event that is in the future/present will trigger this 
       if (cur_event_date.getTime() >= base_date.getTime()) { 
-        
-        //if the first event is already in the future, we don't need to do anything
-        if (i == 0) { 
-          break;
-        }
-        
-        // slices the array to contain only elements from this event to future events
-        else { 
-          events = events.slice(i-1, events.length - 1);
-          break;
-        }
-      }
-      //if none of the events trigger the above statement, all events are in the past, we set our events array to be empty 
-      else if (i == events.length - 1) { 
-        events = []; 
-        
+        events = events.slice(i, events.length); 
+      } 
+
+      if (events.length > 3) { 
+        events = events.slice(0, 3); 
       }
     } 
 
     setUpcomingEvents(events); 
   }
+
+  function formatDate(date) { 
+    let new_date = new Date(date); 
+    let out_str = ""; 
+    for (let i = 0; i <= 4; i++) { 
+        out_str += new_date.toString().split(" ")[i] + " "; 
+    } 
+    return out_str; 
+  } 
+
+function determineImage(imgFile) { 
+    if (imgFile != undefined) { 
+        console.log("in if statement"); 
+        return `url(${imgFile})`; 
+    }
+    else { 
+        console.log("in else statement"); 
+        return `url(${EventTile1})`; 
+    }
+} 
 
   return (
     <div class="container-fluid p-0 left-space">
@@ -210,22 +221,23 @@ function Volunteer_Events() {
           align="center"
         >
           {/* If the upcoming events array is populated, we use the map function to iteratre through the first three elements in the array (event is the object, index is itis position in the array) and we display a customized tile with the object's infomration. */}
-
+          {console.log(upcomingEvents)}
           { upcomingEvents.length > 0 ? 
             upcomingEvents.slice(0, 3).map((event, index) => 
               <div class="event-tile-container col-12 col-md-4">
                 <div>
-                  <img className="event_tile" src={event.image || EventTile1} />
+                <div className="event-image" style={{backgroundImage: determineImage(event.image)}} />
                 </div>
                 <div className="event_tile_banner" align="left">
                   <h3>{event.name}</h3>
                   <p>{event.description}</p>
-                  <p>Location: {event.location}</p>
+                  <p><strong>Location:</strong> {event.location}</p>
+                  <p><strong>Time & Date:</strong> {new Date(event.date).toLocaleString('en-US')}</p>
                 </div>
               </div>
             )
             :
-            <h3>We currently don't have any upcoming planned events - check back soon!</h3> 
+            <h3>We currently don't have any planned upcoming events - check back soon!</h3> 
           }
         </div>
       </div>
@@ -245,7 +257,6 @@ function Volunteer_Events() {
       {/* Event Name + Calendar */}
       <div class="container-fluid p-0">
         <div class="row no-gutters" align="center">
-          {console.log(curDayEventData)}
           <div class="event-tile-banner-space col-12 col-md-6 d-flex align-items-center">
             {curDayEventData != undefined && curDayEventData._id != undefined ? 
             <div className="volunteer-event-tile">
@@ -255,7 +266,8 @@ function Volunteer_Events() {
               <div className="sign-up-banner" align="left">
                 <h3 className="sign-up-banner-h3">{curDayEventData.name}</h3>
                 <p className="sign-up-banner-p">{curDayEventData.description}</p>
-                <p className="sign-up-banner-p">Location: {curDayEventData.location}</p>
+                <p className="sign-up-banner-p"><strong>Location:</strong> {curDayEventData.location}</p>
+                <p><strong>Date:</strong> {formatDate(curDayEventData.date)}</p>
               </div>
             
               <div className="sign-up-button">Sign Up</div>

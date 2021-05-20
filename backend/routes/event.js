@@ -1,6 +1,7 @@
 const router = require('express').Router();
 let Event = require('../models/event.model.js');
 const Bottleneck = require('bottleneck');
+const tokenAuth = require('../jwtAuth');
 
 //minTime --> process 1 API request every 100 miliseconds
 //maxConcurrent --> limits the number of calls in the queue to a max of 10 
@@ -74,7 +75,7 @@ limiter.schedule(() => {
 //
 
 limiter.schedule(() => {
-  router.route('/add').post((req, res) => {
+  router.post('/add', (req, res) => {
     const name = req.body.name;
     const date = req.body.date;
     const location = req.body.location;
@@ -106,6 +107,14 @@ limiter.schedule(() => {
     Event.findById(eventId)
       .then(event => res.json(event))
       .catch(err=>res.status(400).json('Error: ' + err));
+  });
+})
+
+limiter.schedule(() => {
+  router.route('/delete_event/:id').delete((req, res) => {
+      Event.findByIdAndDelete(req.params.id)
+      .then(item => res.json(item))
+      .catch(err => res.status(400).json('Error: ' + err));
   });
 })
 

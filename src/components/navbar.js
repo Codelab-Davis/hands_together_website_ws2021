@@ -76,6 +76,14 @@ function Navbar() {
       return;
     }
 
+    const cart = {"cart": []}
+    let cart_quantity = 0;
+    for(let i = 0; i < quota; i++) {
+      let item = window.localStorage.getItem("JXYSDFH65F" + i);
+      cart["cart"].push(item);
+      cart_quantity = cart_quantity + JSON.parse(item).quantity;
+    }
+
     // ABHAY: This is your resulting object for Shippo after the intermediary address screen. 
     var addressTo = await shippo.address.create({ 
       name: "Customer",
@@ -90,7 +98,7 @@ function Navbar() {
       console.log(address);
     });
 
-    if(!addressTo.validation_results.is_valid) {
+    if(city.length == 0 || state.length == 0 || !addressTo.validation_results.is_valid) {
       alert("The address you entered is invalid. Please enter a valid address.");
       return;
     }
@@ -108,52 +116,54 @@ function Navbar() {
       console.log(address);
     })
 
-    const parcelSmall = {
+    const parcel = {
       length: '8',
       width: '7',
       height: '6',
       distance_unit: 'in',
-      weight: '15',
-      mass_unit: 'oz',
-    }
-    const parcelMed = {
-      length: '11.25',
-      width: '8.75',
-      height: '6',
-      distance_unit: 'in',
-      weight: '30', // what do I do with this?
+      weight: cart_quantity * 4,
       mass_unit: 'oz',
     }
 
     var shipment = await shippo.shipment.create({
       address_from: addressFrom,
       address_to: addressTo,
-      parcels: [parcelSmall],
+      parcels: [parcel],
       async: false,
     }, function(err, shipment) {
       console.log(shipment);
     });
 
-  
-    const cart = {"cart": []}
-    for(let i = 0; i < quota; i++) {
-      cart["cart"].push(window.localStorage.getItem("JXYSDFH65F" + i))
+    let shipping_rate = 0;
+    if(parcel.weight < 13) {
+      for(let i = 0; i<shipment.rates.length;i++) {
+        if(shipment.rates[i].provider == "USPS" && shipment.rates[i].servicelevel.token == "usps_first") shipping_rate = shipment.rates[i].amount;
+      }
+      if(shipping_rate == "0") console.log("Could not find USPS first-class shipping rate.");
     }
+    else {
+      shipping_rate = 10000; // arbitrary large value
+      for(let i = 0; i<shipment.rates.length;i++) {
+        if(shipment.rates[i].provider == "UPS" && shipment.rates[i].amount < shipping_rate) shipping_rate = Number(shipment.rates[i].amount);
+      }
+      if(shipping_rate == 10000) console.log("Could not find any UPS shipping rates.");
+    }
+    console.log(shipping_rate);
 
     const req = {
       amount: 0,
       success_url: "http://localhost:3000/thank_you",
       cancel_url: "http://localhost:3000/",
       cart: cart,
-      shipping_rate: 1000,// $10
+      shipping_rate: shipping_rate*100,// $10
       shipping_address: addressTo,
       type: "purchase"
     }
 
-    // var stripe = window.Stripe('pk_test_51IMhDjDACjkjrvMm0D7gtuvvHOCY8Z9dGTjwVFxFcmWHlGfjn9CGEdvyvs5vMQrAQDwmBcELSzSb2kTNf65eyJkw00AXucR70x')
-    // axios.post('http://localhost:5000/stripe/create-checkout-session/', req) 
-    //  .then(session => stripe.redirectToCheckout({sessionId: session.data.id}))
-    //  .catch(error => console.log(error))
+    var stripe = window.Stripe('pk_test_51IMhDjDACjkjrvMm0D7gtuvvHOCY8Z9dGTjwVFxFcmWHlGfjn9CGEdvyvs5vMQrAQDwmBcELSzSb2kTNf65eyJkw00AXucR70x')
+    axios.post('http://localhost:5000/stripe/create-checkout-session/', req) 
+     .then(session => stripe.redirectToCheckout({sessionId: session.data.id}))
+     .catch(error => console.log(error))
   }
   
   function useForceUpdate(){
@@ -219,7 +229,7 @@ function Navbar() {
   });
 
   return (
-    <div>
+    <div style={{fontWeight: "700"}}> 
       <div className="row no-gutters">
         <Modal
           isOpen={modalIsOpen}
@@ -257,7 +267,7 @@ function Navbar() {
             <div className="col-4">
               <h3>City</h3>
             </div>
-            <div className="col-8">
+            <div className="col-4">
               <input
                 type="text"
                 placeholder=""
@@ -266,10 +276,13 @@ function Navbar() {
                 onChange={onCityChange}
               />
             </div>
+            <div className="col-4" />
+          </div>
+          <div className="row no-gutters justify-content-center">
             <div className="col-4">
               <h3>State</h3>
             </div>
-            <div className="col-8">
+            <div className="col-4">
               <input
                 type="text"
                 placeholder=""
@@ -278,10 +291,13 @@ function Navbar() {
                 onChange={onStateChange}
               />
             </div>
+            <div className="col-4" />
+          </div>
+          <div className="row no-gutters justify-content-center">
             <div className="col-4">
               <h3>ZIP</h3>
             </div>
-            <div className="col-8">
+            <div className="col-4">
               <input
                 type="text"
                 placeholder=""
@@ -290,6 +306,7 @@ function Navbar() {
                 onChange={onZIPChange}
               />
             </div>
+            <div className="col-4" />
             <div className="col-8 hr"></div>
             <div className="col-12" align="center">
               <h2>Your Cart</h2>
@@ -300,23 +317,26 @@ function Navbar() {
             </div>
           </div>
         </Modal>
-        <div className="col-4 offset-4" align="center">
-          <div align="center" style={{display: "inline-block"}}> 
-            <h1 className="navbar-title-text" onClick={() => (window.location = "/")}>
-              <img className = "imgSpacing" src={ht_logo} />
-            </h1>
+        <div className="col-2 offset-md-5" align="center">
+          <div className="logo-container" style={{display: "inline-block"}}> 
+            <img onClick={() => (window.location = "/")} className="imgSpacing" src={ht_logo} />
           </div>
         </div>
-        <div className="col-4" align="right">
+        <div className="col-10 col-md-5" align="right">
           <div align="right">
             <img class="buttonSpacing" src={cart} onClick={openModal} />
             <div className="mobile-drawer">
               <div>
-              <img onClick={handleDrawerState} src="https://img.icons8.com/ios/36/000000/menu--v6.png"/>
-              {!drawerState ? 
+              <img onClick={handleDrawerState} className="hamburger-spacing" src="https://img.icons8.com/ios/36/000000/menu--v6.png"/>
+              </div> 
+            </div>
+          </div>
+        </div>
+        <hr/>
+        {!drawerState ? 
               <></>
               :
-              <div class="container-fluid fade-animation p-0">
+              <div class="container-fluid fade-animation p-0 dropdown-container">
                 <div class="row no-gutters">
                     <div class="col-12">
                     <p onClick={() => (window.location = "/about")} className="text">About</p>
@@ -342,10 +362,6 @@ function Navbar() {
                   </div>
                 </div>
                 }
-              </div> 
-            </div>
-          </div>
-        </div>
       </div> 
       <div className="navbar-content .d-none .d-sm-block" align="center">
         <div class="container-fluid p-0">
