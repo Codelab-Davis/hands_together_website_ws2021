@@ -22,17 +22,17 @@ function About() {
                         {/* Adding md makes it so that the cols stack up on top of each other when scren size < 768 */}
                         <div class="col-md-6">
                             <h1 className="abttxt"><br/>About Us</h1>
-                            <p className="abttxt"> 
+                            <div className="abttxt infoblurb"> 
                             Hands Together has been recognized at a state and national level for preparing young children for kindergarten. <br /><br />
                             We offer advanced early education to over 165 at risk children each day. <br /><br />
                             We do more than preschool preparation–the facility  works with working poor parents to enrich their lives, preparing them for the work place.
                             <br /><br />
-                            </p>
+                            </div>
                         </div>
                         <div class="col-1" />
-                        <div class="col-md-5" >
+                        <div class="col-md-5 centerImg" >
                             <br />
-                            <img class = "aboutImgFormat" align = "center" src={about_us}/>
+                            <img class = "aboutImgFormat " align = "center" src={about_us}/>
                         </div>
                     </div>
                         
@@ -50,20 +50,21 @@ function About() {
             <div className="vertical_space" />
             <div class="container-fluid p-0">
                 <div class="row align-items-center preschoolFormat">
-                    <div class="col-md-5 p-5" > 
+                    <div class="col-md-5 centerImg" > 
                         <img class="imgFormat" src={preschool}/>
                     </div>
 
                     <div class="col-1" />
                     <div class="col-md-5"> 
                     <br /> <br />
-                        <h3 className = "abttxt">Preschool</h3>
-                        <p className = "abttxt"> Hands Together is a licensed, award-winning preschool and childcare program serving children ages 6 weeks to 5 years. 
+                        <h2 className = "smallScreenTextShift">Preschool</h2>
+                        <div className = "smallScreenTextShift infoblurb"> Hands Together is a licensed, award-winning preschool and childcare program serving children ages 6 weeks to 5 years. 
                             Our preschool is designed to meet the academic and social needs of the predominantly Latino community in Santa Ana, 
-                            and our goal is to prepare every student for successful entry into kindergarten.<br /><br /></p>
+                            and our goal is to prepare every student for successful entry into kindergarten.<br /><br /></div>
                         <button onClick={() => (window.location = "/programs")} className="btn preschoolButton abttxt">Learn More</button>
                         <br /> <br /> <br /> <br />
                     </div>
+                    <div class="col-1" />
                     
                 </div>
             </div>
@@ -73,15 +74,15 @@ function About() {
                     <div class="col-1" />
                     <div class="col-md-5"> 
                     <br /><br />
-                        <h3 className="smallScreenTextShift">Morning Garden</h3>
-                        <p className="smallScreenTextShift"> Morning Garden is a unique preschool and workforce development program for housing-insecure families and families in transition. 
+                        <h2 className="smallScreenTextShift">Morning Garden</h2>
+                        <div className="smallScreenTextShift infoblurb"> Morning Garden is a unique preschool and workforce development program for housing-insecure families and families in transition. 
                             We offer developmentally appropriate, structured activities that help young children learn how to play well together, share resources, 
-                            and respect others.<br /><br /></p>
+                            and respect others.<br /><br /></div>
                             <button onClick={() => (window.location = "/programs")} className="btn morningButton smallScreenTextShift">Learn More</button>
                             <br /> <br /> <br /> <br />
                     </div>
                     <div class="col-1" />
-                    <div class="col-md-5 p-5" > 
+                    <div class="col-md-5" > 
                         <img class = "imgFormat" src={morning}/>
                     </div>
                     
