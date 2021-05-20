@@ -110,4 +110,12 @@ limiter.schedule(() => {
   });
 })
 
+limiter.schedule(() => {
+  router.route('/delete_event/:id').delete((req, res) => {
+      Event.findByIdAndDelete(req.params.id)
+      .then(item => res.json(item))
+      .catch(err => res.status(400).json('Error: ' + err));
+  });
+})
+
 module.exports = router;
