@@ -1,9 +1,10 @@
 input[type="radio"] { 
-    margin-right: 1rem;
-    height: 30px;
-    width: 30px;
+    background-color: rgba(196, 196, 196, 0.5);
+    margin-right: 0.5rem !important;
+    margin-bottom: 8px;
+    height: 40px;
+    width: 40px;
     vertical-align: middle;
-    box-sizing: border-box;
 }
 
 #donation-wrapper {
@@ -32,11 +33,13 @@ input[type="radio"] {
     border-radius: 1.5rem;
     background: #F2B705;
     text-align: center;
-    height: 13rem;
+    height: 14.5rem;
 }
 
 .donation-padding {
-    padding: 0.5rem;
+    padding: 2.25rem;
+    padding-top: 1.25rem;
+    padding-bottom: 1.25rem;
 }
 
 .donation-amount-text {
@@ -62,7 +65,7 @@ input[type="radio"] {
 }
 
 .form-text {
-    padding-right: 2rem;
+    padding-right: 3.5rem;
 }
 
 .amount-input {
@@ -81,16 +84,24 @@ input[type="radio"] {
 }
 
 @media (max-width: 1114px) {
+    .donation-padding {
+        padding: 1rem;
+    }
     .donation-box {
-        height: 17rem;
+        height: 17.5rem;
     }
     .form-item {
         margin-bottom: 3rem;
     }
 }
 @media (max-width: 766px) {
+    .donation-amount-text{
+        padding: 0;
+    }
     .donation-box {
-        height: 18rem;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
     }
     .donation-row {
         margin-bottom: 0.25rem;

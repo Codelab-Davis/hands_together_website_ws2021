@@ -39,25 +39,25 @@ function ViewShopItems() {
     // triggered on the "next" button click 
     function next() {
         if (itemArray.data[nextIndex] != undefined) { // there are more items to see 
-        //slice the next 12 items in the data array. 
-        setCurItems(itemArray.data.slice(nextIndex, nextIndex + 12));
-        //set the next index to the first in the next set of 12 objects
-        setNextIndex(nextIndex + 12);
+        //slice the next 6 items in the data array. 
+        setCurItems(itemArray.data.slice(nextIndex, nextIndex + 6));
+        //set the next index to the first in the next set of 6 objects
+        setNextIndex(nextIndex + 6);
         setCurPage(curPage + 1);
         }
     }
     // triggered on the "back" button click 
     function back() {
         if (itemArray.data[nextIndex - 13] != undefined) { // there are previous items to go back to
-        setCurItems(itemArray.data.slice(nextIndex - 24, nextIndex - 12));
-        setNextIndex(nextIndex - 12);
+        setCurItems(itemArray.data.slice(nextIndex - 12, nextIndex - 6));
+        setNextIndex(nextIndex - 6);
         setCurPage(curPage - 1);
         }
     }
     function handlePageClick(event) {
         setCurPage(event.target.id);
-        setNextIndex(((event.target.id - 1) * 12) + 12);
-        setCurItems(itemArray.data.slice((event.target.id - 1) * 12, ((event.target.id - 1) * 12) + 12));
+        setNextIndex(((event.target.id - 1) * 6) + 6);
+        setCurItems(itemArray.data.slice((event.target.id - 1) * 6, ((event.target.id - 1) * 6) + 6));
     }
     // log whatever item is clicked 
     function clicked(val) {
@@ -78,8 +78,8 @@ function ViewShopItems() {
     }, []) 
 
     useEffect(()=>{
-        setNextIndex(((curPage - 1) * 12) + 12);
-        setCurItems(itemArray.data.slice((curPage - 1) * 12, ((curPage - 1) * 12) + 12));
+        setNextIndex(((curPage - 1) * 6) + 6);
+        setCurItems(itemArray.data.slice((curPage - 1) * 6, ((curPage - 1) * 6) + 6));
     }, [itemArray]) 
 
     return ( 
@@ -90,15 +90,15 @@ function ViewShopItems() {
                 contentLabel="Checkout Delivery Address Modal"
                 style={customModalStyles}
             >
-                <h1>Are you sure that you want to permenantly delete this event?</h1> 
+                <h1>Are you sure that you want to permenantly delete this item?</h1> 
                 <button className="decline-button">Cancel</button>
                 <button className="confirm-button">Confirm</button>
             </Modal>
             <div className="row no-gutters view-container"> 
                 <h1 className="title-text">Active Listings</h1>
                 <p className="title-text"><br/>{
-                    "Showing " + (12 * (curPage - 1) + 1) + "-" 
-                    + Math.min((12 * curPage), itemArray.data.length) 
+                    "Showing " + (6 * (curPage - 1) + 1) + "-" 
+                    + Math.min((6 * curPage), itemArray.data.length) 
                     + " of " + itemArray.data.length + " results"
                 }</p> 
                 <div className="row">
@@ -131,7 +131,7 @@ function ViewShopItems() {
                 {(() => {
                     // Generate one button for each page
                     let pageList = [];
-                    for (let i = 0; i < Math.ceil(parseFloat(itemArray.data.length) / 12); i++) {
+                    for (let i = 0; i < Math.ceil(parseFloat(itemArray.data.length) / 6); i++) {
                     pageList.push(
                         <button className="page-num-button" key={i} id={i + 1} onClick={handlePageClick}>{i + 1}</button>
                     )

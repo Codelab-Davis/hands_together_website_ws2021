@@ -180,6 +180,15 @@ function Volunteer_Events() {
     setUpcomingEvents(events); 
   }
 
+  function formatDate(date) { 
+    let new_date = new Date(date); 
+    let out_str = ""; 
+    for (let i = 0; i <= 4; i++) { 
+        out_str += new_date.toString().split(" ")[i] + " "; 
+    }
+    return out_str; 
+  }
+
   return (
     <div class="container-fluid p-0 left-space">
       {/* upcoming events title + description block */}
@@ -256,7 +265,8 @@ function Volunteer_Events() {
               <div className="sign-up-banner" align="left">
                 <h3 className="sign-up-banner-h3">{curDayEventData.name}</h3>
                 <p className="sign-up-banner-p">{curDayEventData.description}</p>
-                <p className="sign-up-banner-p">Location: {curDayEventData.location}</p>
+                <p className="sign-up-banner-p"><strong>Location:</strong> {curDayEventData.location}</p>
+                <p><strong>Date:</strong> {formatDate(curDayEventData.date)}</p>
               </div>
             
               <div className="sign-up-button">Sign Up</div>

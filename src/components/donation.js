@@ -107,10 +107,10 @@ function Donation() {
             </div>
           </div>
           <div className="row no-gutters form-item">
-            <div className="col-12 col-sm-7 col-md-7">
+            <div className="col-12 col-sm-7 col-md-6">
               <h3 className="form-text">What type of donate are you making?</h3>
             </div>
-            <div className="col-12 col-sm-5 col-md-5">
+            <div className="col-12 col-sm-5 col-md-6">
               <input type="radio" id="one-time" name="donation-type" value="one-time" onClick={() => setType("one-time")} required/>
               <label for="one-time"><p className="form-option">One-time Donation</p></label><br/>
               <input type="radio" id="recurring" name="donation-type" value="recurring" onClick={() => setType("recurring")} required/>
@@ -118,10 +118,10 @@ function Donation() {
             </div>
           </div>
           <div className="row no-gutters form-item">
-            <div className="col-sm-7 col-md-7">
+            <div className="col-sm-7 col-md-6">
               <h3 className="form-text">Payment Method</h3>
             </div>
-            <div className="col-sm-5 col-md-5">
+            <div className="col-sm-5 col-md-6">
               <input type="radio" id="credit-card" name="payment-method" value="credit-card" required/>
               <label for="credit-card"><p className="form-option">Credit Card</p></label><br/>
               <input type="radio" id="debit-card" name="payment-method" value="debit-card" required/>

@@ -19,7 +19,8 @@ function AddItemFrontend() {
 
     // Functions to track typing changes in the input fields 
     function onTitleChange(event) { 
-        setTitle(event.target.value); 
+        if (event.target.value.length < 30) 
+            setTitle(event.target.value); 
     } 
 
     function onPriceChange(event) { 
@@ -27,7 +28,8 @@ function AddItemFrontend() {
     } 
 
     function onDescriptionChange(event) { 
-        setDescription(event.target.value); 
+        if (event.target.value.length < 750) 
+            setDescription(event.target.value); 
     } 
 
     function onQuantityChange(event) { 
@@ -178,7 +180,8 @@ function AddItemFrontend() {
                         col-md-6 and col-md-2 to say what it should look like on md and larger sized devices */}
                     <div className="row no-gutters listing-input"> 
                         <div className="col-10 col-md-6">
-                            <input type="text" placeholder="Title of item" value={title} onChange={onTitleChange} /> 
+                            <input type="text" placeholder="Item Title" value={title} onChange={onTitleChange} /> 
+                            <p>Max 30 characters</p>
                         </div>
                     </div>
                     <div className="row no-gutters listing-input"> 
@@ -188,12 +191,14 @@ function AddItemFrontend() {
                     </div>
                     <div className="row no-gutters listing-input"> 
                         <div className="col-10 col-md-6">
-                            <input type="text" placeholder="Describe your item" value={description} onChange={onDescriptionChange} /> 
+                            <textarea style={{height: "9rem"}} type="text" placeholder="Item Description" value={description} onChange={onDescriptionChange} /> 
+                            <p>Max 750 characters</p>
                         </div>
                     </div>
                     <div className="row no-gutters listing-input"> 
                         <div className="col-6 col-md-2">
-                            <input type="text" placeholder="Quantity: 0" value={quantity} onChange={onQuantityChange} /> 
+                            <input type="text" placeholder="Quantity: 5" value={quantity} onChange={onQuantityChange} /> 
+                            <p>Max 10 quantity</p>
                         </div>
                     </div> 
                 </div>

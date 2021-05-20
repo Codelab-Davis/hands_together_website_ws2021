@@ -156,8 +156,8 @@ async function fulfillOrder(session) {
   let address_line_one = payment_intent.shipping.address.line1;
   let address_line_two = payment_intent.shipping.address.line2 || "";
   let top_address = (address_line_two == "") ? address_line_one : address_line_one + ', ' + address_line_two;
-
   let rest_address = payment_intent.shipping.address.city + ", " + payment_intent.shipping.address.state + ", " + payment_intent.shipping.address.postal_code;
+
   let total = session.amount_total/100;
   let ordered_items = "";
 
@@ -504,22 +504,27 @@ router.post('/cancel_donate/:id', async (req, res) => { //protect w/JWTs once do
   res.status(200).json("successfully cancelled");
 })
 
-router.post('/cancel_order/:id', async (req,res) => {
+router.post('/cancel_order/:id', tokenAuth, async (req,res) => {
   let transaction_id = req.params.id;
-  const transaction = await stripe.paymentIntents.retrieve(transaction_id, { expand: [''] });
+  const transaction = await stripe.paymentIntents.retrieve(transaction_id);
   console.log("Payment Intent: ", transaction);
-  const refund = await stripe.refunds.create({payment_intent: transaction_id});
+  const refund = await stripe.refunds.create({
+    payment_intent: transaction_id,
+    amount: Math.round(req.body.amount*100),
+  });
   console.log("Refund: ", refund);
-
   // node mailer implementation begins here
   let customer = await stripe.customers.retrieve(transaction.customer);
   let customer_email = customer.email; 
   let customer_name = customer.name;
 
-  let address_line_one = "temp";
-  let rest_address = "temp";
-  let ordered_items = "temp";
-  let total = 10;
+  let address_line_one = transaction.shipping.address.line1;
+  let address_line_two = transaction.shipping.address.line2 || "";
+  let top_address = (address_line_two == "") ? address_line_one : address_line_one + ', ' + address_line_two;
+  let rest_address = transaction.shipping.address.city + ", " + transaction.shipping.address.state + ", " + transaction.shipping.address.postal_code;
+
+  let total = req.body.amount;
+  let cancelled_items = req.body.cancelled_items || "Generic Item List";
 
 
   let email_body = `
@@ -531,11 +536,11 @@ router.post('/cancel_order/:id', async (req,res) => {
   </div>
 
   <div>
-      <p> <strong>Delivery Address</strong> <br/>${customer_name} <br/>${address_line_one}<br/>${rest_address}</p>
+      <p> <strong>Delivery Address</strong> <br/>${customer_name} <br/>${top_address}<br/>${rest_address}</p>
   </div>
 
   <div>
-      <p> <strong>Order Info</strong> <br/><strong>Transaction #:</strong> ${transaction_id}<br/><strong>Total:</strong> $${total.toFixed(2)}</p>
+      <p> <strong>Cancelled Order Info</strong> <br/><strong>Transaction #:</strong> ${transaction_id}<br/><strong>Items Cancelled:</strong> ${cancelled_items}<br/><strong>Total:</strong> $${total.toFixed(2)}</p>
   </div>
   `; 
 
@@ -557,7 +562,7 @@ router.post('/cancel_order/:id', async (req,res) => {
     if(error) {
       console.log(error);
     } else {
-      console.log('Donation Cancellation Email Sent: ' + info.response);
+      console.log('Order Cancellation Email Sent: ' + info.response);
     }
   });
 
