@@ -224,18 +224,18 @@ function Volunteer_Events() {
             upcomingEvents.slice(0, 3).map((event, index) => 
               <div class="event-tile-container col-12 col-md-4">
                 <div>
-                  <img className="event_tile" src={event.image || EventTile1} />
+                <div className="event-image" style={{backgroundImage: `url(${event.image})` || EventTile1}} />
                 </div>
                 <div className="event_tile_banner" align="left">
                   <h3>{event.name}</h3>
                   <p>{event.description}</p>
-                  <p>Location: {event.location}</p>
-                  <p>Date: {formatDate(event.date)}</p>
+                  <p><strong>Location:</strong> {event.location}</p>
+                  <p><strong>Time & Date:</strong> {new Date(event.date).toLocaleString('en-US')}</p>
                 </div>
               </div>
             )
             :
-            <h3>We currently don't have any upcoming planned events - check back soon!</h3> 
+            <h3>We currently don't have any planned upcoming events - check back soon!</h3> 
           }
         </div>
       </div>
