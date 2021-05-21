@@ -11,11 +11,6 @@ function AddItemFrontend() {
     const [price, setPrice] = useState(''); 
     const [description, setDescription] = useState(''); 
     const [quantity, setQuantity] = useState('');
-    const [image1, setImage1] = useState(null);  
-    const [image2, setImage2] = useState(null);  
-    const [image3, setImage3] = useState(null);  
-    const [image4, setImage4] = useState(null);  
-
 
     // Functions to track typing changes in the input fields 
     function onTitleChange(event) { 
@@ -104,7 +99,7 @@ function AddItemFrontend() {
                     setUploadMessage("Upload successful");
                     })
                     .catch(err => {
-                    setUploadMessage("Sorry something went wrong");
+                    setUploadMessage("Sorry something went wrong uploading your item.");
                     console.log('err', err);
                     })
                 )
@@ -119,7 +114,12 @@ function AddItemFrontend() {
         .then(() => {
             axios.post('http://localhost:5000/items/add_item', item)
             .then(res => {
+                setUploadMessage("Item successfully added.");
                 console.log(item);
+            })
+            .catch(err => { 
+                setUploadMessage("Sorry something went wrong uploading your item.");
+                console.log('err', err);  
             })
         })
     }
@@ -187,6 +187,7 @@ function AddItemFrontend() {
                     <div className="row no-gutters listing-input"> 
                         <div className="col-6 col-md-2">
                             <input type="text" placeholder="12.99" value={price} onChange={onPriceChange} />
+                            <p>Formatting: 12.99</p>
                         </div>
                     </div>
                     <div className="row no-gutters listing-input"> 

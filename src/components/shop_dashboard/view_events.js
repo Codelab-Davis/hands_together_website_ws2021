@@ -130,10 +130,10 @@ function ViewEvents() {
                 } 
                 setCurItems(new_items); 
                 closeModal(); 
-            })
+            }) 
             .catch((error) => { 
                 console.log("Error deleting event", error); 
-            })
+            }) 
     } 
 
     function determineImage(imgFile) { 

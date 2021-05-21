@@ -1,18 +1,50 @@
 import react, { useState, useEffect } from "react"; 
 import "../../css/view_shop_items.css";
 import ViewSoldShopItems from "./view_sold_shop_items.js"; 
-import Modal from 'react-modal'; 
+import Modal from 'react-modal';
+import modal_x from "../../images/modal_x.png";    
 const axios = require('axios');
 
 function ViewShopItems() { 
     // MODAL STATES, FUNCTIONS, AND STYLING START BELOW 
     const [modalIsOpen, setModalIsOpen] = useState(false); 
-    function openModal() {
-        setModalIsOpen(true);
-    }
+    const [curItem, setCurItem] = useState(); 
+    const [title, setTitle] = useState(''); 
+    const [price, setPrice] = useState(''); 
+    const [description, setDescription] = useState(''); 
+    const [quantity, setQuantity] = useState('');
+    const [uploadMessage, setUploadMessage] = useState("");
     
-    function closeModal(){
-        setModalIsOpen(false);
+    function openModal(item) { 
+        setCurItem(item);
+        setTitle(item.name); 
+        setPrice(item.price.substring(0, item.price.length - 2) + "." + item.price.substring(item.price.length - 2)); 
+        setDescription(item.description); 
+        setQuantity(item.quantity);  
+        setModalIsOpen(true); 
+    } 
+    
+    function closeModal() { 
+        setModalIsOpen(false); 
+    } 
+
+    // Functions to track typing changes in the input fields 
+    function onTitleChange(event) { 
+        if (event.target.value.length < 30) 
+            setTitle(event.target.value); 
+    } 
+
+    function onPriceChange(event) { 
+        setPrice(event.target.value); 
+    } 
+
+    function onDescriptionChange(event) { 
+        if (event.target.value.length < 750) 
+            setDescription(event.target.value); 
+    } 
+
+    function onQuantityChange(event) { 
+        setQuantity(event.target.value); 
     }
 
     const customModalStyles = {
@@ -82,6 +114,62 @@ function ViewShopItems() {
         setCurItems(itemArray.data.slice((curPage - 1) * 6, ((curPage - 1) * 6) + 6));
     }, [itemArray]) 
 
+    function editItem() { 
+        setUploadMessage("Uploading");
+
+        if (title.length == 0 || description.length == 0 || quantity.length == 0 || price.length == 0) { 
+            setUploadMessage("Sorry, all fields must be filled out."); 
+            return; 
+        }
+
+        let item = {
+            "name": title,
+            "price": parseInt(price.substring(0, price.indexOf(".")) + "" + price.substring(price.indexOf(".") + 1)), 
+            "description": description,
+            "quantity": parseInt(quantity),
+        }
+
+        axios.post(`http://localhost:5000/items/update_item/${curItem._id}`, item) 
+            .then(res => {
+                setUploadMessage("Item successfully edited."); 
+                let new_items = [];  
+                for (let i = 0; i < items.length; i++) { 
+                    if (items[i]._id != curItem._id) 
+                        new_items.push(items[i]); 
+                    else { 
+                        let curItemCopy = curItem; 
+                        curItemCopy.name = item.name; 
+                        curItemCopy.price = item.price.toString().substring(0, item.price.toString().indexOf('.')) + item.price.toString().substring(item.price.toString().indexOf('.') + 1); 
+                        curItemCopy.description = item.description; 
+                        curItemCopy.quantity = item.quantity; 
+                        new_items.push(curItemCopy); 
+                        setCurItem(curItemCopy); 
+                    } 
+                } 
+                setCurItems(new_items); 
+            })
+            .catch(err => { 
+                setUploadMessage("Sorry something went wrong editing your item.");
+                console.log('err', err);  
+            })
+    } 
+
+    function deleteCurItem() { 
+        axios.delete(`http://localhost:5000/items/delete_item/${curItem._id}`) 
+            .then(() => {
+                let new_items = [];  
+                for (let i = 0; i < items.length; i++) { 
+                    if (items[i]._id != curItem._id) 
+                        new_items.push(items[i]); 
+                } 
+                setCurItems(new_items); 
+                closeModal(); 
+            }) 
+            .catch((error) => { 
+                console.log("Error deleting event", error); 
+            }) 
+    } 
+
     return ( 
         <div className="container-fluid p-0"> 
             <Modal
@@ -90,9 +178,43 @@ function ViewShopItems() {
                 contentLabel="Checkout Delivery Address Modal"
                 style={customModalStyles}
             >
-                <h1>Are you sure that you want to permenantly delete this item?</h1> 
-                <button className="decline-button">Cancel</button>
-                <button className="confirm-button">Confirm</button>
+                <div className="col-12" align="right">
+                    <img src={modal_x} onClick={closeModal} style={{cursor: "pointer"}} /> 
+                </div>
+                <h3>Edit Item (please note that images cannot be edited - you must make a new listing)</h3> 
+                <div> 
+                    <p style={{marginTop: "1rem"}}>Edit title for item, price, description, and quantity. <strong>The price must be formatted as xx.xx. If it is not, the item will not be purchaseable.</strong></p>
+                    <div className="row no-gutters listing-input"> 
+                        <div className="col-10 col-md-6">
+                            <input type="text" placeholder="Item Title" value={title} onChange={onTitleChange} /> 
+                            <p>Max 30 characters</p>
+                        </div>
+                    </div>
+                    <div className="row no-gutters listing-input"> 
+                        <div className="col-6 col-md-2">
+                            <input type="text" placeholder="12.99" value={price} onChange={onPriceChange} /> 
+                            <p>Formatting: 12.99</p>
+                        </div>
+                    </div>
+                    <div className="row no-gutters listing-input"> 
+                        <div className="col-10 col-md-6">
+                            <textarea style={{height: "9rem"}} type="text" placeholder="Item Description" value={description} onChange={onDescriptionChange} /> 
+                            <p>Max 750 characters</p>
+                        </div>
+                    </div>
+                    <div className="row no-gutters listing-input"> 
+                        <div className="col-6 col-md-2">
+                            <input type="text" placeholder="Quantity: 5" value={quantity} onChange={onQuantityChange} /> 
+                            <p>Max 10 quantity</p>
+                        </div>
+                    </div> 
+                </div> 
+                <div className="col-12"> 
+                    <button className="submit-button hands-together-button" onClick={editItem}>Update Item</button>
+                    <p>{uploadMessage}</p> 
+                </div>
+                <h3 style={{marginTop: "3rem"}}>Would you like to permenantly delete this item?</h3> 
+                <button className="confirm-button" onClick={deleteCurItem}>Yes</button>
             </Modal>
             <div className="row no-gutters view-container"> 
                 <h1 className="title-text">Active Listings</h1>
@@ -109,13 +231,13 @@ function ViewShopItems() {
                             <a className="wrapper-link"></a>
                             <div className="item-image" style={{backgroundImage: `url(${itemIter.images[0]})`}}></div>
                             <div className="add-to-cart">
-                                <a className="bold" onClick={() => openModal()}>Delete Item</a>
+                                <a className="bold" onClick={() => openModal(itemIter)}>View Item Options</a>
                             </div>
                             <div className="item-info">
                                 <div className="name-price">
                                 <p className="name bold">{itemIter.name}</p>
+                                <p>Quantity: {itemIter.quantity}</p>
                                 <p className="price">{getFormattedPrice(itemIter.price)}</p>
-                                <a className="preview-button" href={`/shop/${itemIter._id}`}>Preview Listing</a>
                                 </div>
                                 <p className="caption description">{itemIter.description.length < 100 ? itemIter.description : itemIter.description.slice(0, 100) + "..."}</p>
                             </div>
