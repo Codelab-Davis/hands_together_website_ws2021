@@ -94,6 +94,37 @@ function Volunteer_Events() {
     setConcernsBox(event.target.value);
   }
 
+  const [signUpMessage, setSignUpMessage] = useState("");
+
+
+  function submit_sign_up_form() { 
+  
+    let volunteer = {
+      "name": name,
+      "age": age,
+      "gender": gender,
+      "phone_number": phoneNumber,
+      "email": email,
+      "questions_concerns": concernsBox,
+      "event_id": curDayEventData._id, 
+    }
+    //Right now, this message does not appear since the axios call fails, this needs to be triggered before sign up or some other logic should be added.
+    console.log(curDayEventData._id)
+    if (name.length == 0 || age.length == 0 || gender.length == 0 || phoneNumber.length == 0 || email.length==0) { 
+            setSignUpMessage("All fields must be filled out, please edit your response and try again."); 
+            return; 
+        }
+    axios.post('http://localhost:5000/volunteer/add_volunteer',volunteer)
+      .then(res => {
+        console.log(res)
+        setSignUpMessage("successful upload!")
+      })
+      .catch(err => { 
+        setSignUpMessage("Couldn't post to database.");
+        console.log('err', err);
+      })
+  }
+
   function submit() {
     // let test_item = {
     //   name: firstName + ' ' + lastName,
@@ -191,6 +222,11 @@ function determineImage(imgFile) {
     }
 } 
 
+  function reveal_sign_up_form() {
+        document.getElementById('sign-up-form').style.display = 'block';
+      }
+    
+
   return (
     <div class="container-fluid p-0 left-space">
       {/* upcoming events title + description block */}
@@ -254,6 +290,9 @@ function determineImage(imgFile) {
       
       </div>
 
+     
+      
+
       {/* Event Name + Calendar */}
       <div class="container-fluid p-0">
         <div class="row no-gutters" align="center">
@@ -270,7 +309,10 @@ function determineImage(imgFile) {
                 <p><strong>Date:</strong> {formatDate(curDayEventData.date)}</p>
               </div>
             
-              <div className="sign-up-button">Sign Up</div>
+                <button onClick={reveal_sign_up_form} className="sign-up-button">
+                  Sign Up
+                </button>
+              {/* <div className="sign-up-button">Sign Up</div> */}
             </div>
             :
               <div className="volunteer-event-tile">
@@ -291,7 +333,7 @@ function determineImage(imgFile) {
       </div>
 
       {/* Volunteer Sign Up Form To Do: appear and disapper on click*/}
-      <div align="left" class="container-fluid p-0">
+      <div id="sign-up-form" align="left" class="container-fluid p-0">
         {/*Form title + Description */}
         <h1 className="form-title">Volunteer Sign Up Form</h1>
         <h3 className="description-text">
@@ -300,7 +342,7 @@ function determineImage(imgFile) {
         </h3>
 
         {/* First Name + Last Name  */}
-        <div class="row no-gutters name-top-space">
+        <div class="row no-gutters nameSection">
           <div class="col-4 col-md-5">
             <h3>Name</h3>
           </div>
@@ -436,7 +478,8 @@ function determineImage(imgFile) {
         {/*submit button*/}
         <div class="submit-button-container" align="center">
           <div class="col justify-content-around">
-            <button className="submitButton h3" onClick={submit}>Submit</button>
+            <button className="submitButton h3" onClick={submit_sign_up_form}>Submit</button>
+            <p>{signUpMessage}</p>
           </div>
         </div>
       </div>
