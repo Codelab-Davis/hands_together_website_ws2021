@@ -64,7 +64,7 @@ function ViewEvents() {
     }
     // triggered on the "back" button click 
     function back() {
-        if (itemArray.data[nextIndex - 13] != undefined) { // there are previous items to go back to
+        if (itemArray.data[nextIndex - 7] != undefined) { // there are previous items to go back to
         setCurItems(itemArray.data.slice(nextIndex - 12, nextIndex - 6));
         setNextIndex(nextIndex - 6);
         setCurPage(curPage - 1);

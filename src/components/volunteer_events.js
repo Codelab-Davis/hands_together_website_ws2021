@@ -163,9 +163,9 @@ function Volunteer_Events() {
         events = events.slice(i, events.length); 
       } 
 
-      if (events.length > 3) { 
-        events = events.slice(0, 3); 
-      }
+      // if (events.length > 3) { 
+      //   events = events.slice(0, 3); 
+      // }
     } 
 
     setUpcomingEvents(events); 
