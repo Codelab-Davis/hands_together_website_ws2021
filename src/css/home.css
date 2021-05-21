@@ -10,7 +10,7 @@
       height: 2rem; 
       width: 6rem;
       margin-left: 1rem;
-      margin-bottom: 2rem;
+      margin-bottom: 1rem;
   }
 }
 
@@ -28,25 +28,25 @@
 }
 
 .wbutton {
-  height: 3.625rem; 
-  width: 9.6875rem;
+  height: 4.25rem; 
+  width: 11.25rem; 
   padding-top: 0.3125rem;
   margin-left: 3rem;
   text-align: center;
-  background-color: var(--darkred); 
+  background-color: red;
 }
 
 @media (max-width: 768px) {
   .wbutton {
-      margin-left:6rem;
+      margin-left: 2rem;
       height: 3rem; 
       width: 9rem; 
   }
 }
 
 .ybutton {
-  height: 3.625rem; 
-  width: 9.6875rem;
+  height: 5.6875rem; 
+  width: 15.125rem; 
   padding-top: 0.3125rem;
   margin-top: 12rem;
   background-color: darkorange;
@@ -55,14 +55,13 @@
 @media (max-width: 768px) {
   .ybutton {
       margin-top: 7rem;
-      margin-left: 2rem;
       height: 3rem; 
       width: 9rem; 
   }
 }
 .nbutton {
-  height: 3.625rem; 
-  width: 9.6875rem;
+  height: 91px; 
+  width: 242px; 
   padding-top: 0.3125rem;
   text-align: center;
   background-color: darkorange;
@@ -72,19 +71,19 @@
 
 @media (max-width: 768px) {
   .nbutton {
-    height: 3.625rem; 
-    width: 9.6875rem;
-    margin-left: 1rem;
+  width: 180px;
+  height: 60px;
+  margin-left: 1rem;
   }
 }
 
 .text {
-  margin-bottom: 1.25rem;   
+  opacity: 1;
 }
 
 .optext {
   font-size: 56px;
-  line-height: 65.63px;
+  line-height: 1.5;
   font-weight: bold;
   padding-top: 1rem;
 }
@@ -92,14 +91,14 @@
 @media (max-width: 768px) {
   .optext {
       font-size: 40px;        /* fix the align for the text */
-      line-height: 60px;
+      line-height: 1.5;
       margin-left: 1rem;
   }
 }
 
 .ostext {
   font-size: 56px;
-  line-height: 65.63px;
+  line-height: 1.5;
   font-weight: bold;
   padding-top: 1rem;
   margin-left: 7rem;
@@ -108,7 +107,7 @@
 @media (max-width: 768px) {
   .ostext {
       font-size: 40px;        
-      line-height: 60px;
+      line-height: 1.5;
       margin-left: 6rem;
   }
 }
@@ -125,7 +124,7 @@
 @media (max-width: 768px) {
   .pre-sub {
       font-size: 30px;
-      line-height: 35px;
+      line-height: 1.5;
       padding-top: 2rem;
       padding-left: 1rem;
   }
@@ -133,7 +132,7 @@
 
 .pre-text {
   font-size: 18px;
-  line-height: 21.09px;
+  line-height: 1.5;
   font-weight: 400;
   padding-top: 2rem;
   padding-left: 7rem;
@@ -142,12 +141,13 @@
 @media (max-width: 768px) {
   .pre-text {
       padding-left: 1rem;
+      line-height: 1.5;
   }
 }
 
 .word {
   font-size: 56px; 
-  line-height: 65.63px;
+  line-height: 1.5;
   font-weight: bold;
   margin-top: 3.75rem; 
 }
@@ -162,11 +162,11 @@
 
 .phrase {
   font-size: 24px;
-  line-height: 28.13px;
+  line-height: 1.5;
   width: 665px;
   height: 168px;
   font-weight: 400;
-  padding-top: 10rem;
+  padding-top: 7rem;
 }
 
 @media (max-width: 768px) {
@@ -175,8 +175,9 @@
       height: 50%;
       padding-right: 3rem;
       font-size: 18px;
-      line-height: 22px;
+      line-height: 1.5;
       padding-top: 0rem;
+      margin-bottom: 1rem;
 }
 }
 
@@ -193,7 +194,7 @@
   .ourtext {
       width: 100%;
       font-size: 18px;
-      line-height: 22px;
+      line-height: 1.5;
       padding-top: 0rem;
       margin-left: 0px;;
       padding-right: 1rem;
@@ -314,20 +315,20 @@
   font-size: 34px;
   line-height: 39.84px;
   font-weight: bold;
+  padding-left: 3rem;
 }
 
 @media (max-width: 768px) {
   .text-opacity {
-      padding-top: 13rem;     /* fix the align for the text */
+      padding-top: 13rem;     
       padding-left: 2rem;
       font-size: 25px;
       line-height: 35px;
-      text-align: inherit;
   }
 }
 
 .vocab {
-  font-size: 28px;
+  font-size: 34px;
   line-height: 39.84px;
   font-weight: 700;
 }
@@ -355,4 +356,21 @@
   .team{
       margin-top: -19rem;
   }
+}
+
+.banner { 
+  width: 100%;
+  height: 80px;
+  text-decoration: underline;     
+  text-align: center;
+  padding-top: 1.625rem;
+  margin-top: -38.6rem;
+  margin-bottom: 10rem;
+  background-color: rgba(255,255,255,0.5);
+}
+
+@media (max-width: 1439px) {
+  .banner {
+    display: none;
+  }   
 }
