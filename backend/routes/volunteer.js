@@ -17,6 +17,7 @@ limiter.schedule(() => {
 
 limiter.schedule(() => {
   router.route('/add_volunteer').post((req, res) => {
+      console.log(req.body);
       const name = req.body.name;
       const age = req.body.age;
       const gender = req.body.gender;
