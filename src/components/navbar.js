@@ -12,7 +12,9 @@ import xicon from "../images/x-icon.png";
 import Modal from 'react-modal';
 const axios = require('axios');
 
-function Navbar(props) {
+var shippo = require('shippo')('shippo_test_1e5dfe70515f773e34da3713d3ecfdc0203a80a9');
+
+function Navbar() {
   const history = useHistory();
   const [modalIsOpen, setModalIsOpen] = useState(false); 
   const [address1, setAddress1] = useState(''); 
@@ -68,32 +70,103 @@ function Navbar(props) {
     }
   };
 
-  function checkout() {
+  async function checkout() {
     let quota = window.localStorage.getItem("QUOTA")
     if (!quota) {
       alert("Your cart is currently empty. Add items to cart on the shop page.");
       return;
     }
+
     const cart = {"cart": []}
+    let cart_quantity = 0;
     for(let i = 0; i < quota; i++) {
-      cart["cart"].push(window.localStorage.getItem("JXYSDFH65F" + i))
+      let item = window.localStorage.getItem("JXYSDFH65F" + i);
+      cart["cart"].push(item);
+      cart_quantity = cart_quantity + JSON.parse(item).quantity;
     }
+
+    // ABHAY: This is your resulting object for Shippo after the intermediary address screen. 
+    var addressTo = await shippo.address.create({ 
+      name: "Customer",
+      street1: address1,
+      street2: address2,
+      city: city,
+      state: state, 
+      zip: ZIP,
+      country: "US",
+      validate: true,
+    }, function(err, address) {
+      console.log(address);
+    });
+
+    if(!addressTo.validation_results.is_valid) {
+      alert("The address you entered is invalid. Please enter a valid address.");
+      return;
+    }
+
+    const addressFrom = await shippo.address.create({
+      name: "test",
+      street1: "201 Civic Center Drive East",
+      street2: "",
+      city: "Santa Ana",
+      state: "CA", 
+      zip: "92701",
+      country: "US",
+      validate: true,
+    }, function(err, address) {
+      console.log(address);
+    })
+
+    const parcel = {
+      length: '8',
+      width: '7',
+      height: '6',
+      distance_unit: 'in',
+      weight: cart_quantity * 4,
+      mass_unit: 'oz',
+    }
+
+    var shipment = await shippo.shipment.create({
+      address_from: addressFrom,
+      address_to: addressTo,
+      parcels: [parcel],
+      async: false,
+    }, function(err, shipment) {
+      console.log(shipment);
+    });
+
+    let shipping_rate = 0;
+    let rate_found = true;
+    if(parcel.weight < 13) {
+      for(let i = 0; i<shipment.rates.length;i++) {
+        if(shipment.rates[i].provider == "USPS" && shipment.rates[i].servicelevel.token == "usps_first") shipping_rate = shipment.rates[i].amount;
+      }
+      if(shipping_rate == "0") rate_found = false;
+    }
+    else {
+      shipping_rate = 10000; // arbitrary large value
+      for(let i = 0; i<shipment.rates.length;i++) {
+        if(shipment.rates[i].provider == "UPS" && shipment.rates[i].amount < shipping_rate) shipping_rate = Number(shipment.rates[i].amount);
+      }
+      if(shipping_rate == 10000) rate_found = false;
+    }
+    if(!rate_found) {
+      shipping_rate = 10000; // arbitrary large value
+      for(let i = 0; i<shipment.rates.length;i++) {
+        if(shipment.rates[i].amount < shipping_rate) shipping_rate = Number(shipment.rates[i].amount);
+      }
+    }
+    console.log(shipping_rate);
+
     const req = {
       amount: 0,
       success_url: "http://localhost:3000/thank_you",
       cancel_url: "http://localhost:3000/",
       cart: cart,
+      shipping_rate: shipping_rate*100,// $10
+      shipping_address: addressTo,
       type: "purchase"
     }
- 
-    const addressInfo = { 
-      address: address1,
-      address2: address2,
-      city: city,
-      state: state, 
-      ZIP: ZIP,
-    }
-    console.log(addressInfo); 
 
     var stripe = window.Stripe('pk_test_51IMhDjDACjkjrvMm0D7gtuvvHOCY8Z9dGTjwVFxFcmWHlGfjn9CGEdvyvs5vMQrAQDwmBcELSzSb2kTNf65eyJkw00AXucR70x')
     axios.post('http://localhost:5000/stripe/create-checkout-session/', req) 

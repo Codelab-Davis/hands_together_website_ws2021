@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../../css/add_shop_item.css";
 import camera from "../../images/camera.png"; 
@@ -10,11 +10,12 @@ function AddItemFrontend() {
     const [title, setTitle] = useState(''); 
     const [price, setPrice] = useState(''); 
     const [description, setDescription] = useState(''); 
-    const [quantity, setQuantity] = useState(''); 
+    const [quantity, setQuantity] = useState('');
 
     // Functions to track typing changes in the input fields 
     function onTitleChange(event) { 
-        setTitle(event.target.value); 
+        if (event.target.value.length < 30) 
+            setTitle(event.target.value); 
     } 
 
     function onPriceChange(event) { 
@@ -22,7 +23,8 @@ function AddItemFrontend() {
     } 
 
     function onDescriptionChange(event) { 
-        setDescription(event.target.value); 
+        if (event.target.value.length < 750) 
+            setDescription(event.target.value); 
     } 
 
     function onQuantityChange(event) { 
@@ -31,6 +33,15 @@ function AddItemFrontend() {
     
     const [uploadMessage, setUploadMessage] = useState("");
     const [imgFiles, setImgFiles] = useState([]);
+    const [imgLinks, setImgLinks] = useState([]); 
+
+    useEffect(() => { 
+        renderImage(0);
+        renderImage(1);
+        renderImage(2);
+        renderImage(3);
+        handleImageClick(0); 
+    }, [imgFiles]); 
 
     function handleImgUpload(event) {
         if (event.target.files.length > 0 && event.target.files.length <= 4)
@@ -88,7 +99,7 @@ function AddItemFrontend() {
                     setUploadMessage("Upload successful");
                     })
                     .catch(err => {
-                    setUploadMessage("Sorry something went wrong");
+                    setUploadMessage("Sorry something went wrong uploading your item.");
                     console.log('err', err);
                     })
                 )
@@ -103,18 +114,43 @@ function AddItemFrontend() {
         .then(() => {
             axios.post('http://localhost:5000/items/add_item', item)
             .then(res => {
+                setUploadMessage("Item successfully added.");
                 console.log(item);
+            })
+            .catch(err => { 
+                setUploadMessage("Sorry something went wrong uploading your item.");
+                console.log('err', err);  
             })
         })
     }
 
-    function renderImage(imgFiles, pos) { 
+    function renderImage(pos) { 
         try { 
-            return URL.createObjectURL(imgFiles[pos]); 
+            let imgLinksCopy = imgLinks;
+            if (imgLinksCopy[pos] == undefined) { 
+                imgLinksCopy.push(URL.createObjectURL(imgFiles[pos])); 
+                console.log("in if statement"); 
+            } else { 
+                imgLinksCopy[pos] = URL.createObjectURL(imgFiles[pos]); 
+                console.log("in else statement"); 
+            }
+            console.log("setting imgLinksCopy"); 
+            setImgLinks(imgLinksCopy);  
         }
         catch { 
             return null; 
         }
+    }
+
+    // LISTING PREVIEW FUNCTIONS AND STATES 
+    const [imageLink, setImageLink] = useState("");
+
+    function handleImageClick(index) {
+        setImageLink(imgLinks[index]);
+        for (let i = 0; i < imgLinks.length; i++) {
+          document.getElementById(`image${i}`).classList.remove("selected-image");
+        }
+        document.getElementById(`image${index}`).classList.add("selected-image");
     }
 
     return ( 
@@ -122,65 +158,110 @@ function AddItemFrontend() {
         <div className="container-fluid p-0"> 
             <div className="row no-gutters"> 
                 <h1 className="title-text">Create new listing</h1> 
-
-                {/* "Photos" box */}
-                <div className="listing-box"> 
-                    <h2>Photos</h2> 
-                    <p>Add up to four photos of your product so buyers can see all the details. Note that you must upload all of them at once.</p>
-                     {/* This is a great example of when NOT to use columns in bootstrap. We can simply get all of our elements 
-                         to show up in a line together evenly spaced apart by using justify-content in our CSS file after putting 
-                         them in a row together  */}
-                    <div className="row no-gutters photo-container"> 
-                        <div className="add-a-photo d-flex align-items-center justify-content-center" align="center">
-                            <input
-                                id='upload-image'
-                                type='file'
-                                accept='image/*'
-                                onChange={handleImgUpload}
-                                multiple
-                            />
-                        </div> 
-                        <img className="photo-preview" src={renderImage(imgFiles, 0)}/> 
-                        <img className="photo-preview" src={renderImage(imgFiles, 1)}/> 
-                        <img className="photo-preview" src={renderImage(imgFiles, 2)}/> 
-                        <img className="photo-preview" src={renderImage(imgFiles, 3)}/> 
-                    </div> 
-                    <p className="bold photo-description-margin">The first photo you upload will be the primary listing photo. This will be the photo displayed on the shop home page. </p>
-                </div> 
                 
                 {/* "Create Listing" box */}
                 <div className="listing-box"> 
-                    <h2>Create Listing</h2> 
-                    <p>Edit title for item, price, description, and quantity.</p> 
+                    <h2>Create Listing</h2>
+                    <li>Add up to four photos of your product so buyers can see all the details. Note that you must upload all of them at once.</li>
+                    <li><strong>It's highly recommended your photo is already cropped to a square aspect ratio. Otherwise, it will be automatically cropped as shown in the preview below.</strong></li>
+                    <li><strong>The first photo you upload will be the primary listing photo. This will be the photo displayed on the shop home page. </strong></li>
+                    <input
+                        id='upload-image'
+                        type='file'
+                        accept='image/*'
+                        onChange={handleImgUpload}
+                        multiple
+                        style={{marginTop: "1rem"}} 
+                    />
+                    <p style={{marginTop: "1rem"}}>Edit title for item, price, description, and quantity. <strong>The price must be formatted as xx.xx. If it is not, the item will not be purchaseable.</strong></p>
                     {/* This is a great example of when to use columns. We want each input box to always take up 
                         a specific portion of the screen based on the device size 
                         I use col-10 and col-6 to say what the width should be on xs and sm devices, and 
                         col-md-6 and col-md-2 to say what it should look like on md and larger sized devices */}
                     <div className="row no-gutters listing-input"> 
                         <div className="col-10 col-md-6">
-                            <input type="text" placeholder="Title of item" value={title} onChange={onTitleChange} /> 
+                            <input type="text" placeholder="Item Title" value={title} onChange={onTitleChange} /> 
+                            <p>Max 30 characters</p>
                         </div>
                     </div>
                     <div className="row no-gutters listing-input"> 
                         <div className="col-6 col-md-2">
                             <input type="text" placeholder="12.99" value={price} onChange={onPriceChange} />
-                            <p>Formatting: 12.99 </p> 
+                            <p>Formatting: 12.99</p>
                         </div>
                     </div>
                     <div className="row no-gutters listing-input"> 
                         <div className="col-10 col-md-6">
-                            <input type="text" placeholder="Describe your item" value={description} onChange={onDescriptionChange} /> 
+                            <textarea style={{height: "9rem"}} type="text" placeholder="Item Description" value={description} onChange={onDescriptionChange} /> 
+                            <p>Max 750 characters</p>
                         </div>
                     </div>
                     <div className="row no-gutters listing-input"> 
                         <div className="col-6 col-md-2">
-                            <input type="text" placeholder="Quantity: 0" value={quantity} onChange={onQuantityChange} /> 
+                            <input type="text" placeholder="Quantity: 5" value={quantity} onChange={onQuantityChange} /> 
+                            <p>Max 10 quantity</p>
                         </div>
                     </div> 
-                    <div className="col-12">
-                        <button className="submit-button hands-together-button" onClick={add_item_to_db}>Create</button>
-                        <p>{uploadMessage}</p>
-                    </div> 
+                </div>
+
+                <div className="listing-box">
+                    <h2>Preview Listing</h2>
+                    <div className="row no-gutters item-info item-page-padding">
+                        <div className="col-sm-6 row no-gutters flex-nowrap">
+                            <div className="col-2 side-image-container">
+                                <div id={`image${0}`} 
+                                onClick={() => handleImageClick(0)} 
+                                className="side-image"  
+                                style={{backgroundImage: `url(${imgLinks[0]})`}}
+                                ></div>
+                                <div id={`image${1}`} 
+                                onClick={() => handleImageClick(1)} 
+                                className="side-image"  
+                                style={{backgroundImage: `url(${imgLinks[1]})`}}
+                                ></div>
+                                <div id={`image${2}`} 
+                                onClick={() => handleImageClick(2)} 
+                                className="side-image"  
+                                style={{backgroundImage: `url(${imgLinks[2]})`}}
+                                ></div>
+                                <div id={`image${3}`} 
+                                onClick={() => handleImageClick(3)} 
+                                className="side-image"  
+                                style={{backgroundImage: `url(${imgLinks[3]})`}}
+                                ></div>
+                            </div>
+
+                            <div className="col-10 main-image-container">
+                            <div className="main-image" style={{backgroundImage: `url(${imageLink})`}}></div>
+                            </div>
+                        </div>
+                        
+                        <div className="col-sm-6 right">
+                            <h3>{title}</h3>
+                            <h4 className="price">{"$" + price.slice(0, -2) + "." + price.slice(-2)}</h4>
+                            <hr/>
+                            <h4>Description</h4>
+                            <p>{description}</p>
+                            <select className="quantity" name="quantity">
+                                {(() => {
+                                    let selectList = [];
+                                    for (let i = 1; i <= parseInt(quantity); i++) {
+                                    selectList.push(<option value={i}>{i}</option>)
+                                    }
+                                    return selectList;
+                                }
+                                )()}
+                            </select>
+                            <div className="form">
+                            <button className="add-cart-button">Add to Cart</button>
+                            <p id="item-added-message" className="hidden">Item(s) added!</p>
+                            </div>
+                        </div>
+                    </div>
+                        <div className="col-12">
+                            <button className="submit-button hands-together-button" onClick={add_item_to_db}>Create</button>
+                        <p>{uploadMessage}</p> 
+                    </div>
                 </div>
             </div>
         </div>

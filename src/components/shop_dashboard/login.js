@@ -33,16 +33,20 @@ function Login(props) {
   }
 
     return (
-      <>
-        <h1>Login</h1>
-        <form onSubmit={onSubmit}>
-          <label>Username</label>
-          <input type="text" value={userName} onChange={handleUserNameInput}/>
-          <label>Password</label>
-          <input type="text" value={password} onChange={handlePasswordInput}/>
-          <input type="submit" value="Log In"/>
-        </form>
-      </>
+      <div>
+        <div className="row no-gutters">
+          <div className="col-6 offset-3">
+            <h1 style={{marginTop: "3rem"}}>Login</h1>
+            <form onSubmit={onSubmit}>
+              <label>Username</label>
+              <input type="text" value={userName} onChange={handleUserNameInput}/>
+              <label>Password</label>
+              <input type="text" value={password} onChange={handlePasswordInput}/>
+              <input type="submit" value="Log In" className="submit-button" style={{marginBottom: "2rem"}}/>
+            </form>
+          </div> 
+        </div>
+      </div>
     );
 }
 
