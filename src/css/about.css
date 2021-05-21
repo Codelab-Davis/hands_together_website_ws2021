@@ -13,32 +13,38 @@
     filter: drop-shadow(0px 4px 4px rgba(7, 30, 53, 0.25)); 
 }
 
-/* .border
-{
-    border-color: black;
-    border-style: solid;
-} */
 /* Fix the images on a smaller screen */
-@media (max-width: 768px) {
+@media (max-width: 767px) {
     /* .aboutImgFormat {
       margin-left:1rem;
     } */
     .smallScreenTextShift {
-        margin-left:3rem;
-        margin-right:3rem;
+        margin-left:0.5rem;
+        margin-right:0.5rem;
     }
     .teamlink {
         position: absolute;
         text-decoration: underline;
-        color: blue;
         width:100%;
         margin-top: 15%;
     }
+    .infoblurb {
+        font-size: 50px;
+    }
+    .extrapadding {
+        margin:0rem;
+    }
   }
+
 .abttxt
 {
     margin-left:3rem;
     margin-right:3rem;
+}
+
+.infoblurb
+{
+    font-size: 22px;
 }
 
 .imgFormat 
@@ -54,12 +60,15 @@
     background-color: #50B4F2;
     margin-left:0rem;
     margin-right:0rem;
+    padding:5%;
 }
 .morningFormat
 {
     background-color: #F2B705;
     margin-left:0rem;
     margin-right:0rem;
+
+    padding:5%;
 }
 
 .preschoolButton
@@ -94,13 +103,20 @@
     width:100%;
     margin-top: 20%;
 }
-
-/* .border
-{
-    border-style: solid;
-} */
-
 .teamlink:hover
 {
   cursor:pointer;
 } 
+/* For debugging purposes */
+.borderImg
+{
+    border-style:solid;
+    border-color: black;
+}
+
+.centerImg
+{
+    display:block; 
+    margin-top: auto;
+    margin-bottom: auto;
+}

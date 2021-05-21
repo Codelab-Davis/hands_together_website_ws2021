@@ -33,6 +33,13 @@ function ViewSoldShopItems() {
         }
     };
 
+    function cancelOrder() {
+        axios.post("http://localhost:5000/stripe/cancel_order/" + selectedItem.transaction_id)
+         .then(res => {
+             console.log(res);
+         })
+    }
+
 
     // LOADING ALL ITEMS AND PAGINATION STARTS BELOW 
     const [itemArray, update] = useState({data: []});
@@ -96,7 +103,8 @@ function ViewSoldShopItems() {
                 contentLabel="Checkout Delivery Address Modal"
                 style={customModalStyles}
             >
-                <button onClick={logCurItemID()}>Open up your console and click me to see the current item's information</button>
+                <button onClick={() => logCurItemID()}>Open up your console and click me to see the current item's information</button>
+                <button onClick={() => cancelOrder()}>Cancel Order </button>
             </Modal> 
             <div className="row no-gutters view-container"> 
                 <h1 className="title-text">Sold Items</h1>
@@ -115,7 +123,6 @@ function ViewSoldShopItems() {
                                 <p className="name bold">{itemIter.name}</p>
                                 <p className="price">{getFormattedPrice(itemIter.price)}</p>
                                 </div>
-                                <p className="caption description">{itemIter.description.length < 100 ? itemIter.description : itemIter.description.slice(0, 100) + "..."}</p>
                             </div>
                             </div>
                         </div>

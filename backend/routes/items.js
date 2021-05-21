@@ -2,6 +2,8 @@ const router = require('express').Router();
 let Item = require('../models/items.model.js');
 const Bottleneck = require('bottleneck'); 
 
+const tokenAuth = require('../jwtAuth');
+
 const limiter = new Bottleneck({
     maxConcurrent: 10,
     minTime: 100
@@ -89,7 +91,7 @@ limiter.schedule(() => {
 
 
 limiter.schedule(() => {
-    router.route('/add_item').post((req, res) => {
+    router.post('/add_item', tokenAuth, (req, res) => {
         const name = req.body.name;
         const date_added = req.body.date_added;
         const price = req.body.price;
@@ -117,9 +119,7 @@ limiter.schedule(() => {
         Item.findById(req.params.id)
          .then(item => {
             item.name = req.body.name;
-            item.date_added = req.body.date_added;
             item.price = req.body.price;
-            item.images = req.body.images;
             item.description = req.body.description;
             item.quantity = req.body.quantity;
 

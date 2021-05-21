@@ -2,11 +2,10 @@ import react, { useState, useEffect } from "react";
 import "../../css/view_shop_items.css";
 import EventTile1 from "../../images/EventTile1.png";
 import Modal from 'react-modal';
-import ViewPastEvents from "./view_past_events";
 import modal_x from "../../images/modal_x.png";   
 const axios = require('axios');
 
-function ViewEvents() { 
+function ViewPastEvents() { 
     // MODAL STATES, FUNCTIONS, AND STYLING START BELOW 
     const [modalIsOpen, setModalIsOpen] = useState(false); 
     const [volunteerModalIsOpen, setVolunteerModalIsOpen] = useState(false); 
@@ -93,7 +92,7 @@ function ViewEvents() {
         let today = new Date().setHours(0,0,0,0); 
         let new_data = []; 
         for (let i = 0; i < res.data.length; i++) { 
-            if (new Date(res.data[i].date).getTime() > today) 
+            if (new Date(res.data[i].date).getTime() < today) 
                 new_data.push(res.data[i]); 
         } 
         update({data: new_data});
@@ -109,6 +108,10 @@ function ViewEvents() {
     useEffect(() => { 
         if (curEvent == undefined) 
             return; 
+        
+        console.log(curEvent._id); 
+        let eventId = { event_id: curEvent._id.toString() }; 
+        console.log(eventId); 
 
         axios.get('http://localhost:5000/volunteer/get_by_event', { params: { event_id: curEvent._id.toString()}}) 
             .then((res) => { 
@@ -122,20 +125,14 @@ function ViewEvents() {
 
     function deleteCurEvent() { 
         axios.delete(`http://localhost:5000/event/delete_event/${curEvent._id}`) 
-            .then(() => {
-                let new_items = [];  
-                for (let i = 0; i < items.length; i++) { 
-                    if (items[i]._id != curEvent._id) 
-                        new_items.push(items[i]); 
-                } 
-                setCurItems(new_items); 
+            .then(() => { 
                 closeModal(); 
-            }) 
+            })
             .catch((error) => { 
                 console.log("Error deleting event", error); 
-            }) 
+            })
     } 
-
+    
     function determineImage(imgFile) { 
         if (imgFile != undefined) { 
             console.log("in if statement"); 
@@ -165,7 +162,7 @@ function ViewEvents() {
             <Modal
                 isOpen={volunteerModalIsOpen}
                 onRequestClose={closeVolunteerModal}
-                contentLabel="Volunteers"
+                contentLabel="Checkout Delivery Address Modal"
                 style={customModalStyles}
             >
                 <div className="col-12" align="right">
@@ -191,7 +188,7 @@ function ViewEvents() {
                 }
             </Modal> 
             <div className="row no-gutters view-container"> 
-                <h1 className="title-text" style={{paddingLeft: "0"}}>Upcoming Events</h1>
+                <h1 className="title-text" style={{paddingLeft: "0"}}>Past Events</h1>
                 <p className="title-text"><br/>{
                     "Showing " + (6 * (curPage - 1) + 1) + "-" 
                     + Math.min((6 * curPage), itemArray.data.length) 
@@ -209,7 +206,7 @@ function ViewEvents() {
                                     <p><strong>Location:</strong> {itemIter.location}</p>
                                     <p><strong>Date:</strong> {formatDate(itemIter.date)}</p>
                                 </div>
-                                <div className="row no-gutters" style={{marginTop: "1rem", width: "85%"}}> 
+                                <div className="row no-gutters" style={{marginTop: "1rem"}}> 
                                     <div className="col-4"> 
                                         <p>Volunteers: {itemIter.volunteer_amount}</p>
                                     </div>
@@ -222,12 +219,11 @@ function ViewEvents() {
                                 </div> 
                             </div>
                             )
-                            : <p style={{marginTop: "5rem"}}>There are no upcoming events.</p>
+                            : <p>There are no past events.</p>
                         }
-                        <div className="col-12" /> 
-                    </div>
-                </div>
-
+                    </div> 
+                </div> 
+                
                 <nav aria-label="pages" style={{marginBottom: "3rem"}}> 
                 {items.length > 0 ? <button className="back-button" tabIndex="-1" onClick={back}>Back</button> : <></>} 
                 {(() => {
@@ -243,9 +239,8 @@ function ViewEvents() {
                 {items.length > 0 ? <button className="next-button" tabIndex="-2" onClick={next}>Next</button> : <></>} 
                 </nav>
             </div>
-            <ViewPastEvents /> 
         </div>
     );
 }
 
-export default ViewEvents; 
+export default ViewPastEvents; 

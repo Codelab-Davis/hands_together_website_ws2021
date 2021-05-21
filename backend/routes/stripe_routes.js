@@ -94,7 +94,7 @@ limiter.schedule(() => {
           payment_method_types: ['card'], // list of payment methods
           line_items: line_items,
           payment_intent_data: {
-            shipping: {
+            shipping: (req.body.type == "purchase") ? {
               name: "Shipping", // pass shipping information in from front-end
               address: {
                 line1: req.body.shipping_address.street1,
@@ -104,7 +104,7 @@ limiter.schedule(() => {
                 postal_code: req.body.shipping_address.zip,
                 state: req.body.shipping_address.state,
               }
-            }
+            } : {}
           },
           metadata: {'type': req.body.type, 'cart': JSON.stringify(cart_items)},
           success_url: success_url,
@@ -156,8 +156,8 @@ async function fulfillOrder(session) {
   let address_line_one = payment_intent.shipping.address.line1;
   let address_line_two = payment_intent.shipping.address.line2 || "";
   let top_address = (address_line_two == "") ? address_line_one : address_line_one + ', ' + address_line_two;
-
   let rest_address = payment_intent.shipping.address.city + ", " + payment_intent.shipping.address.state + ", " + payment_intent.shipping.address.postal_code;
+
   let total = session.amount_total/100;
   let ordered_items = "";
 
@@ -298,7 +298,7 @@ async function errorEmail(id) {
   const mail_options = {
     from: `"Hands Together Test" <test@test.io>`,
     to: ht_email,
-    subject: "Hands Together Shop Order Processing Error",
+    subject: "Hands Together Order Processing Error",
     html: email_body, 
     attachments: [
       {
@@ -337,7 +337,7 @@ async function fulfillDonate(session) {
   </div>
 
   <div>
-      <p> <strong>Donation Info</strong> <br/><strong>Transaction #:</strong> ${id}<br/><strong>Total:</strong> $${total.toFixed(2)}</p>
+      <p> <strong>Donation Info</strong> <br/><strong>Donation #:</strong> ${id}<br/><strong>Amount:</strong> $${total.toFixed(2)}</p>
   </div>
   `; 
 
@@ -384,12 +384,12 @@ async function fulfillSubscription(session) {
   </div>
   
   <div>
-    <p> If you would like to ever cancel your recurring donation, please navigate to the following URL. </p>
+    <p> If you would like to cancel your recurring donation, please navigate to the following URL. </p>
     <p> <strong> Cancellation Link: </strong> ${cancellation_url} </p>
   </div>
 
   <div>
-      <p> <strong>Donation Info</strong> <br/><strong>Subscription #:</strong> ${id}<br/><strong>Total:</strong> $${total.toFixed(2)}</p>
+      <p> <strong>Donation Info</strong> <br/><strong>Subscription #:</strong> ${id}<br/><strong>Amount:</strong> $${total.toFixed(2)}</p>
   </div>
   `; 
 
@@ -469,13 +469,18 @@ router.post('/cancel_donate/:id', async (req, res) => { //protect w/JWTs once do
   let customer = await stripe.customers.retrieve(canceled.customer);
   let customer_email = customer.email; 
   let customer_name = customer.name;
+  let total = Number(canceled.items.data[0].plan.amount)/100
 
   let email_body = `
   <img src="cid:htlogo" style="display:block;margin-left:auto;margin-right:auto;"/> 
   <h1 style="text-align:center;margin-top:1.625rem;">Thank you!</h1>
 
   <div>
-    <p> <strong>Hi ${customer_name}, </strong> <br/>your recurring donation has been canceled.</p>
+    <p> <strong>Hi ${customer_name}, </strong> <br/>This email confirms the cancellation of your recent recurring donation. Thank you again for your contributions!</p>
+  </div>
+
+  <div>
+      <p> <strong>Donation Info</strong> <br/><strong>Subscription #:</strong> ${subscription_id}<br/><strong>Amount:</strong> $${total.toFixed(2)}</p>
   </div>
   `; 
 
@@ -504,22 +509,27 @@ router.post('/cancel_donate/:id', async (req, res) => { //protect w/JWTs once do
   res.status(200).json("successfully cancelled");
 })
 
-router.post('/cancel_order/:id', async (req,res) => {
+router.post('/cancel_order/:id', tokenAuth, async (req,res) => {
   let transaction_id = req.params.id;
-  const transaction = await stripe.paymentIntents.retrieve(transaction_id, { expand: [''] });
+  const transaction = await stripe.paymentIntents.retrieve(transaction_id);
   console.log("Payment Intent: ", transaction);
-  const refund = await stripe.refunds.create({payment_intent: transaction_id});
+  const refund = await stripe.refunds.create({
+    payment_intent: transaction_id,
+    amount: Math.round(req.body.amount*100),
+  });
   console.log("Refund: ", refund);
-
   // node mailer implementation begins here
   let customer = await stripe.customers.retrieve(transaction.customer);
   let customer_email = customer.email; 
   let customer_name = customer.name;
 
-  let address_line_one = "temp";
-  let rest_address = "temp";
-  let ordered_items = "temp";
-  let total = 10;
+  let address_line_one = transaction.shipping.address.line1;
+  let address_line_two = transaction.shipping.address.line2 || "";
+  let top_address = (address_line_two == "") ? address_line_one : address_line_one + ', ' + address_line_two;
+  let rest_address = transaction.shipping.address.city + ", " + transaction.shipping.address.state + ", " + transaction.shipping.address.postal_code;
+
+  let total = req.body.amount;
+  let cancelled_items = req.body.cancelled_items || "Generic Item List";
 
 
   let email_body = `
@@ -531,11 +541,11 @@ router.post('/cancel_order/:id', async (req,res) => {
   </div>
 
   <div>
-      <p> <strong>Delivery Address</strong> <br/>${customer_name} <br/>${address_line_one}<br/>${rest_address}</p>
+      <p> <strong>Delivery Address</strong> <br/>${customer_name} <br/>${top_address}<br/>${rest_address}</p>
   </div>
 
   <div>
-      <p> <strong>Order Info</strong> <br/><strong>Transaction #:</strong> ${transaction_id}<br/><strong>Total:</strong> $${total.toFixed(2)}</p>
+      <p> <strong>Cancelled Order Info</strong> <br/><strong>Transaction #:</strong> ${transaction_id}<br/><strong>Items Cancelled:</strong> ${cancelled_items}<br/><strong>Total:</strong> $${total.toFixed(2)}</p>
   </div>
   `; 
 
@@ -557,7 +567,7 @@ router.post('/cancel_order/:id', async (req,res) => {
     if(error) {
       console.log(error);
     } else {
-      console.log('Donation Cancellation Email Sent: ' + info.response);
+      console.log('Order Cancellation Email Sent: ' + info.response);
     }
   });
 
