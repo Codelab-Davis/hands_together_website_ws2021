@@ -4,7 +4,8 @@ import "../css/navbar.css";
 import "../css/mobile_drawer.css";
 import { useHistory } from "react-router-dom";
 import ht_logo from "../images/ht_logo.png";
-import cart from "../images/cart.png";
+import cart_empty from "../images/CartEmpty.svg";
+import cart_not_empty from "../images/CartNotEmpty.svg";
 import account_circle from "../images/account_circle.png";
 import MobileDrawer from "./mobile_drawer.js"; 
 import xicon from "../images/x-icon.png";
@@ -200,6 +201,11 @@ function Navbar() {
     }
   }
 
+  // Rerender navbar every time the cart changes
+  useEffect(() => {
+    forceUpdate();
+  }, [props.cartUpdate])
+
   function getCartItemList() {
     let quota = window.localStorage.getItem("QUOTA");
     if (quota == 0) {
@@ -216,8 +222,8 @@ function Navbar() {
         <div className="col-12 cart-item">
           <div className="cart-image" style={{backgroundImage: `url(${item.images[0]})`}}></div>
           <div className="item-info">
-            <p>{item.name}</p>
-            <p>{item.quantity} @ {`$${item.price.slice(0, -2)}.${item.price.slice(-2)}`}/ea</p>
+            <p className="name">{item.name}</p>
+            <p className="qty">{item.quantity} @ {`$${item.price.slice(0, -2)}.${item.price.slice(-2)}`}/ea</p>
             <a onClick={() => {removeItem("JXYSDFH65F" + i); forceUpdate();}}><img src={xicon}/></a>
           </div>
         </div>
@@ -326,7 +332,11 @@ function Navbar() {
         </div>
         <div className="col-4" align="right">
           <div align="right">
-            <img class="buttonSpacing" src={cart} onClick={openModal} />
+            <img 
+              class="buttonSpacing" 
+              src={!window.localStorage.getItem("QUOTA") || window.localStorage.getItem("QUOTA") == 0 
+                ? cart_empty : cart_not_empty} onClick={openModal} 
+            />
             <div className="mobile-drawer">
               <div>
               <img onClick={handleDrawerState} src="https://img.icons8.com/ios/36/000000/menu--v6.png"/>
@@ -372,7 +382,9 @@ function Navbar() {
             </div>
             <div class="col-2">
               {/* Link to programs */}
-              <h4 className="text">Programs</h4> 
+              <h4 onClick={() => (window.location = "/programs")} className="text">
+                Programs
+              </h4> 
             </div>
             <div class="col-2">
               <h4 onClick={() => (window.location = "/volunteer_events")} className="text">

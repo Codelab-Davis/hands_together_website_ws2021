@@ -16,6 +16,7 @@ import donation from "./donation";
 import thank_you from "./transaction_pages/thank_you";
 import cancel_donation from "./transaction_pages/cancel_donation";
 import volunteer_events from "./volunteer_events";
+import programs from "./programs"
 import Navbar from "./navbar";
 import Footer from "./footer"; 
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
@@ -27,18 +28,19 @@ import email from "./email";
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
+  const [cartUpdate, setCartUpdate] = useState(0);
 
   return (
     <div id="content-container">
-      <Navbar />
+      <Navbar cartUpdate={cartUpdate}/>
       <Router>
         <Switch>
           <Route exact path="/" component={home} />
           <Route exact path="/about" component={about} />
           <Route exact path="/our_team" component={ourTeam} />
-          <Route exact path="/shop" render={(props) => (<Shop {...props} />)} />
+          <Route exact path="/shop" render={(props) => (<Shop {...props} cartUpdate={cartUpdate} setCartUpdate={setCartUpdate}/>)} />
           <Route exact path="/item/:id" render={(props) => (<ItemPage {...props} />)} /> 
-          <Route exact path="/shop/:id" render={(props) => (<ItemPage {...props} />)} />
+          <Route exact path="/shop/:id" render={(props) => (<ItemPage {...props} cartUpdate={cartUpdate} setCartUpdate={setCartUpdate}/>)} />
           <Route exact path="/login" render={(props) => !loggedIn ? (<Login {...props} loggedIn={loggedIn} setLoggedIn={setLoggedIn} />) : <Redirect to="/admin" />} />
           <Route exact path="/sold_items_test_routes" component={sold_items_test_routes} /> 
           <GuardedRoute path="/admin" component={admin_dashboard} auth={loggedIn} />
@@ -51,6 +53,7 @@ function App() {
           <Route exact path="/donation" component={donation} />
           <Route exact path="/volunteer_events" component={volunteer_events} />
           <Route exact path="/email" component={email} />
+          <Route exact path="/programs" component={programs} />
         </Switch>
       </Router>
       <Footer/>
