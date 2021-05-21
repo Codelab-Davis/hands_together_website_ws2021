@@ -2,7 +2,7 @@ import react, { useState, useEffect } from "react";
 import "../../css/view_shop_items.css";
 import ViewSoldShopItems from "./view_sold_shop_items.js"; 
 import Modal from 'react-modal';
-import modal_x from "../../images/modal_x.png";    
+import modal_x from "../../images/modal_x.png"; 
 const axios = require('axios');
 
 function ViewShopItems() { 
@@ -12,8 +12,8 @@ function ViewShopItems() {
     const [title, setTitle] = useState(''); 
     const [price, setPrice] = useState(''); 
     const [description, setDescription] = useState(''); 
-    const [quantity, setQuantity] = useState('');
-    const [uploadMessage, setUploadMessage] = useState("");
+    const [quantity, setQuantity] = useState(''); 
+    const [uploadMessage, setUploadMessage] = useState(""); 
     
     function openModal(item) { 
         setCurItem(item);
@@ -80,7 +80,7 @@ function ViewShopItems() {
     }
     // triggered on the "back" button click 
     function back() {
-        if (itemArray.data[nextIndex - 13] != undefined) { // there are previous items to go back to
+        if (itemArray.data[nextIndex - 7] != undefined) { // there are previous items to go back to
         setCurItems(itemArray.data.slice(nextIndex - 12, nextIndex - 6));
         setNextIndex(nextIndex - 6);
         setCurPage(curPage - 1);
@@ -149,7 +149,7 @@ function ViewShopItems() {
                 setCurItems(new_items); 
             })
             .catch(err => { 
-                setUploadMessage("Sorry something went wrong editing your item.");
+                setUploadMessage("Sorry something went wrong editing your item."); 
                 console.log('err', err);  
             })
     } 
@@ -222,31 +222,33 @@ function ViewShopItems() {
                     "Showing " + (6 * (curPage - 1) + 1) + "-" 
                     + Math.min((6 * curPage), itemArray.data.length) 
                     + " of " + itemArray.data.length + " results"
-                }</p> 
-                <div className="row">
-                    { items ?
-                        items.map((itemIter, index) =>
-                        <div className="col-md-4" key={index}>
-                            <div className="item-container">
-                            <a className="wrapper-link"></a>
-                            <div className="item-image" style={{backgroundImage: `url(${itemIter.images[0]})`}}></div>
-                            <div className="add-to-cart">
-                                <a className="bold" onClick={() => openModal(itemIter)}>View Item Options</a>
-                            </div>
-                            <div className="item-info">
-                                <div className="name-price">
-                                <p className="name bold">{itemIter.name}</p>
-                                <p>Quantity: {itemIter.quantity}</p>
-                                <p className="price">{getFormattedPrice(itemIter.price)}</p>
+                }</p>
+                <div className="col-12">
+                    <div className="row">
+                        { items ?
+                            items.map((itemIter, index) =>
+                            <div className="col-md-4" key={index}>
+                                <div className="item-container">
+                                <a className="wrapper-link"></a>
+                                <div className="item-image" style={{backgroundImage: `url(${itemIter.images[0]})`}}></div>
+                                <div className="add-to-cart">
+                                    <a className="bold" onClick={() => openModal(itemIter)}>View Item Options</a>
                                 </div>
-                                <p className="caption description">{itemIter.description.length < 100 ? itemIter.description : itemIter.description.slice(0, 100) + "..."}</p>
+                                <div className="item-info">
+                                    <div className="name-price">
+                                    <p className="name bold">{itemIter.name}</p>
+                                    <p>Quantity: {itemIter.quantity}</p>
+                                    <p className="price">{getFormattedPrice(itemIter.price)}</p>
+                                    </div>
+                                    <p className="caption description">{itemIter.description.length < 100 ? itemIter.description : itemIter.description.slice(0, 100) + "..."}</p>
+                                </div>
+                                </div>
                             </div>
-                            </div>
-                        </div>
-                        )
-                        : <p>Loading...</p>
-                    }
-                </div>
+                            )
+                            : <p>Loading...</p>
+                        }
+                    </div>
+                </div> 
 
                 <nav aria-label="pages">
                 <button className="back-button" tabIndex="-1" onClick={back}>Back</button>
