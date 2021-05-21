@@ -119,9 +119,7 @@ limiter.schedule(() => {
         Item.findById(req.params.id)
          .then(item => {
             item.name = req.body.name;
-            item.date_added = req.body.date_added;
             item.price = req.body.price;
-            item.images = req.body.images;
             item.description = req.body.description;
             item.quantity = req.body.quantity;
 
