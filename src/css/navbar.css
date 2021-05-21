@@ -70,7 +70,7 @@
 
 .buttonSpacing
 {
-  margin-top: 1rem;
+  margin-top: 1.5rem;
   margin-right: 1rem; 
 }
 
@@ -118,6 +118,12 @@
   align-items: center;
   justify-content: space-between;
   margin: 0;
+}
+.cart-item .name {
+  width: 50%;
+}
+.cart-item .qty {
+  width: 20%;
 }
 .cart-item img {
   height: 2rem;
