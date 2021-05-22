@@ -12,9 +12,11 @@
   height: 80px;
   align-items: center;
   vertical-align: middle;
+  display: block;
 }
 
-@media (max-width: 768px) {
+
+@media (max-width: 767.9px) {
   .navbar-content {
     display: none;
   }

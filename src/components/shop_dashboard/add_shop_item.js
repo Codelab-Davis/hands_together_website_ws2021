@@ -99,7 +99,7 @@ function AddItemFrontend() {
                     setUploadMessage("Upload successful");
                     })
                     .catch(err => {
-                    setUploadMessage("Sorry something went wrong uploading your item.");
+                    setUploadMessage("Sorry something went wrong uploading your image.");
                     console.log('err', err);
                     })
                 )
@@ -112,7 +112,7 @@ function AddItemFrontend() {
         // Add item to database after urls are finished generating
         Promise.all(promises)
         .then(() => {
-            axios.post('http://localhost:5000/items/add_item', item)
+            axios.post('http://localhost:5000/items/add_item', item, { withCredentials: true })
             .then(res => {
                 setUploadMessage("Item successfully added.");
                 console.log(item);

@@ -108,12 +108,15 @@ function Volunteer_Events() {
       "questions_concerns": concernsBox,
       "event_id": curDayEventData._id, 
     }
+    console.log(volunteer); 
     //Right now, this message does not appear since the axios call fails, this needs to be triggered before sign up or some other logic should be added.
     console.log(curDayEventData._id)
     if (name.length == 0 || age.length == 0 || gender.length == 0 || phoneNumber.length == 0 || email.length==0) { 
             setSignUpMessage("All fields must be filled out, please edit your response and try again."); 
             return; 
         }
+    if (volunteer.questions_concerns.length == 0) 
+      volunteer.questions_concerns = "N/A"; 
     axios.post('http://localhost:5000/volunteer/add_volunteer',volunteer)
       .then(res => {
         console.log(res)

@@ -85,15 +85,16 @@ h1 {
   height: auto; /*16.93rem*/
   background-color: var(--gray);
 }
-.event_tile_text {
+/* .event_tile_text {
   position: relative; 
   left: 20.84px;
   bottom: 154.37px;
-}
+} */
 .event_tile_banner {
   width: 85%; /*25.75rem*/ 
-  height: 10rem; /*16.0675rem*/ 
+  height: 12rem; /*16.0675rem*/ 
   background-color: var(--darkyellow);
+  padding-right: 0.5rem;
 }
 
 @media (max-width: 768px) { 

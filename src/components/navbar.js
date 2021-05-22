@@ -136,18 +136,25 @@ function Navbar(props) {
     });
 
     let shipping_rate = 0;
+    let rate_found = true;
     if(parcel.weight < 13) {
       for(let i = 0; i<shipment.rates.length;i++) {
         if(shipment.rates[i].provider == "USPS" && shipment.rates[i].servicelevel.token == "usps_first") shipping_rate = shipment.rates[i].amount;
       }
-      if(shipping_rate == "0") console.log("Could not find USPS first-class shipping rate.");
+      if(shipping_rate == "0") rate_found = false;
     }
     else {
       shipping_rate = 10000; // arbitrary large value
       for(let i = 0; i<shipment.rates.length;i++) {
         if(shipment.rates[i].provider == "UPS" && shipment.rates[i].amount < shipping_rate) shipping_rate = Number(shipment.rates[i].amount);
       }
-      if(shipping_rate == 10000) console.log("Could not find any UPS shipping rates.");
+      if(shipping_rate == 10000) rate_found = false;
+    }
+    if(!rate_found) {
+      shipping_rate = 10000; // arbitrary large value
+      for(let i = 0; i<shipment.rates.length;i++) {
+        if(shipment.rates[i].amount < shipping_rate) shipping_rate = Number(shipment.rates[i].amount);
+      }
     }
     console.log(shipping_rate);
 
@@ -357,9 +364,7 @@ function Navbar(props) {
                     <p>Programs</p> 
                     </div>
                     <div class="col-12">
-                    <p onClick={() => (window.location = "/volunteer_events")}>
-                        Volunteer & Events
-                    </p>
+                    <p onClick={() => (window.location = "/volunteer_events")}>Volunteer</p>
                     </div>
                     <div class="col-12">
                     <p onClick={() => (window.location = "/shop")}>Shop</p>
@@ -386,7 +391,7 @@ function Navbar(props) {
             </div>
             <div class="col-2">
               <h4 onClick={() => (window.location = "/volunteer_events")} className="text">
-                Volunteer & Events
+                Volunteer
               </h4>
             </div>
             <div class="col-2">
