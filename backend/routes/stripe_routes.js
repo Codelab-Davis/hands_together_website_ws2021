@@ -6,6 +6,7 @@ const axios = require('axios');
 const nodemailer = require("nodemailer");
 const Bottleneck = require('bottleneck');
 const tokenAuth = require('../jwtAuth');
+const jwtAuth = require('../jwtAuth');
 
 var router = express.Router();
 require('dotenv').config();
@@ -298,7 +299,7 @@ router.post('/cancel_order/:id', tokenAuth, async (req,res) => {
   res.status(200).json("successfully cancelled");
 });
 
-router.post('/update_tracking', async (req, res) => {
+router.post('/update_tracking', jwtAuth, async (req, res) => {
   let transaction = await stripe.paymentIntents.retrieve(req.body.transaction_id);
   let customer = await stripe.customers.retrieve(transaction.customer);
   let customer_email = customer.email; 
