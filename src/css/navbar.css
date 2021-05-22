@@ -12,9 +12,11 @@
   height: 80px;
   align-items: center;
   vertical-align: middle;
+  display: block;
 }
 
-@media (max-width: 768px) {
+
+@media (max-width: 767.9px) {
   .navbar-content {
     display: none;
   }
@@ -46,12 +48,18 @@
   cursor:pointer;
 }
 
+.logo-container { 
+  align-items: center;
+  justify-content: center;
+} 
+
 .imgSpacing
 {
   margin-top: 1rem; 
   margin-bottom:1rem;
   max-width: 164px;
   max-height: 111px;
+  cursor: pointer;
 }
 
 @media (max-width: 768px) { 
@@ -85,10 +93,19 @@
     margin-left: 0rem;
     margin-right: 0rem;
   }
-  .buttonSpacing { 
+  /* .buttonSpacing { 
     display: none;
-  }
+  } */
 }
+
+.hamburger-spacing { 
+  margin-top: 1.5rem;
+} 
+
+.dropdown-container { 
+  margin-left: 2rem;
+  margin-top: -1rem;
+} 
 
 .modal-input-field { 
   margin-bottom: 1rem;

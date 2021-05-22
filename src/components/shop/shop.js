@@ -88,16 +88,16 @@ function Shop(props) {
     update({data: tempItems})
   }
   function sortLowToHigh(a, b) {
-    if (a.price < b.price)
+    if (parseInt(a.price) < parseInt(b.price))
       return -1;
-    else if (a.price > b.price)
+    else if (parseInt(a.price) > parseInt(b.price))
       return 1;
     return 0;
   }
   function sortHighToLow(a, b) {
-    if (a.price > b.price)
+    if (parseInt(a.price) > parseInt(b.price))
       return -1;
-    else if (a.price < b.price)
+    else if (parseInt(a.price) < parseInt(b.price))
       return 1;
     return 0;
   }
@@ -113,6 +113,11 @@ function Shop(props) {
   // CARTING SYSTEM STARTS BELOW 
   //
   function quickAddItem(newItem_) {
+    // Set cartUpdate so the navbar rerenders
+    let cartUpdate = props.cartUpdate;
+    cartUpdate++;
+    props.setCartUpdate(cartUpdate);
+
     // Initialize storageQuota if no items have been added yet
     let storageQuota = window.localStorage.getItem("QUOTA");
     if (!storageQuota) {

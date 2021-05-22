@@ -75,7 +75,7 @@ limiter.schedule(() => {
 //
 
 limiter.schedule(() => {
-  router.post('/add', tokenAuth, (req, res) => {
+  router.post('/add', (req, res) => {
     const name = req.body.name;
     const date = req.body.date;
     const location = req.body.location;
@@ -107,6 +107,14 @@ limiter.schedule(() => {
     Event.findById(eventId)
       .then(event => res.json(event))
       .catch(err=>res.status(400).json('Error: ' + err));
+  });
+})
+
+limiter.schedule(() => {
+  router.route('/delete_event/:id').delete((req, res) => {
+      Event.findByIdAndDelete(req.params.id)
+      .then(item => res.json(item))
+      .catch(err => res.status(400).json('Error: ' + err));
   });
 })
 

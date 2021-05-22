@@ -11,24 +11,31 @@ const limiter = new Bottleneck({
 });
 
 limiter.schedule(() => {
-  router.put('/update_item', tokenAuth, (req,res) => {
-      Sold_Item.find()
-          .then(Sold_Item => res.json(Sold_Item))
+  router.put('/mark_cancelled', (req,res) => { 
+      Sold_Item.findByIdAndUpdate({_id: req.body._id}, req.body)
+          .then(Sold_Item => res.json(Sold_Item)) 
           .catch(err => res.status(400).json('Error: ' + err));         
   });
 })
 
 limiter.schedule(() => {
-  router.get('/get_sold_items', tokenAuth, (req, res) => {
+  router.put('/update_tracking_link', (req,res) => { 
+      Sold_Item.findByIdAndUpdate({_id: req.body._id}, req.body)
+          .then(Sold_Item => res.json(Sold_Item)) 
+          .catch(err => res.status(400).json('Error: ' + err));         
+  });
+})
+
+limiter.schedule(() => {
+  router.get('/get_sold_items', (req, res) => {
     Sold_Item.find()
       .then(Sold_Item => res.json(Sold_Item))
       .catch(err => res.status(400).json('Error: ' + err));
   });
 })
 
-
 limiter.schedule(() => {
-  router.get('/get_sale/:id', tokenAuth, (req,res) => {
+  router.get('/get_sale/:id', (req,res) => {
     const transaction_id = req.params.id;  // JSON in format { transaction_id: "" }
     console.log(transaction_id); 
     Sold_Item.findById(req.params.id)

@@ -1,3 +1,4 @@
+
 .container-fluid{
    padding: 0 !important;
 }
@@ -5,6 +6,10 @@ h1 {
   font-weight: 700 !important;
 }
 
+#sign-up-form{
+  display: none;
+
+}
 /*This is the first big highlight image*/
 
 .left-space {
@@ -22,6 +27,17 @@ h1 {
 .upcoming-events-text {
   margin-top: 2.5rem;
 }
+@media (max-width: 768px) { 
+  .upcoming-events-text, .description-text, .volunteering-opportunities-text, .form-title{ 
+    text-align: center;
+  }
+}
+@media (max-width: 768px) {
+  .ageSection, .genderSection, .phone-number-box, .phoneSection, .emailSection, .concernsSection, .nameSection{
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
 
 .description-text {
   font-weight: 400 !important;
@@ -36,15 +52,25 @@ h1 {
   filter: drop-shadow(0px 4px 4px rgba(7, 30, 53, 0.25));
 }
 
-.event_sign_up_button {
-  /*change to rem */
-  width: 1330px;
-  height: 143px;
-  left: 56px;
-  top: 1212px;
-  color: var(--darkred);
-  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+.event-image { 
+  width: 85%;
+  background-size: cover;
+  padding-top: 50%;
 }
+
+/*This class is not being used rn =-=*/
+
+/*.event_sign_up_button {
+  width: 83.125rem;
+  height: 8.9375rem;
+  left: 3.5rem;
+  top: 75.75rem;
+  background-color: none;
+  color: var(--darkred);
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25)); 
+  border-color: none;
+  border: none;
+}*/
 
 .event-tile-banner-space {
   margin-top: 2rem; /* 86px/16 */
@@ -59,16 +85,24 @@ h1 {
   height: auto; /*16.93rem*/
   background-color: var(--gray);
 }
-.event_tile_text {
+/* .event_tile_text {
   position: relative; 
   left: 20.84px;
   bottom: 154.37px;
-}
+} */
 .event_tile_banner {
   width: 85%; /*25.75rem*/ 
-  height: 10rem; /*16.0675rem*/ 
+  height: 12rem; /*16.0675rem*/ 
   background-color: var(--darkyellow);
+  padding-right: 0.5rem;
 }
+
+@media (max-width: 768px) { 
+  .event_tile_banner { 
+    margin-bottom: 1.5rem;
+  }
+}
+
 
 .event_tile_banner h3 { 
   padding-left: 1rem;
@@ -112,10 +146,13 @@ h1 {
   height: 3.5rem;
   background-color: var(--darkred);
   font-size: 1.5rem;
-  padding-top: 0.5rem;
+  /* padding-top: 0.5rem; */
   font-weight: 700;
   text-decoration: underline;
   color: white;
+  border: none;
+  text-align: center;
+
 }
 
 .top-sign-up-button { 
@@ -124,6 +161,7 @@ h1 {
 
 .volunteering-opportunities-text {
   margin-top: 2rem; 
+  display: flex;
 }
 
 .calendar {
@@ -136,7 +174,7 @@ h1 {
   margin-top: 2rem;
 }
 
-.name-top-space {
+.nameSection{
   margin-top: 2rem;
 }
 

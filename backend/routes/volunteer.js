@@ -17,6 +17,7 @@ limiter.schedule(() => {
 
 limiter.schedule(() => {
   router.route('/add_volunteer').post((req, res) => {
+      console.log(req.body);
       const name = req.body.name;
       const age = req.body.age;
       const gender = req.body.gender;
@@ -43,7 +44,7 @@ limiter.schedule(() => {
 
 limiter.schedule(() => {
   router.route('/get_by_event').get((req, res) => {
-      const event_id = {"event_id": req.body.event_id};   // JSON in format { transaction_id: "" }
+      const event_id = {"event_id": req.query.event_id};   // JSON in format { transaction_id: "" }
 
       Volunteer.find(event_id, (err, docs) => {
         if (err) {
