@@ -129,7 +129,7 @@ function ViewShopItems() {
             "quantity": parseInt(quantity),
         }
 
-        axios.post(`http://localhost:5000/items/update_item/${curItem._id}`, item) 
+        axios.post(`http://localhost:5000/items/update_item/${curItem._id}`, item, { withCredentials: true }) 
             .then(res => {
                 setUploadMessage("Item successfully edited."); 
                 let new_items = [];  
@@ -155,7 +155,7 @@ function ViewShopItems() {
     } 
 
     function deleteCurItem() { 
-        axios.delete(`http://localhost:5000/items/delete_item/${curItem._id}`) 
+        axios.delete(`http://localhost:5000/items/delete_item/${curItem._id}`, { withCredentials: true }) 
             .then(() => {
                 let new_items = [];  
                 for (let i = 0; i < items.length; i++) { 

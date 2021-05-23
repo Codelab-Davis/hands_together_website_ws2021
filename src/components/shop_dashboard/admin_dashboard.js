@@ -4,12 +4,14 @@ import React, { useEffect, useState } from 'react';
 import "../../css/admin_dashboard.css";
 import kid from "../../images/kid.png";  
 import { propTypes } from "react-bootstrap/esm/Image";
+import { useHistory } from "react-router-dom";
 const axios = require('axios');
 
 //https://react-bootstrap.github.io/components/modal/#modal-dialog-props
 //https://rangle.io/blog/simplifying-controlled-inputs-with-hooks/
 
 function Admin_Dashboard(props) {
+  let history = useHistory();
   const [curAnnouncement, setCurAnnouncement] = useState({}); 
   const [curAnnouncementText, setCurAnnouncementText] = useState(""); 
   const [newAnnouncement, setNewAnnouncement] = useState(""); 
@@ -38,7 +40,7 @@ function Admin_Dashboard(props) {
 
   function deleteCurrentAnnouncement() { 
     if (curAnnouncement != undefined && curAnnouncement._id != undefined && curAnnouncement._id != "") { 
-      axios.delete(`http://localhost:5000/announcements/delete_announcement/${curAnnouncement._id}`)
+      axios.delete(`http://localhost:5000/announcements/delete_announcement/${curAnnouncement._id}`, { withCredentials: true })
         .then(() => { 
           setCurAnnouncement({});
           setCurAnnouncementText("");
@@ -66,7 +68,7 @@ function Admin_Dashboard(props) {
     
     console.log(curAnnouncement); 
     if (curAnnouncement != undefined && curAnnouncement._id != undefined && curAnnouncement._id != "") { 
-      axios.delete(`http://localhost:5000/announcements/delete_announcement/${curAnnouncement._id}`)
+      axios.delete(`http://localhost:5000/announcements/delete_announcement/${curAnnouncement._id}`, { withCredentials: true })
         .then(() => add(new_announcement))
         .catch((error) => console.log("Error deleting announcement", error));
     } 
@@ -88,7 +90,7 @@ function Admin_Dashboard(props) {
   }
   
   function add(new_announcement) { 
-    axios.post('http://localhost:5000/announcements/add_announcement', new_announcement) 
+    axios.post('http://localhost:5000/announcements/add_announcement', new_announcement, { withCredentials: true }) 
       .then(() => { 
         setCurAnnouncementText(new_announcement.text);
         setCurAnnouncement({});
@@ -107,19 +109,19 @@ function Admin_Dashboard(props) {
         <div className="col-12"> 
           <h1 className="title-text">Welcome to your admin dashboard!</h1>
         </div> 
-        <a className="col-5 admin-box" href="/add_shop_item">
+        <a className="col-5 admin-box" onClick={() => { console.log(props.loggedIn); history.push("add_event") } }>
           <h2 className="text-padding">Add Shop Items</h2> 
           <p className="text-padding">Click here to add a new item to your shop!</p>  
         </a> 
-        <a className="col-5 admin-box" href="/add_event">
+        <a className="col-5 admin-box" href="/admin/add_event">
           <h2 className="text-padding">Add an event</h2> 
           <p className="text-padding">Click here to create a new event!</p>  
         </a> 
-        <a className="col-5 admin-box" href="/view_shop_items">
+        <a className="col-5 admin-box" href="/admin/view_shop_items">
           <h2 className="text-padding">View Listed and Sold Shop Items</h2> 
           <p className="text-padding">Click here to view your active shop listings and all sold shop items.</p>  
         </a> 
-        <a className="col-5 admin-box" href="/view_events">
+        <a className="col-5 admin-box" href="/admin/view_events">
           <h2 className="text-padding">View Listed Events and Volunteers</h2> 
           <p className="text-padding">Click here to view your listed events and the volunteers signed up for each one.</p>  
         </a>

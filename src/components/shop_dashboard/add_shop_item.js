@@ -238,7 +238,7 @@ function AddItemFrontend() {
                         
                         <div className="col-sm-6 right">
                             <h3>{title}</h3>
-                            <h4 className="price">{"$" + price.slice(0, -2) + "." + price.slice(-2)}</h4>
+                            <h4 className="price">{price}</h4>
                             <hr/>
                             <h4>Description</h4>
                             <p>{description}</p>

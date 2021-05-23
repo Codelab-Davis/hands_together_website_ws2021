@@ -3,8 +3,9 @@ import "../../css/view_shop_items.css";
 import EventTile1 from "../../images/EventTile1.png";
 import Modal from 'react-modal';
 import ViewPastEvents from "./view_past_events";
+import ViewVolunteers from "./view_volunteers"; 
 import modal_x from "../../images/modal_x.png";   
-const axios = require('axios');
+const axios = require('axios'); 
 
 function ViewEvents() { 
     // MODAL STATES, FUNCTIONS, AND STYLING START BELOW 
@@ -147,6 +148,12 @@ function ViewEvents() {
         }
     } 
 
+    function formatDate(date) { 
+        let dateString = new Date(date).toLocaleString('en-US'); 
+        dateString = dateString.substring(0, dateString.lastIndexOf(":")) + " " + dateString.substring(dateString.length - 2); 
+        return dateString; 
+    }
+
     return ( 
         <div className="container-fluid p-0">
             <Modal
@@ -207,7 +214,7 @@ function ViewEvents() {
                                     <h3>{itemIter.name}</h3>
                                     <p>{itemIter.description}</p>
                                     <p><strong>Location:</strong> {itemIter.location}</p>
-                                    <p><strong>Date:</strong> {formatDate(itemIter.date)}</p>
+                                    <p><strong>Time & Date:</strong> {formatDate(itemIter.date)}</p>
                                 </div>
                                 <div className="row no-gutters" style={{marginTop: "1rem", width: "85%"}}> 
                                     <div className="col-4"> 
@@ -244,6 +251,7 @@ function ViewEvents() {
                 </nav>
             </div>
             <ViewPastEvents /> 
+            <ViewVolunteers /> 
         </div>
     );
 }

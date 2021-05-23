@@ -69,7 +69,7 @@ function ViewSoldShopItems() {
         let newSelectedItem = selectedItem; 
         for (let i = 0; i < newSelectedItem.length; i++) { 
             newSelectedItem[i].tracking_link = trackingLink; 
-            axios.put("http://localhost:5000/sold_items/update_tracking_link/", newSelectedItem[i]) 
+            axios.put("http://localhost:5000/sold_items/update_tracking_link/", newSelectedItem[i], { withCredentials: true }) 
             .then(res => { 
                 let new_items = [];  
                 for (let i = 0; i < items.length; i++) { 
@@ -95,7 +95,7 @@ function ViewSoldShopItems() {
             amount: amount, 
             cancelled_items: cancelledItems,
         }
-        axios.post("http://localhost:5000/stripe/cancel_order/" + cancelled_info) 
+        axios.post("http://localhost:5000/stripe/cancel_order/" + cancelled_info, { withCredentials: true }) 
          .then(res => {
             // need to update the item as cancelled in the DB here 
          })

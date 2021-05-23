@@ -1,11 +1,17 @@
-.vertical_space
-{
-    padding-top: 2rem;
+.header-text { 
+    margin-top: 2.5rem;
 }
+
+.text-margins { 
+    margin-left: 2.5rem;
+    margin-right: 2.5rem;
+} 
+
 .aboutImgFormat
 {
+    margin-top: 2.5rem;
     /* able to resize images when resize window */
-    max-width:90%;
+    max-width:85%;
     /* TODO: center after resize */
     margin-left: auto;
     margin-right: auto;
@@ -14,37 +20,28 @@
 }
 
 /* Fix the images on a smaller screen */
-@media (max-width: 767px) {
+@media (max-width: 768px) {
     /* .aboutImgFormat {
       margin-left:1rem;
     } */
-    .smallScreenTextShift {
-        margin-left:0.5rem;
-        margin-right:0.5rem;
-    }
     .teamlink {
         position: absolute;
         text-decoration: underline;
         width:100%;
         margin-top: 15%;
     }
-    .infoblurb {
-        font-size: 50px;
-    }
     .extrapadding {
         margin:0rem;
-    }
-  }
-
-.abttxt
-{
-    margin-left:3rem;
-    margin-right:3rem;
+    }   
+    .text-margins { 
+        margin-left: 1.5rem;
+        margin-right: 1.5rem;
+    } 
 }
 
 .infoblurb
 {
-    font-size: 22px;
+    font-size: 22px; 
 }
 
 .imgFormat 
@@ -67,7 +64,6 @@
     background-color: #F2B705;
     margin-left:0rem;
     margin-right:0rem;
-
     padding:5%;
 }
 
@@ -119,4 +115,15 @@
     display:block; 
     margin-top: auto;
     margin-bottom: auto;
+}
+
+.our-programs {
+    margin-top: 5rem;
+    margin-bottom: 2.5rem;
+}
+
+@media (max-width: 768px) {
+    .our-programs { 
+        margin-top: 1.5rem;
+    }
 }

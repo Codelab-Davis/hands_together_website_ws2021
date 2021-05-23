@@ -361,7 +361,7 @@ function Navbar(props) {
                     </div>
                     <div class="col-12">
                     {/* Link to programs */}
-                    <p>Programs</p> 
+                    <p onClick={() => (window.location = "/programs")}>Programs</p> 
                     </div>
                     <div class="col-12">
                     <p onClick={() => (window.location = "/volunteer_events")}>Volunteer</p>

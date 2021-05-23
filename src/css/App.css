@@ -91,3 +91,50 @@ select {
   display: table-cell;
   vertical-align: middle;
 }
+
+.sm-button, .md-button, .lg-button, .xl-button { 
+  font-weight: 700; 
+  border-radius: 15px; 
+  border: none; 
+} 
+
+.sm-button { 
+  width: 8rem;
+  height: 3rem;
+  font-size: 1.25rem;
+  border-radius: 10px;
+} 
+
+.md-button { 
+  width: 8rem;
+  height: 3rem;
+  margin: 0 1.5rem;
+  font-size: 1.5rem;
+} 
+
+.lg-button { 
+  width: 10.25rem;
+  height: 4rem;
+  font-size: 1.75rem;
+} 
+
+.xl-button { 
+  width: 12rem;
+  height: 5rem;
+  font-size: 1.75rem;
+} 
+
+@media (max-width: 768px) {
+  .sm-button, .md-button, .lg-button, .xl-button { 
+    width: 6.5rem;
+    height: 2.5rem;
+    font-size: 1.1rem;
+    border-radius: 5px; 
+  } 
+
+  .lg-button { 
+    width: 6.5rem;
+    height: 2.5rem;
+    font-size: 1.25rem;
+  } 
+}

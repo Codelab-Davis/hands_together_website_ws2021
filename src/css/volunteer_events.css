@@ -6,21 +6,16 @@ h1 {
   font-weight: 700 !important;
 }
 
-#sign-up-form{
-  display: none;
-
-}
-/*This is the first big highlight image*/
-
 .left-space {
   width: auto;
-  margin-left: 3.5rem;
-  margin-right: 3.5rem;
+  margin-left: 2.5rem;
+  margin-right: 2.5rem;
 }
 
 @media (max-width: 768px) { 
   .left-space { 
-    margin: 0.5rem;
+    margin-left: 1.5rem;
+    margin-right: 1.5rem;
   }
 }
 
@@ -57,6 +52,28 @@ h1 {
   background-size: cover;
   padding-top: 50%;
 }
+
+.sign-up-background { 
+  width: 100%; 
+  text-align: center;
+  background-color: #FFFFFF;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+} 
+
+.top-banner-image { 
+  width: 100%; 
+  height: auto;
+} 
+
+@media (max-width: 767.9px) { 
+  .top-banner-image { 
+    width: 85%; 
+  }
+
+  .sign-up-background { 
+    width: 85%; 
+  }
+} 
 
 /*This class is not being used rn =-=*/
 
@@ -97,7 +114,7 @@ h1 {
   padding-right: 0.5rem;
 }
 
-@media (max-width: 768px) { 
+@media (max-width: 993px) { 
   .event_tile_banner { 
     margin-bottom: 1.5rem;
   }

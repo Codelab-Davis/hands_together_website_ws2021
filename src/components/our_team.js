@@ -6,7 +6,7 @@ function OurTeam() {
         <div className="row no-gutters page-container">
             <div className="top-page-container">
                 <h1>Board of Directors</h1>
-                <p>Recognizing a compelling need to break the cycle of poverty in Santa Ana, the founders of Hands Together designed a program to address the educational needs 
+                <p className="our-team-font">Recognizing a compelling need to break the cycle of poverty in Santa Ana, the founders of Hands Together designed a program to address the educational needs 
                 of children at the youngest age possible and a workforce development program for their parents.
                 <br /><br />
                 Today Hands Together is governed by a volunteer Board of Directors. The Board includes recognized community and professional leaders who bring substantial, far-reaching expertise to Hands Together.</p>

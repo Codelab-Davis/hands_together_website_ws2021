@@ -306,7 +306,7 @@
   background-size: cover;            
   width: 100%;   
   padding-top: 45%;  
-  -webkit-mask-image: -webkit-gradient(linear, left center, left bottom, from(rgba(0,0,0,1)), to(rgba(0,0,0,0)));     
+  -webkit-mask-image: -webkit-gradient(linear, left center, left bottom, from(rgba(0,0,0,1)), to(rgba(0,0,0,0.1)));     
 } 
 
 .text-opacity {
@@ -373,4 +373,98 @@
   .banner {
     display: none;
   }   
+} 
+
+/* OMIDS NEW STYLING STARTS HERE */ 
+.about-us-spacing { 
+  padding-top: 5.5rem; 
+  padding-bottom: 2.5rem;
+} 
+
+.about-us-title-spacing { 
+  padding-bottom: 2rem; 
+} 
+
+.about-us-image { 
+  width: 85%; 
+  height: auto;
 }
+
+.lg-button-font-sizing { 
+  margin-top: 1rem;
+  font-size: 1.35rem;
+} 
+
+@media (min-width: 768px) { 
+  .about-us-text-width { 
+    width: 85%; 
+  }
+} 
+
+@media (max-width: 768px) { 
+  .about-us-spacing { 
+    padding-top: 3rem;
+  }
+
+  .lg-button-font-sizing { 
+    font-size: 1.1rem;
+  } 
+
+  .about-us-text-width { 
+    margin: 1.5rem; 
+  } 
+} 
+
+.blue-container { 
+  background-color: var(--lightblue); 
+} 
+
+.our-programs-spacing { 
+  padding-top: 2rem;
+  padding-bottom: 1.5rem;
+} 
+
+.sub-title-padding { 
+  font-weight: 700; 
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+} 
+
+.program-image { 
+  width: 100%;
+  height: auto;
+} 
+
+.programs-button-spacing { 
+  margin-top: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+@media (min-width: 768px) { 
+  .left-shop-text-spacing { 
+    height: 1px;
+    border: 2px solid red;
+    width: 25%; 
+  } 
+
+  .program-container-padding { 
+    width: 75%; 
+  } 
+} 
+
+@media (max-width: 768px) { 
+  .program-container-padding { 
+    margin-left: 1.5rem;
+    margin-right: 1.5rem;
+    /* margin: 1.5rem;  */
+  }
+
+  .programs-button-spacing { 
+    margin-top: 0.5rem;
+  } 
+} 
+
+.shop-spacing { 
+  padding-top: 2rem; 
+  padding-bottom: 2.5rem;
+} 

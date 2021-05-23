@@ -13,66 +13,38 @@ function About() {
     const [isMobile, setIsMobile] = useState(window.innerWidth < 769 ? true : false); 
 
     useEffect(() => { 
-        function handleResize() {
+        function handleResize() { 
           setIsMobile(window.innerWidth < 769 ? true : false); 
-        }
-      
+        } 
+
         window.addEventListener('resize', handleResize); 
-    });
+    }); 
 
     return (
     <div>
         <div class="container-fluid p-0">
             {/* Added <br>'s occasionally to add space between text while on small screens */}
             {/* classname abttxt gave margins to a bunch of text */}
-            <div className="vertical_space" />
 
-            {/* Display About Us text left with an Image on right */}
-            <div class="container-fluid p-1">
-                    <div class="row no-gutters">
-                        {isMobile ? 
-                        <>
-                            <h1 className="abttxt"><br/>About Us</h1>
-                            <div class="col-1" />
-                            <div class="col-md-6">
-                                <div className="abttxt infoblurb"> 
-                                Hands Together has been recognized at a state and national level for preparing young children for kindergarten. <br /><br />
-                                We offer advanced early education to over 165 at risk children each day. <br /><br />
-                                We do more than preschool preparation–the facility  works with working poor parents to enrich their lives, preparing them for the work place.
-                                <br /><br />
-                                </div>
-                            </div>
-                        </>
-                        : 
-                        <>
-                            {/* Adding md makes it so that the cols stack up on top of each other when scren size < 768 */}
-                            <div class="col-md-6">
-                                <h1 className="abttxt"><br/>About Us</h1>
-                                <div className="abttxt infoblurb"> 
-                                Hands Together has been recognized at a state and national level for preparing young children for kindergarten. <br /><br />
-                                We offer advanced early education to over 165 at risk children each day. <br /><br />
-                                We do more than preschool preparation–the facility  works with working poor parents to enrich their lives, preparing them for the work place.
-                                <br /><br />
-                                </div>
-                            </div>
-                            <div class="col-1" />
-                            <div class="col-md-5 centerImg" >
-                                <br />
-                                <img class = "aboutImgFormat " align = "center" src={about_us}/>
-                            </div>
-                        </>
-                        }
+            {/* Display About Us text left with an Image on right */} 
+            <div className="container-padding">
+                <h1 className="header-text">About Us</h1>
+                <div className="row no-gutters">
+                    <div className="col-md-6 side-info infoblurb" style={{padding: "0"}}> 
+                    Hands Together has been recognized at a state and national level for preparing young children for kindergarten. 
+                    <br/><br/>We offer advanced early education to over 165 at risk children each day. 
+                    <br/><br/>We do more than preschool preparation–the facility  works with working poor parents to enrich their lives, preparing them for the work place. 
+                    </div> 
+                    <div className="col-md-6 img-container" style={{padding: "0"}}>
+                        <img src={about_us} className="about-img"/>
                     </div>
-                        
-            
-            </div>
-
-            <div className="vertical_space" />
+                </div>
+            </div> 
 
             {/* Display Programs followed by Preschool and Morning Garden divs */}
 
             <div class="container-fluid p-3">
-                <h1 align="center">Our Programs</h1> 
+                <h1 align="center" className="our-programs">Our Programs</h1> 
             </div>
             
             <div className="vertical_space" />
@@ -89,7 +61,9 @@ function About() {
                         <div className = "smallScreenTextShift infoblurb"> Hands Together is a licensed, award-winning preschool and childcare program serving children ages 6 weeks to 5 years. 
                             Our preschool is designed to meet the academic and social needs of the predominantly Latino community in Santa Ana, 
                             and our goal is to prepare every student for successful entry into kindergarten.<br /><br /></div>
-                            <button onClick={() => (window.location = "/programs")} className="btn morningButton smallScreenTextShift" style={{backgroundColor: "var(--darkyellow)"}}>Learn More</button>
+                        <button onClick={() => (window.location = "/programs")} className="sm-button" style={{backgroundColor: "var(--darkyellow)"}}> 
+                            Learn More
+                        </button>                        
                         <br /> <br /> <br /> <br />
                     </div>
                     <div class="col-1" />
@@ -111,8 +85,10 @@ function About() {
                             <div className="smallScreenTextShift infoblurb">The Morning Garden is a unique preschool and workforce development program for housing-insecure families and families in transition. 
                                 We offer developmentally appropriate, structured activities that help young children learn how to play well together, share resources, 
                                 and respect others.<br /><br /></div>
-                                <button onClick={() => (window.location = "/programs")} className="btn morningButton smallScreenTextShift">Learn More</button>
-                                <br /> <br /> <br /> <br />
+                            <button onClick={() => (window.location = "/programs")} className="sm-button" style={{backgroundColor: "var(--lightblue)"}}> 
+                                Learn More
+                            </button> 
+                            <br /> <br /> <br /> <br />
                         </div>
                         <div class="col-1" />
                     </>
@@ -124,7 +100,9 @@ function About() {
                             <div className="smallScreenTextShift infoblurb">The Morning Garden is a unique preschool and workforce development program for housing-insecure families and families in transition. 
                                 We offer developmentally appropriate, structured activities that help young children learn how to play well together, share resources, 
                                 and respect others.<br /><br /></div>
-                                <button onClick={() => (window.location = "/programs")} className="btn morningButton smallScreenTextShift">Learn More</button>
+                                <button onClick={() => (window.location = "/programs")} className="sm-button" style={{backgroundColor: "var(--lightblue)"}}> 
+                                    Learn More
+                                </button> 
                                 <br /> <br /> <br /> <br />
                         </div>
                         <div class="col-1" />
