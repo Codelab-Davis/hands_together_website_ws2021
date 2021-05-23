@@ -14,12 +14,12 @@ input[type="radio"] {
 
 .donation-container, .form-container {
     width: 100%;
-    margin-top: 3.5rem;
+    margin-top: 2.5rem;
 }
 
 @media (max-width: 767.9px) { 
     .donation-container, .form-container { 
-      margin-top: 1.5rem;
+      margin-top: 0.5rem;
     } 
 }
 

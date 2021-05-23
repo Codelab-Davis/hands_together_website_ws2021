@@ -46,7 +46,7 @@ function Programs() {
         <div className="container-padding">
             <h1 className="header-text">About Us</h1>
             <div className="row no-gutters">
-                <div className="col-md-6 side-info infoblurb" style={{padding: "0"}}> 
+                <div className="col-lg-6 side-info infoblurb" style={{padding: "0"}}> 
                 <h2 style={{fontWeight: "700"}}>Preschool</h2>
                 The preschool curriculum at Hands Together emphasizes English literacy, reading and math readiness skills.<br/><br/>
                 Our services encompass:
@@ -56,14 +56,14 @@ function Programs() {
                   <li>Health and developmental screenings</li>
                 </ul>
                 </div> 
-                <div className="col-md-6 img-container" style={{padding: "0"}}>
+                <div className="col-lg-6 img-container" style={{padding: "0"}}>
                     <img src={img1} className="about-img"/>
                 </div>
             </div>
         </div>
 
 
-        <div className="col-12 img-section">
+        <div className="col-12 img-section" style={{padding: "0rem"}}>
           <img src={img2} className="full-width-image"/>
           <h2 className="overlay-text">
             Advanced early childhood education promotes academic achievement, higher high school graduation rates, and has been proven to ensure children reach their full potential.
@@ -73,12 +73,12 @@ function Programs() {
         
         <div className="container-padding">
           <div className="row no-gutters">
-              <div className="col-md-6 side-info infoblurb" style={{padding: "0"}}>
+              <div className="col-lg-6 side-info infoblurb" style={{padding: "0"}}>
                 <h2 style={{fontWeight: "700"}}>Morning Garden</h2> 
                 The Morning Garden program also provides parents of preschool-aged children with life skills training and vocational classes.
                 <br/><br/>Our goals are to assist parents experiencing housing insecurity by improving their ability to enter the workforce, while providing a quality early childhood education to their preschool-aged children.
               </div> 
-              <div className="col-md-6 img-container" style={{padding: "0"}}>
+              <div className="col-lg-6 img-container" style={{padding: "0"}}>
                   <img src={img3} className="about-img"/>
               </div>
           </div>
@@ -95,7 +95,7 @@ function Programs() {
           <img src={img3}/>
         </div> */}
 
-        <div className="col-12 img-section">
+        <div className="col-12 img-section" style={{padding: "0rem"}}>
           <img src={img4} className="full-width-image"/>
           <h2 className="overlay-text">
             Morning Garden’s parent programs focus on financial literacy, interview skills, resume preparation and GED acquisition. We also teach nutrition and low-cost meal preparation.
@@ -103,7 +103,7 @@ function Programs() {
           </h2>
         </div>
 
-        <div className="col-12 row no-gutters tri-image">
+        <div className="col-12 row no-gutters tri-image" style={{padding: "0rem"}}>
           <div className="col-md-4 crop-img" style={{backgroundImage: `url(${img5})`}}></div>
           <div className="col-md-4 crop-img" style={{backgroundImage: `url(${img6})`}}></div>
           <div className="col-md-4 crop-img" style={{backgroundImage: `url(${img7})`}}></div>

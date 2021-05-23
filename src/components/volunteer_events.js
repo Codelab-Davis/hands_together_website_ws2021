@@ -235,8 +235,8 @@ function determineImage(imgFile) {
       <div className="row no-gutters">
       <div className="col-12" align="center">
         <img src={dream} className="top-banner-image" /> 
-        <div className= "col-12 sign-up-background justify-content-center align-items-center">
-          <h2>Sign up below to volunteer!</h2>
+        <div className= "col-12 sign-up-background" align="center">
+          <h2 style={{paddingTop: "2.6rem"}}>Sign up below to volunteer!</h2>
         </div>
       </div>
       </div> 

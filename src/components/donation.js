@@ -52,7 +52,7 @@ function Donation() {
 
           <div className="donation-container">
             <div className="row no-gutters donation-row justify-content-center">
-              <div className="col-sm-12 col-md-6 col-lg-4">
+              <div className="col-12 col-sm-6 col-lg-4">
                 <div className="donation-padding">
                   <div className="donation-box donation-button-animation" onClick={() => checkout(10)}>
                     <h1 className="donation-amount-text">$10</h1>
@@ -60,7 +60,7 @@ function Donation() {
                   </div>
               </div>
               </div>
-              <div className="col-sm-12 col-md-6 col-lg-4">
+              <div className="col-12 col-sm-6 col-lg-4">
                 <div className="donation-padding">
                   <div className="donation-box donation-button-animation" onClick={() => checkout(50)}>
                     <h1 className="donation-amount-text">$50</h1>
@@ -68,7 +68,7 @@ function Donation() {
                   </div>
                 </div>
               </div>
-              <div className="col-sm-12 col-md-6 col-lg-4">
+              <div className="col-12 col-sm-6 col-lg-4">
                 <div className="donation-padding">
                   <div className="donation-box donation-button-animation" onClick={() => checkout(100)}>
                     <h1 className="donation-amount-text">$100</h1>

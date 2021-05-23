@@ -30,12 +30,12 @@ function About() {
             <div className="container-padding">
                 <h1 className="header-text">About Us</h1>
                 <div className="row no-gutters">
-                    <div className="col-md-6 side-info infoblurb" style={{padding: "0"}}> 
+                    <div className="col-lg-6 side-info infoblurb" style={{padding: "0"}}> 
                     Hands Together has been recognized at a state and national level for preparing young children for kindergarten. 
                     <br/><br/>We offer advanced early education to over 165 at risk children each day. 
                     <br/><br/>We do more than preschool preparation–the facility  works with working poor parents to enrich their lives, preparing them for the work place. 
                     </div> 
-                    <div className="col-md-6 img-container" style={{padding: "0"}}>
+                    <div className="col-lg-6 img-container" style={{padding: "0"}}>
                         <img src={about_us} className="about-img"/>
                     </div>
                 </div>
