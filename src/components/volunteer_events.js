@@ -113,7 +113,7 @@ function Volunteer_Events() {
     axios.post('http://localhost:5000/volunteer/add_volunteer',volunteer)
       .then(res => {
         console.log(res)
-        setSignUpMessage("successful upload!")
+        setSignUpMessage("Thanks for signing up to volunteer! We'll reach out to you shortly.")
       })
       .catch(err => { 
         setSignUpMessage("Couldn't post to database.");
