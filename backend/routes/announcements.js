@@ -23,7 +23,7 @@ limiter.schedule(() => {
 })
 
 limiter.schedule(() => {
-  router.route('/get_announcement').get((req, res) => {
+  router.get('/get_announcement', tokenAuth, (req, res) => { 
     Announcement.find()
       .then(Announcement => res.json(Announcement))
       .catch(err => res.status(400).json('Error: ' + err));

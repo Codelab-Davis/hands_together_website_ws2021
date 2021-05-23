@@ -24,7 +24,7 @@ function Admin_Dashboard(props) {
   }
 
   useEffect(() => { 
-    axios.get('http://localhost:5000/announcements/get_announcement')
+    axios.get('http://localhost:5000/announcements/get_announcement', { withCredentials: true })
       .then((res) => {
         console.log(res.data); 
         console.log(res.data[0]); 
@@ -109,19 +109,19 @@ function Admin_Dashboard(props) {
         <div className="col-12"> 
           <h1 className="title-text">Welcome to your admin dashboard!</h1>
         </div> 
-        <a className="col-5 admin-box" onClick={() => { console.log(props.loggedIn); history.push("add_event") } }>
+        <a className="col-5 admin-box" onClick={() => history.push("add_shop_item")}>
           <h2 className="text-padding">Add Shop Items</h2> 
           <p className="text-padding">Click here to add a new item to your shop!</p>  
         </a> 
-        <a className="col-5 admin-box" href="/admin/add_event">
+        <a className="col-5 admin-box" onClick={() => history.push("add_event")}>
           <h2 className="text-padding">Add an event</h2> 
           <p className="text-padding">Click here to create a new event!</p>  
         </a> 
-        <a className="col-5 admin-box" href="/admin/view_shop_items">
+        <a className="col-5 admin-box" onClick={() => history.push("view_shop_items")}>
           <h2 className="text-padding">View Listed and Sold Shop Items</h2> 
           <p className="text-padding">Click here to view your active shop listings and all sold shop items.</p>  
         </a> 
-        <a className="col-5 admin-box" href="/admin/view_events">
+        <a className="col-5 admin-box" onClick={() => history.push("view_events")}>
           <h2 className="text-padding">View Listed Events and Volunteers</h2> 
           <p className="text-padding">Click here to view your listed events and the volunteers signed up for each one.</p>  
         </a>
