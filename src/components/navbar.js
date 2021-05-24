@@ -23,7 +23,7 @@ function Navbar(props) {
   const [state, setState] = useState(''); 
   const [ZIP, setZIP] = useState('');
   const [drawerState, setDrawerState] = useState(false);
-  const [modalWidth, setModalWidth] = useState(window.innerWidth > 1024 ? '50%' : '90%'); 
+  const [modalWidth, setModalWidth] = useState(window.innerWidth > 1024 ? '60%' : '90%'); 
 
   function handleDrawerState() {
     let newState = !drawerState;
@@ -73,7 +73,7 @@ function Navbar(props) {
   async function checkout() {
     let quota = window.localStorage.getItem("QUOTA")
     if (!quota) {
-      alert("Your cart is currently empty. Add items to cart on the shop page.");
+      alert("Your cart is currently empty. Add items to your cart on the shop page.");
       return;
     }
 
@@ -236,7 +236,7 @@ function Navbar(props) {
   useEffect(() => { 
     function handleResize() {
       // console.log('resized to: ', window.innerWidth, 'x', window.innerHeight) 
-      setModalWidth(window.innerWidth > 1024 ? '50%' : '90%'); 
+      setModalWidth(window.innerWidth > 1024 ? '60%' : '90%'); 
     }
   
     window.addEventListener('resize', handleResize); 
@@ -281,7 +281,7 @@ function Navbar(props) {
             <div className="col-4">
               <h3>City</h3>
             </div>
-            <div className="col-4">
+            <div className="col-8 col-md-4">
               <input
                 type="text"
                 placeholder=""
@@ -296,7 +296,7 @@ function Navbar(props) {
             <div className="col-4">
               <h3>State</h3>
             </div>
-            <div className="col-4">
+            <div className="col-8 col-md-4">
               <input
                 type="text"
                 placeholder=""
@@ -311,7 +311,7 @@ function Navbar(props) {
             <div className="col-4">
               <h3>ZIP</h3>
             </div>
-            <div className="col-4">
+            <div className="col-8 col-md-4">
               <input
                 type="text"
                 placeholder=""
@@ -357,11 +357,11 @@ function Navbar(props) {
                 <hr style={{border: "1px solid gray", marginRight: "2rem"}}/>
                 <div class="row no-gutters" style={{paddingTop: "0rem", marginTop: "0rem"}}>
                     <div class="col-12" style={{paddingTop: "0rem", marginTop: "0rem"}}>
-                    <p onClick={() => (window.location = "/about")} className="text">About</p>
+                    <p onClick={() => (window.location = "/about")}>About</p>
                     </div>
                     <div class="col-12">
                     {/* Link to programs */}
-                    <p>Programs</p> 
+                    <p onClick={() => (window.location = "/programs")}>Programs</p> 
                     </div>
                     <div class="col-12">
                     <p onClick={() => (window.location = "/volunteer_events")}>Volunteer</p>
@@ -371,9 +371,6 @@ function Navbar(props) {
                     </div>
                     <div class="col-12">
                     <p onClick={() => (window.location = "/donation")}>Donate</p>
-                    </div>
-                    <div class="col-12">
-                    <p onClick={openModal}>Check Out</p>
                     </div>
                   </div>
                 </div>

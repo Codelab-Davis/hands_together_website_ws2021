@@ -112,7 +112,7 @@ function AddEvent() {
         // Add item to database after urls are finished generating
         Promise.all(promises)
             .then(() => {
-                axios.post('http://localhost:5000/event/add', event)
+                axios.post('http://localhost:5000/event/add', event, { withCredentials: true })
                 .then(res => {
                     console.log(event);
                     setUploadMessage("Upload successful");

@@ -301,30 +301,61 @@
   }
 }
 
-.my-div { 
+.landing-image { 
   background-image: url(../images/main.png);  
   background-size: cover;            
   width: 100%;   
-  padding-top: 45%;  
-  -webkit-mask-image: -webkit-gradient(linear, left center, left bottom, from(rgba(0,0,0,1)), to(rgba(0,0,0,0)));     
+  padding-top: 45%;     
 } 
 
-.text-opacity {
-  margin-top: -13rem;
-  margin-bottom: 2rem;
-  font-size: 34px;
-  line-height: 39.84px;
-  font-weight: bold;
-  padding-left: 3rem;
-}
+.landing-overlay-image { 
+  width: 100%;
+  height: auto;
+} 
 
-@media (max-width: 768px) {
-  .text-opacity {
-      padding-top: 13rem;     
-      padding-left: 2rem;
-      font-size: 25px;
-      line-height: 35px;
-  }
+.landing-overlay-text { 
+  position: absolute; 
+  width: 85%; 
+  top: 55%; 
+} 
+
+@media (max-width: 1160px) { 
+  .landing-overlay-text { 
+    width: 95%;
+  } 
+} 
+
+@media (min-width: 1023px) { 
+  .small-overlay { 
+    display: none; 
+  } 
+} 
+
+@media (max-width: 1023px) { 
+  .large-overlay { 
+    display: none;
+  } 
+  .small-overlay { 
+    display: block;
+  } 
+  .about-us-spacing { 
+    padding-top: 2.5rem;
+  } 
+} 
+
+.landing-overlay-button { 
+  position: absolute; 
+  left: 0%;
+  top: 75%; 
+} 
+
+@media (max-width: 767.9px) {
+  .lg-button-mobile { 
+    width: 10.25rem;
+    height: 4rem;
+    font-size: 1.75rem;
+    border-radius: 15px; 
+  } 
 }
 
 .vocab {
@@ -347,9 +378,10 @@
 }
 
 .team {
-  margin-top: -23rem;
-  margin-bottom: 10rem;
-  text-decoration: underline;     
+  margin-top: -23rem; 
+  margin-bottom: 10rem; 
+  text-decoration: underline; 
+  cursor: pointer;    
 }
 
 @media (max-width: 768px) {
@@ -359,18 +391,129 @@
 }
 
 .banner { 
-  width: 100%;
-  height: 80px;
-  text-decoration: underline;     
-  text-align: center;
-  padding-top: 1.625rem;
-  margin-top: -38.6rem;
-  margin-bottom: 10rem;
-  background-color: rgba(255,255,255,0.5);
-}
+  width: 100%; 
+  height: 80px; 
+  position: absolute; 
+  top: 0%; 
+  background-color: rgba(255,255,255,0.5); 
+} 
 
-@media (max-width: 1439px) {
+.announcement-text { 
+  font-weight: 700;
+  margin-top: 1.35rem;
+  text-decoration: underline; 
+} 
+
+@media (max-width: 1023px) {
   .banner {
     display: none;
   }   
+} 
+
+/* OMIDS NEW STYLING STARTS HERE */ 
+.about-us-spacing { 
+  padding-bottom: 2.5rem; 
+} 
+
+.about-us-title-spacing { 
+  padding-bottom: 2rem; 
+} 
+
+.about-us-image { 
+  width: 85%; 
+  height: auto;
 }
+
+@media (max-width: 991.9px) { 
+  .about-us-image { 
+    width: 95%; 
+    height: auto; 
+  } 
+} 
+
+@media (max-width: 767.9px) { 
+  .about-us-image { 
+    width: 90%; 
+    height: auto;
+  } 
+} 
+
+.lg-button-font-sizing { 
+  margin-top: 1rem;
+  font-size: 1.35rem;
+} 
+
+@media (min-width: 768px) { 
+  .about-us-text-width { 
+    width: 85%; 
+  }
+} 
+
+@media (max-width: 991.9px) { 
+  .about-us-text-width { 
+    margin: 1.5rem; 
+  } 
+} 
+
+@media (max-width: 768px) { 
+  .about-us-spacing { 
+    padding-top: 3rem;
+  }
+
+  .lg-button-font-sizing { 
+    font-size: 1.1rem;
+  } 
+} 
+
+.blue-container { 
+  background-color: var(--lightblue); 
+} 
+
+.our-programs-spacing { 
+  padding-top: 2rem;
+  padding-bottom: 1.5rem;
+} 
+
+.sub-title-padding { 
+  font-weight: 700; 
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+} 
+
+.program-image { 
+  width: 100%;
+  height: auto;
+} 
+
+.programs-button-spacing { 
+  margin-top: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+@media (min-width: 768px) { 
+  .left-shop-text-spacing { 
+    height: 1px;
+    width: 25%; 
+  } 
+
+  .program-container-padding { 
+    width: 75%; 
+  } 
+} 
+
+@media (max-width: 768px) { 
+  .program-container-padding { 
+    margin-left: 1.5rem;
+    margin-right: 1.5rem;
+    /* margin: 1.5rem;  */
+  }
+
+  .programs-button-spacing { 
+    margin-top: 0.5rem;
+  } 
+} 
+
+.shop-spacing { 
+  padding-top: 2rem; 
+  padding-bottom: 2.5rem;
+} 

@@ -3,9 +3,12 @@ p {
 }
 
 #shop-wrapper {
-  margin: 2.5rem auto;
-  max-width: 1200px;
-  width: 90%;
+  margin: 2.5rem;
+}
+@media (max-width: 767.9px) { 
+  #shop-wrapper { 
+    margin: 1.5rem;
+  } 
 }
 .header {
   margin-bottom: 3rem;
@@ -51,7 +54,13 @@ p {
   cursor: pointer;
 }
 .add-to-cart a:hover {
-  color: orange;
+  color: #913030;
+}
+.item-added {
+  color: #9e7702;
+}
+.add-to-cart .item-added:hover {
+  color: #9e7702;
 }
 .item-info {
   margin: 1rem 0 4rem 0;

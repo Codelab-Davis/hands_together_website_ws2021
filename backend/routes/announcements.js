@@ -23,7 +23,15 @@ limiter.schedule(() => {
 })
 
 limiter.schedule(() => {
-  router.route('/get_announcement').get((req, res) => {
+  router.get('/get_announcement', (req, res) => { 
+    Announcement.find()
+      .then(Announcement => res.json(Announcement))
+      .catch(err => res.status(400).json('Error: ' + err));
+  });
+})
+
+limiter.schedule(() => {
+  router.get('/get_announcement_jwt_check', tokenAuth, (req, res) => { 
     Announcement.find()
       .then(Announcement => res.json(Announcement))
       .catch(err => res.status(400).json('Error: ' + err));
