@@ -54,7 +54,13 @@ p {
   cursor: pointer;
 }
 .add-to-cart a:hover {
-  color: orange;
+  color: #913030;
+}
+.item-added {
+  color: #9e7702;
+}
+.add-to-cart .item-added:hover {
+  color: #9e7702;
 }
 .item-info {
   margin: 1rem 0 4rem 0;
