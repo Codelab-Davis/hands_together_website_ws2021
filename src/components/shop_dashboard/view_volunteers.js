@@ -88,7 +88,7 @@ function ViewVolunteers() {
         axios.get('http://localhost:5000/volunteer/get_volunteers')
             .then( res => {
                 let res_data = res.data; 
-                res_data.sort(function (a, b) {
+                res_data.sort(function (b, a) {
                     //when you get date objects from MongoDB, it will no longer recognize them as date objects, that's why we make a_date and b_date as new date objects
                     let a_date = new Date(a.createdAt);
                     let b_date = new Date(b.createdAt);

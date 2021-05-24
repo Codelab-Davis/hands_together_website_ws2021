@@ -18,9 +18,7 @@ function Admin_Dashboard(props) {
   const [statusMessage, setStatusMessage] = useState(""); 
 
   function logout() {
-    console.log(props.loggedIn);
-    axios.delete('http://localhost:5000/jwt/deleteRefreshToken', { withCredentials: true })
-     .then(() => props.setLoggedIn(false));
+    axios.delete('http://localhost:5000/jwt/deleteRefreshToken', { withCredentials: true }); 
   }
 
   useEffect(() => { 
@@ -106,9 +104,12 @@ function Admin_Dashboard(props) {
   return ( 
     <div className="container-fluid p-0"> 
       <div className="row no-gutters"> 
-        <div className="col-12"> 
+        <div className="col-8"> 
           <h1 className="title-text">Welcome to your admin dashboard!</h1>
         </div> 
+        <div className="col-4" align="right">
+          <button className="submit-button" onClick={logout}>Log Out</button>
+        </div>
         <a className="col-5 admin-box" onClick={() => history.push("add_shop_item")}>
           <h2 className="text-padding">Add Shop Items</h2> 
           <p className="text-padding">Click here to add a new item to your shop!</p>  
