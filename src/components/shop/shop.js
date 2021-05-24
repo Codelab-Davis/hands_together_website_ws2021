@@ -112,11 +112,17 @@ function Shop(props) {
   // 
   // CARTING SYSTEM STARTS BELOW 
   //
+  const [addToCartText, setAddToCartText] = useState("Add to Cart");
+
   function quickAddItem(newItem_) {
     // Set cartUpdate so the navbar rerenders
     let cartUpdate = props.cartUpdate;
     cartUpdate++;
     props.setCartUpdate(cartUpdate);
+
+    // Change the "Add to Cart" button text
+    setAddToCartText("Item Added");
+    setTimeout(() => setAddToCartText("Add to Cart"), 2000);
 
     // Initialize storageQuota if no items have been added yet
     let storageQuota = window.localStorage.getItem("QUOTA");
@@ -204,7 +210,11 @@ function Shop(props) {
                   <a className="wrapper-link" href={`/shop/${itemIter._id}`} onClick={() => clicked(itemIter)}></a>
                   <div className="item-image" style={{backgroundImage: `url(${itemIter.images[0]})`}}></div>
                   <div className="add-to-cart">
-                    <a className="bold" onClick={() => quickAddItem(itemIter)}>Add to Cart</a>
+                    <a className={`bold ${addToCartText == "Item Added" ? "item-added" : null}`} 
+                      onClick={() => quickAddItem(itemIter)}
+                    >
+                      {addToCartText}
+                    </a>
                   </div>
                   <div className="item-info">
                     <div className="name-price">
