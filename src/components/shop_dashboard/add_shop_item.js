@@ -112,7 +112,7 @@ function AddItemFrontend() {
         )
 
         // Add the image's url
-        item.images.push(("https://handstogetherimages.s3-us-west-1.amazonaws.com/" + options.params.Key))
+        item.images.push(("https://handstogetherlive.s3-us-west-1.amazonaws.com/" + options.params.Key))
         }
         // Add item to database after urls are finished generating
         Promise.all(promises)

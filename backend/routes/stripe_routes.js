@@ -207,7 +207,7 @@ router.post('/cancel_donate/:id', async (req, res) => {
   `; 
 
   const mail_options = {
-    from: `"Hands Together Test" <test@test.io>`,
+    from: `"Hands Together" <ellen@handstogether-sa.org>`,
     to: customer_email,
     subject: "Donation Canceled",
     html: email_body, 
@@ -275,7 +275,7 @@ router.post('/cancel_order/:id', tokenAuth, async (req,res) => {
   `; 
 
   const mail_options = {
-    from: `"Hands Together Test" <test@test.io>`,
+    from: `"Hands Together" <ellen@handstogether-sa.org>`,
     to: customer_email,
     subject: "Order Canceled",
     html: email_body, 
@@ -299,7 +299,7 @@ router.post('/cancel_order/:id', tokenAuth, async (req,res) => {
   res.status(200).json("successfully cancelled");
 });
 
-router.post('/update_tracking', jwtAuth, async (req, res) => {
+router.post('/update_tracking', async (req, res) => {
   let transaction = await stripe.paymentIntents.retrieve(req.body.transaction_id);
   let customer = await stripe.customers.retrieve(transaction.customer);
   let customer_email = customer.email; 
@@ -332,7 +332,7 @@ router.post('/update_tracking', jwtAuth, async (req, res) => {
   `; 
 
   const mail_options = {
-    from: `"Hands Together Test" <test@test.io>`,
+    from: `"Hands Together" <ellen@handstogether-sa.org>`,
     to: customer_email,
     subject: `Your order ${req.body.transaction_id} has been shipped`,
     html: email_body, 
@@ -345,9 +345,11 @@ router.post('/update_tracking', jwtAuth, async (req, res) => {
     ]
   }
 
+  console.log("mail being sent"); 
+
   transporter.sendMail(mail_options, function(error, info) {
     if(error) {
-      console.log(error);
+      console.log("mail send error", error);
     } else {
       console.log('Tracking Link Update Email Sent: ' + info.response);
     }
@@ -414,7 +416,7 @@ async function fulfillOrder(session) {
   `; 
 
   const mail_options = {
-    from: `"Hands Together Test" <test@test.io>`,
+    from: `"Hands Together" <ellen@handstogether-sa.org>`,
     to: customer_email,
     subject: "Thanks for your order",
     html: email_body, 
@@ -538,8 +540,8 @@ async function orderEmail(id, ordered_items, total) {
   `; 
 
   const mail_options = {
-    from: `"Hands Together Test" <test@test.io>`,
-    to: ht_email,
+    from: `"Hands Together" <ellen@handstogether-sa.org>`,
+    to: `ellen@handstogether-sa.org`,
     subject: "Hands Together New Sale",
     html: email_body, 
     attachments: [
@@ -572,8 +574,8 @@ async function errorEmail(id) {
   `;
 
   const mail_options = {
-    from: `"Hands Together Test" <test@test.io>`,
-    to: ht_email,
+    from: `"Hands Together" <ellen@handstogether-sa.org>`,
+    to: "ellen@handstogether-sa.org",
     subject: "Hands Together Order Processing Error",
     html: email_body, 
     attachments: [
@@ -620,7 +622,7 @@ async function fulfillDonate(session) {
   `; 
 
   const mail_options = {
-    from: `"Hands Together Test" <test@test.io>`,
+    from: `"Hands Together" <ellen@handstogether-sa.org>`,
     to: customer_email,
     subject: "Thanks for your donation",
     html: email_body, 
@@ -674,7 +676,7 @@ async function fulfillSubscription(session) {
   `; 
 
   const mail_options = {
-    from: `"Hands Together Test" <test@test.io>`,
+    from: `"Hands Together" <ellen@handstogether-sa.org>`,
     to: customer_email,
     subject: "Thanks for your donation",
     html: email_body, 

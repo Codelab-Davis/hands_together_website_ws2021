@@ -113,7 +113,7 @@ function AddEvent() {
                     })
             )
             // Add the image's url
-            event.image = "https://handstogetherimages.s3-us-west-1.amazonaws.com/" + options.params.Key
+            event.image = "https://handstogetherlive.s3-us-west-1.amazonaws.com/" + options.params.Key
         }
         // Add item to database after urls are finished generating
         Promise.all(promises)
