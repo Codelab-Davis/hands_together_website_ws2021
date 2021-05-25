@@ -14,6 +14,11 @@ function ViewEvents() {
     const [curEvent, setCurEvent] = useState(); 
     const [curEventVolunteers, setCurEventVolunteers] = useState(); 
 
+    function logout() {
+        axios.delete('http://localhost:5000/jwt/deleteRefreshToken', { withCredentials: true })
+         .then(() => window.location.assign('http://localhost:3000'))
+      }
+
     function openModal(cur_event) { 
         setCurEvent(cur_event); 
         setModalIsOpen(true); 
@@ -204,6 +209,9 @@ function ViewEvents() {
                     + Math.min((6 * curPage), itemArray.data.length) 
                     + " of " + itemArray.data.length + " results"
                 }</p> 
+                <div className="col-4" align="right">
+                    <button className="submit-button" onClick={logout}>Log Out</button>
+                </div>
                 <div className="col-12">
                     <div className="row">
                         { items && items.length > 0 ?

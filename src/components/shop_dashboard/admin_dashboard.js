@@ -18,7 +18,8 @@ function Admin_Dashboard(props) {
   const [statusMessage, setStatusMessage] = useState(""); 
 
   function logout() {
-    axios.delete('http://localhost:5000/jwt/deleteRefreshToken', { withCredentials: true }); 
+    axios.delete('http://localhost:5000/jwt/deleteRefreshToken', { withCredentials: true })
+     .then(() => window.location.assign('http://localhost:3000'))
   }
 
   useEffect(() => { 
