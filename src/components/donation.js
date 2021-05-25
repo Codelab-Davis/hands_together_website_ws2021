@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/donation.css";
+require("dotenv").config({ path: "../../.env" });
 const axios = require('axios');
 
 function Donation() {
@@ -22,7 +23,8 @@ function Donation() {
   function checkout(donationAmount) {
     // console.log(donationAmount);
     // console.log(type);
-    var stripe = window.Stripe('pk_test_51IMhDjDACjkjrvMm0D7gtuvvHOCY8Z9dGTjwVFxFcmWHlGfjn9CGEdvyvs5vMQrAQDwmBcELSzSb2kTNf65eyJkw00AXucR70x');
+    console.log(process.env.STRIPE_KEY); 
+    var stripe = window.Stripe(process.env.STRIPE_KEY);
 
     const req = {
       amount: donationAmount*100,

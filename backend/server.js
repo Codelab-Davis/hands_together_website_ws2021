@@ -54,18 +54,18 @@ app.use('/announcements', announcements_router);
 app.use('/stripe', stripe_router);
 app.use('/jwt', jwt_router);
 
-const eventSeeder = require("./seeders/event_seeder");
-const itemSeeder = require("./seeders/item_seeder");
-const soldItemSeeder = require("./seeders/soldItem_seeder");
-const loginSeeder = require("./seeders/login_seeder");
-const volunteerSeeder = require("./seeders/volunteer_seeder");
-const eventAttendeeSeeder = require("./seeders/event_attendee_seeder");
-eventAttendeeSeeder();
+// const eventSeeder = require("./seeders/event_seeder");
+// const itemSeeder = require("./seeders/item_seeder");
+// const soldItemSeeder = require("./seeders/soldItem_seeder");
+// const loginSeeder = require("./seeders/login_seeder");
+// const volunteerSeeder = require("./seeders/volunteer_seeder");
+// const eventAttendeeSeeder = require("./seeders/event_attendee_seeder");
+// eventAttendeeSeeder();
 // eventSeeder();
 // itemSeeder(); This should stay commented out so the items with images aren't overwritten
 // soldItemSeeder();
-loginSeeder();
-volunteerSeeder();
+// loginSeeder();
+// volunteerSeeder();
 
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`)
