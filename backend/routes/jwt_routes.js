@@ -56,7 +56,8 @@ router.delete('/deleteRefreshToken', (req, res) => {
     Refresh_Token.findOneAndDelete(token)
      .then(() => {
          console.log("Deleting Token")
-         res.cookie('accessToken', "")
+         res.clearCookie('accessToken')
+         res.clearCookie('refreshToken')
          return res.sendStatus(204)
      })
 })

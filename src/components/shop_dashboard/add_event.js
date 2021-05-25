@@ -13,6 +13,12 @@ function AddEvent() {
     const [description, setDescription] = useState(''); 
     const [location, setlocation] = useState(''); 
 
+    function logout() {
+        axios.delete('http://localhost:5000/jwt/deleteRefreshToken', { withCredentials: true })
+         .then(() => window.location.assign('http://localhost:3000'))
+        
+    }
+
     // Functions to track typing changes in the input fields 
     function onTitleChange(event) { 
         if (event.target.value.length < 25) 
@@ -143,7 +149,12 @@ function AddEvent() {
         // I use bootstrap rows to fluidly force content onto new lines throughout 
         <div className="container-fluid p-0"> 
             <div className="row no-gutters"> 
-                <h1 className="title-text">Add Event</h1>
+                <div className='col-8'>
+                    <h1 className="title-text">Add Event</h1>
+                </div>
+                <div className="col-4" align="right">
+                    <button className="submit-button" onClick={logout}>Log Out</button>
+                </div>
 
                 <div className="listing-box"> 
                     <h2>Event Details</h2> 

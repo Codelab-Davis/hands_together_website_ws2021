@@ -15,6 +15,11 @@ function ViewShopItems() {
     const [quantity, setQuantity] = useState(''); 
     const [uploadMessage, setUploadMessage] = useState(""); 
     
+    function logout() {
+        axios.delete('http://localhost:5000/jwt/deleteRefreshToken', { withCredentials: true })
+         .then(() => window.location.assign('http://localhost:3000'))
+    }
+
     function openModal(item) { 
         setCurItem(item);
         setTitle(item.name); 
@@ -223,6 +228,9 @@ function ViewShopItems() {
                     + Math.min((6 * curPage), itemArray.data.length) 
                     + " of " + itemArray.data.length + " results"
                 }</p>
+                <div className="col-4" align="right">
+                    <button className="submit-button" onClick={logout}>Log Out</button>
+                </div>
                 <div className="col-12">
                     <div className="row">
                         { items ?
