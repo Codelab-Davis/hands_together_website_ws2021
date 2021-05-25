@@ -25,7 +25,7 @@ function Volunteer_Events() {
       let end_of_day = new Date(selectedDays.selectedDays).setHours(23,59,59,99);
       for (let i = 0; upcomingEvents != undefined && i < upcomingEvents.length; i++) { 
         if (new Date(upcomingEvents[i].date).getTime() >= start_of_day && new Date(upcomingEvents[i].date).getTime() <= end_of_day) { 
-          console.log("in the inner if statement"); 
+          // console.log("in the inner if statement"); 
           setCurDayEventData(upcomingEvents[i]); 
           return; 
         } 
@@ -33,7 +33,7 @@ function Volunteer_Events() {
       setCurDayEventData({}); 
     }
     else { 
-      console.log("in the else statement"); 
+      // console.log("in the else statement"); 
       setCurDayEventData({}); 
     }
   }, [selectedDays]); 
@@ -101,25 +101,25 @@ function Volunteer_Events() {
       "questions_concerns": concernsBox,
       "event_id": curDayEventData._id, 
     }
-    console.log(volunteer); 
-    //Right now, this message does not appear since the axios call fails, this needs to be triggered before sign up or some other logic should be added.
-    console.log(curDayEventData._id)
+    // console.log(volunteer); 
+    // Right now, this message does not appear since the axios call fails, this needs to be triggered before sign up or some other logic should be added.
+    // console.log(curDayEventData._id); 
     if (name.length == 0 || age.length == 0 || phoneNumber.length == 0 || email.length==0) { 
             setSignUpMessage("All fields must be filled out, please edit your response and try again."); 
             return; 
         }
     if (volunteer.questions_concerns.length == 0) 
       volunteer.questions_concerns = "N/A"; 
-    axios.post('http://localhost:5000/volunteer/add_volunteer',volunteer)
-      .then(res => {
-        console.log(res)
-        setSignUpMessage("Thanks for signing up to volunteer! We'll reach out to you shortly.")
-      })
+    axios.post('http://localhost:5000/volunteer/add_volunteer',volunteer) 
+      .then(res => { 
+        // console.log(res); 
+        setSignUpMessage("Thanks for signing up to volunteer! We'll reach out to you shortly."); 
+      }) 
       .catch(err => { 
-        setSignUpMessage("Couldn't post to database.");
-        console.log('err', err);
-      })
-  }
+        setSignUpMessage("Couldn't connect to database."); 
+        console.log('Error sending POST request:', err); 
+      }) 
+  } 
 
   function submit() {
     // let test_item = {
@@ -174,7 +174,7 @@ function Volunteer_Events() {
       return (a_date.getTime() - b_date.getTime());
     })
 
-    console.log(events); 
+    // console.log(events); 
 
     //STEP 2: 
     for (let i = 0; i < events.length; i++) {
@@ -209,11 +209,11 @@ function Volunteer_Events() {
 
 function determineImage(imgFile) { 
     if (imgFile != undefined) { 
-        console.log("in if statement"); 
+        // console.log("in if statement"); 
         return `url(${imgFile})`; 
     }
     else { 
-        console.log("in else statement"); 
+        // console.log("in else statement"); 
         return `url(${EventTile1})`; 
     }
 } 
@@ -232,7 +232,7 @@ function determineImage(imgFile) {
         <h1 className="upcoming-events-text">Upcoming Events</h1>
       </div>
 
-      <div className="row no-gutters">
+      <div className="row no-gutters top-banner-container">
       <div className="col-12" align="center">
         <img src={dream} className="top-banner-image" /> 
         <div className= "col-12 sign-up-background" align="center">
@@ -264,7 +264,7 @@ function determineImage(imgFile) {
           align="center"
         >
           {/* If the upcoming events array is populated, we use the map function to iteratre through the first three elements in the array (event is the object, index is itis position in the array) and we display a customized tile with the object's infomration. */}
-          {console.log(upcomingEvents)}
+          {/* {console.log(upcomingEvents)} */}
           { upcomingEvents.length > 0 ? 
             upcomingEvents.slice(0, 3).map((event, index) => 
               <div class="event-tile-container col-12 col-md-6 col-lg-4">

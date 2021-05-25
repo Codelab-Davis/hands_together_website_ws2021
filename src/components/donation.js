@@ -20,8 +20,8 @@ function Donation() {
   }
 
   function checkout(donationAmount) {
-    console.log(donationAmount);
-    console.log(type);
+    // console.log(donationAmount);
+    // console.log(type);
     var stripe = window.Stripe('pk_test_51IMhDjDACjkjrvMm0D7gtuvvHOCY8Z9dGTjwVFxFcmWHlGfjn9CGEdvyvs5vMQrAQDwmBcELSzSb2kTNf65eyJkw00AXucR70x');
 
     const req = {
@@ -34,7 +34,7 @@ function Donation() {
 
     axios.post('http://localhost:5000/stripe/create-checkout-session/', req)
       .then(session => {
-        console.log(session.data.id);
+        // console.log(session.data.id);
         stripe.redirectToCheckout({sessionId: session.data.id})
       })
       .catch(error => console.log(error))

@@ -312,3 +312,9 @@ input[type="radio"] {
   margin-right: 0.5rem !important;
   align-content: left;
 } 
+
+@media (max-width: 767.9px) { 
+  .top-banner-container { 
+    display: none; 
+  } 
+} 

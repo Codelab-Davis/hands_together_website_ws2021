@@ -115,7 +115,7 @@ function AddItemFrontend() {
             axios.post('http://localhost:5000/items/add_item', item, { withCredentials: true })
             .then(res => {
                 setUploadMessage("Item successfully added.");
-                console.log(item);
+                // console.log(item);
             })
             .catch(err => { 
                 setUploadMessage("Sorry something went wrong uploading your item.");
@@ -129,12 +129,12 @@ function AddItemFrontend() {
             let imgLinksCopy = imgLinks;
             if (imgLinksCopy[pos] == undefined) { 
                 imgLinksCopy.push(URL.createObjectURL(imgFiles[pos])); 
-                console.log("in if statement"); 
+                // console.log("in if statement"); 
             } else { 
                 imgLinksCopy[pos] = URL.createObjectURL(imgFiles[pos]); 
-                console.log("in else statement"); 
+                // console.log("in else statement"); 
             }
-            console.log("setting imgLinksCopy"); 
+            // console.log("setting imgLinksCopy"); 
             setImgLinks(imgLinksCopy);  
         }
         catch { 

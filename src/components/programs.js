@@ -64,8 +64,8 @@ function Programs() {
 
 
         <div className="col-12 img-section" style={{padding: "0rem"}}>
-          <img src={img2} className="full-width-image"/>
-          <h2 className="overlay-text">
+          <img src={img2} className="full-width-image mobile-container-padding"/>
+          <h2 className="overlay-text mobile-infoblurb mobile-container-padding">
             Advanced early childhood education promotes academic achievement, higher high school graduation rates, and has been proven to ensure children reach their full potential.
             <br/><br/>Hands Together’s enriched program brings hope and opportunity to central Orange County’s young learners and their families.
           </h2>
@@ -96,8 +96,8 @@ function Programs() {
         </div> */}
 
         <div className="col-12 img-section" style={{padding: "0rem"}}>
-          <img src={img4} className="full-width-image"/>
-          <h2 className="overlay-text">
+          <img src={img4} className="full-width-image mobile-container-padding"/>
+          <h2 className="overlay-text mobile-infoblurb mobile-container-padding">
             Morning Garden’s parent programs focus on financial literacy, interview skills, resume preparation and GED acquisition. We also teach nutrition and low-cost meal preparation.
             <br/><br/>All these components support the personal and professional development of low-income families. Our program recognizes the potential for success in all people, including parents experiencing housing insecurity.
           </h2>

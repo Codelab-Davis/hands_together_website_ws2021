@@ -96,7 +96,7 @@ function Navbar(props) {
       country: "US",
       validate: true,
     }, function(err, address) {
-      console.log(address);
+      // console.log(address);
     });
 
     if(city.length == 0 || state.length == 0 || !addressTo.validation_results.is_valid) {
@@ -114,7 +114,7 @@ function Navbar(props) {
       country: "US",
       validate: true,
     }, function(err, address) {
-      console.log(address);
+      // console.log(address);
     })
 
     const parcel = {
@@ -132,7 +132,7 @@ function Navbar(props) {
       parcels: [parcel],
       async: false,
     }, function(err, shipment) {
-      console.log(shipment);
+      // console.log(shipment);
     });
 
     let shipping_rate = 0;
@@ -156,7 +156,7 @@ function Navbar(props) {
         if(shipment.rates[i].amount < shipping_rate) shipping_rate = Number(shipment.rates[i].amount);
       }
     }
-    console.log(shipping_rate);
+    // console.log(shipping_rate);
 
     const req = {
       amount: 0,

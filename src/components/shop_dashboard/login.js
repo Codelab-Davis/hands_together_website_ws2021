@@ -24,7 +24,7 @@ function Login(props) {
 
     axios.get("http://localhost:5000/login/", { params: credentials })
       .then(res => {
-        console.log(res.data);
+        // console.log(res.data);
         if (res.data) {
           axios.post('http://localhost:5000/jwt/generateAccessToken', { user: userName }, { withCredentials: true })
            .then(() => props.setLoggedIn(true))

@@ -67,7 +67,7 @@ function Add_Item() {
       .then(() => {
         axios.post('http://localhost:5000/items/add_item', item)
           .then(res => {
-            console.log(item);
+            // console.log(item);
           })
       })
   }

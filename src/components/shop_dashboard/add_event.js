@@ -32,7 +32,7 @@ function AddEvent() {
     const [curDate, setCurDate] = useState(new Date()); 
     
     function handleDateChange(date) { 
-        console.log(date); 
+        // console.log(date); 
         setCurDate(date); 
     }
 
@@ -57,7 +57,7 @@ function AddEvent() {
     }
 
     useEffect(() => { 
-        console.log(imgFile); 
+        // console.log(imgFile); 
     }, [imgFile])
 
     function add_event_to_db() { 
@@ -114,7 +114,7 @@ function AddEvent() {
             .then(() => {
                 axios.post('http://localhost:5000/event/add', event, { withCredentials: true })
                 .then(res => {
-                    console.log(event);
+                    // console.log(event);
                     setUploadMessage("Upload successful");
                 })
             })
@@ -134,7 +134,7 @@ function AddEvent() {
             return `url(${renderImage(imgFile)})`; 
         }
         else { 
-            console.log("in else statement"); 
+            // console.log("in else statement"); 
             return `url(${EventTile1})`; 
         }
     } 

@@ -48,10 +48,6 @@ function Home() {
                 </button> 
             </div> 
 
-            <div className="col-12 small-overlay" style={{padding: "0"}}> 
-                <img src={mainNoGradient} className="landing-overlay-image"/> 
-            </div> 
-
             <div className="row no-gutters align-items-center about-us-spacing"> 
                 <div className="col-12 about-us-title-spacing" align="center">
                     <h1>About Us</h1>
@@ -62,7 +58,10 @@ function Home() {
                 <div className="col-md-6"> 
                     <div className="about-us-text-width">
                         <div className="infoblurb">Hands Together has been recognized at a state and national level for preparing young children for kindergarten. We offer advanced early education to over 165 at risk children each day. We do more than preschool preparation–the facility  works with working parents to enrich their lives, preparing them for the work place.</div>
-                        <button className="lg-button lg-button-font-sizing" onClick={() => window.location = "/programs"} style={{backgroundColor: "var(--darkyellow)"}}>Learn More</button>
+                        <button className="lg-button lg-button-font-sizing large-screen-button" onClick={() => window.location = "/programs"} style={{backgroundColor: "var(--darkyellow)"}}>Learn More</button>
+                        <button className="lg-button lg-button-font-sizing small-screen-button" style={{backgroundColor: "var(--darkred)"}}> 
+                            <a href="/donation">Donate</a> 
+                        </button> 
                     </div> 
                 </div> 
             </div> 

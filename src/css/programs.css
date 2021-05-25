@@ -53,8 +53,9 @@
     opacity: 1;
   }
   .overlay-text {
-    background-color: var(--lightblue);
-    padding: 1rem;
+    position: relative;
+    padding: 0;
+    background-color: white;
   }
 }
 @media (min-width: 767.9px) {
@@ -94,3 +95,28 @@
   font-style: italic;
   text-align: center;
 }
+
+@media (min-width: 768px) { 
+  .mobile-container-padding { 
+    padding-left: 0;
+    padding-right: 0;
+  } 
+  .mobile-infoblurb { 
+    margin-top: 0; 
+    font-size: 1.75rem !important;
+    font-weight: 700 !important; 
+  } 
+} 
+
+@media (max-width: 767.9px) { 
+  .mobile-container-padding { 
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  } 
+
+  .mobile-infoblurb { 
+    margin-top: 2rem;
+    font-size: 22px !important; 
+    font-weight: 400 !important; 
+  } 
+} 

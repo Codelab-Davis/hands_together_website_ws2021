@@ -1,3 +1,13 @@
+.mobile-top-padding { 
+  margin-top: 0; 
+} 
+
+@media (max-width: 767.9px) { 
+  .mobile-top-padding { 
+    margin-top: 1.5rem; 
+  } 
+} 
+
 .smbutton {
   height: 3.625rem; 
   width: 9.6875rem;
@@ -325,13 +335,19 @@
   } 
 } 
 
-@media (min-width: 1023px) { 
+@media (min-width: 824px) { 
   .small-overlay { 
+    display: none; 
+  } 
+  .large-screen-button { 
+    display: block; 
+  } 
+  .small-screen-button { 
     display: none; 
   } 
 } 
 
-@media (max-width: 1023px) { 
+@media (max-width: 824px) { 
   .large-overlay { 
     display: none;
   } 
@@ -341,12 +357,30 @@
   .about-us-spacing { 
     padding-top: 2.5rem;
   } 
+  .large-screen-button { 
+    display: none; 
+  } 
+  .small-screen-button { 
+    display: block; 
+  } 
 } 
 
 .landing-overlay-button { 
   position: absolute; 
   left: 0%;
-  top: 75%; 
+  top: 73%; 
+} 
+
+@media (max-width: 1150px) { 
+  .landing-overlay-text { 
+    font-size: 2rem !important;
+  } 
+} 
+
+@media (max-width: 900px) { 
+  .landing-overlay-button { 
+    top: 75%; 
+  } 
 } 
 
 @media (max-width: 767.9px) {
@@ -431,10 +465,17 @@
   } 
 } 
 
+@media (max-width: 824px) { 
+  .about-us-image { 
+    margin-bottom: 2.75rem; 
+  } 
+} 
+
 @media (max-width: 767.9px) { 
   .about-us-image { 
     width: 90%; 
     height: auto;
+    margin-bottom: 0rem; 
   } 
 } 
 

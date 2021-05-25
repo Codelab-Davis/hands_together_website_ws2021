@@ -148,7 +148,7 @@ function Shop(props) {
             storageItem.quantity++;
             window.localStorage.setItem("JXYSDFH65F" + i, JSON.stringify(storageItem));
           } else {
-            console.log("Max quantity of that item reached");
+            // console.log("Max quantity of that item reached");
           }
           itemIsInStorage = true;
           break;
@@ -165,7 +165,7 @@ function Shop(props) {
       }
     } else {
       alert("The cart is limited to 10 unique items.")
-      console.log("Max items in cart reached!");
+      // console.log("Max items in cart reached!");
     }
   }
 

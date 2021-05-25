@@ -24,8 +24,8 @@ function Admin_Dashboard(props) {
   useEffect(() => { 
     axios.get('http://localhost:5000/announcements/get_announcement', { withCredentials: true })
       .then((res) => {
-        console.log(res.data); 
-        console.log(res.data[0]); 
+        // console.log(res.data); 
+        // console.log(res.data[0]); 
         setCurAnnouncement(res.data[0]); 
         setCurAnnouncementText(res.data[0].text); 
       }) 
@@ -64,7 +64,7 @@ function Admin_Dashboard(props) {
       "text": newAnnouncement,
     }
     
-    console.log(curAnnouncement); 
+    // console.log(curAnnouncement); 
     if (curAnnouncement != undefined && curAnnouncement._id != undefined && curAnnouncement._id != "") { 
       axios.delete(`http://localhost:5000/announcements/delete_announcement/${curAnnouncement._id}`, { withCredentials: true })
         .then(() => add(new_announcement))
