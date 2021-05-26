@@ -85,7 +85,7 @@ function ViewPastEvents() {
     }
 
     useEffect(()=>{
-        axios.get('http://localhost:5000/event/get_all_events')
+        axios.get('https://db.handstogether-sa.org/event/get_all_events')
         .then( res => {
         console.log(res);
         // assign json data to itemArray 
@@ -113,7 +113,7 @@ function ViewPastEvents() {
         let eventId = { event_id: curEvent._id.toString() }; 
         console.log(eventId); 
 
-        axios.get('http://localhost:5000/volunteer/get_by_event', { params: { event_id: curEvent._id.toString()}}) 
+        axios.get('https://db.handstogether-sa.org/volunteer/get_by_event', { params: { event_id: curEvent._id.toString()}}) 
             .then((res) => { 
                 console.log(res.data); 
                 setCurEventVolunteers(res.data); 
@@ -124,7 +124,7 @@ function ViewPastEvents() {
     }, [curEvent]); 
 
     function deleteCurEvent() { 
-        axios.delete(`http://localhost:5000/event/delete_event/${curEvent._id}`) 
+        axios.delete(`https://db.handstogether-sa.org/event/delete_event/${curEvent._id}`) 
             .then(() => { 
                 closeModal(); 
             })

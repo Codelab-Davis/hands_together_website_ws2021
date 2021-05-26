@@ -8,7 +8,7 @@ axios.interceptors.response.use(
         const originalRequest = error.config;
         if(error.response.status === 403 && !originalRequest._retry) {
             originalRequest._retry = true;
-            return axios.post("http://localhost:5000/jwt/token", {}, { withCredentials: true})
+            return axios.post("https://db.handstogether-sa.org/jwt/token", {}, { withCredentials: true})
              .then(res => {
                  if(res.status == 200) {
                     //  console.log("Access Token Refreshed");

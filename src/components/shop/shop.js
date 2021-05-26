@@ -54,7 +54,7 @@ function Shop(props) {
   }
 
   useEffect(()=>{
-    axios.get('http://localhost:5000/items/get_all_items')
+    axios.get('https://db.handstogether-sa.org/items/get_all_items')
     .then(res => {
       // assign json data to itemArray 
       update({data: res.data});

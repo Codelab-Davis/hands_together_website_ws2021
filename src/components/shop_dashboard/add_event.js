@@ -14,8 +14,8 @@ function AddEvent() {
     const [location, setlocation] = useState(''); 
 
     function logout() {
-        axios.delete('http://localhost:5000/jwt/deleteRefreshToken', { withCredentials: true })
-         .then(() => window.location.assign('http://localhost:3000'))
+        axios.delete('https://db.handstogether-sa.org/jwt/deleteRefreshToken', { withCredentials: true })
+         .then(() => window.location.assign('https://handstogether-sa.org'))
         
     }
 
@@ -97,7 +97,7 @@ function AddEvent() {
             };
             // Upload the image
             promises.push(
-                axios.get('http://localhost:5000/event/generate-put-url', options)
+                axios.get('https://db.handstogether-sa.org/event/generate-put-url', options)
                     .then(res => {
                         const {
                             data: { putURL }
@@ -118,7 +118,7 @@ function AddEvent() {
         // Add item to database after urls are finished generating
         Promise.all(promises)
             .then(() => {
-                axios.post('http://localhost:5000/event/add', event, { withCredentials: true })
+                axios.post('https://db.handstogether-sa.org/event/add', event, { withCredentials: true })
                 .then(res => {
                     // console.log(event);
                     setUploadMessage("Upload successful");
@@ -257,7 +257,7 @@ function AddEvent() {
 //     };
 //     // Upload the image
 //     promises.push(
-//       axios.get('http://localhost:5000/event/generate-put-url', options)
+//       axios.get('https://db.handstogether-sa.org/event/generate-put-url', options)
 //         .then(res => {
 //           const {
 //             data: { putURL }
@@ -280,7 +280,7 @@ function AddEvent() {
 //     // Add item to database after urls are finished generating
 //     Promise.all(promises)
 //       .then(() => {
-//         axios.post('http://localhost:5000/event/add', event)
+//         axios.post('https://db.handstogether-sa.org/event/add', event)
 //           .then(res => {
 //             console.log(event);
 //           })

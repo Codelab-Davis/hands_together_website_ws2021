@@ -85,7 +85,7 @@ function ViewVolunteers() {
     }
 
     useEffect(()=>{
-        axios.get('http://localhost:5000/volunteer/get_volunteers')
+        axios.get('https://db.handstogether-sa.org/volunteer/get_volunteers')
             .then( res => {
                 let res_data = res.data; 
                 res_data.sort(function (b, a) {
@@ -109,7 +109,7 @@ function ViewVolunteers() {
         if (curEvent == undefined) 
             return; 
 
-        axios.get('http://localhost:5000/volunteer/get_by_event', { params: { event_id: curEvent._id.toString()}}) 
+        axios.get('https://db.handstogether-sa.org/volunteer/get_by_event', { params: { event_id: curEvent._id.toString()}}) 
             .then((res) => { 
                 console.log(res.data); 
                 setCurEventVolunteers(res.data); 
@@ -120,7 +120,7 @@ function ViewVolunteers() {
     }, [curEvent]); 
 
     function deleteCurEvent() { 
-        axios.delete(`http://localhost:5000/event/delete_event/${curEvent._id}`) 
+        axios.delete(`https://db.handstogether-sa.org/event/delete_event/${curEvent._id}`) 
             .then(() => {
                 let new_items = [];  
                 for (let i = 0; i < items.length; i++) { 

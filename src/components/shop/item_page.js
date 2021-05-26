@@ -13,7 +13,7 @@ function Item_Page(props) {
   const [selectQuantity, setSelectQuantity] = useState(1);
 
   useEffect(() => {
-    axios.get('http://localhost:5000/items/get_item/' + id.id)
+    axios.get('https://db.handstogether-sa.org/items/get_item/' + id.id)
       .then((res) => {
         setItem(res.data);
         // console.log(res);
@@ -27,13 +27,13 @@ function Item_Page(props) {
   function purchaseItem() {
     const req = {
       amount: 2000,
-      success_url: "http://localhost:3000/order_summary/",
-      cancel_url: "http://localhost:3000/",
+      success_url: "https://handstogether-sa.org/order_summary/",
+      cancel_url: "https://handstogether-sa.org/",
       item_id: id.id,
       type: "purchase"
     }
     var stripe = window.Stripe('pk_test_51IMhDjDACjkjrvMm0D7gtuvvHOCY8Z9dGTjwVFxFcmWHlGfjn9CGEdvyvs5vMQrAQDwmBcELSzSb2kTNf65eyJkw00AXucR70x')
-    axios.post('http://localhost:5000/stripe/create-checkout-session/', req) 
+    axios.post('https://db.handstogether-sa.org/stripe/create-checkout-session/', req) 
      .then(session => stripe.redirectToCheckout({sessionId: session.data.id}))
      .catch(error => console.log(error))
   }
@@ -104,7 +104,7 @@ function Item_Page(props) {
   }
 
   useEffect(()=>{
-    axios.get('http://localhost:5000/items/get_all_items')
+    axios.get('https://db.handstogether-sa.org/items/get_all_items')
     .then( res => {
       // assign json data to itemArray 
       update({data: res.data});

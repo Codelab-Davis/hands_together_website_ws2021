@@ -160,8 +160,8 @@ function Navbar(props) {
 
     const req = {
       amount: 0,
-      success_url: "http://localhost:3000/thank_you",
-      cancel_url: "http://localhost:3000/",
+      success_url: "https://handstogether-sa.org/thank_you",
+      cancel_url: "https://handstogether-sa.org/",
       cart: cart,
       shipping_rate: shipping_rate*100,// $10
       shipping_address: addressTo,
@@ -169,7 +169,7 @@ function Navbar(props) {
     }
 
     var stripe = window.Stripe('pk_test_51IMhDjDACjkjrvMm0D7gtuvvHOCY8Z9dGTjwVFxFcmWHlGfjn9CGEdvyvs5vMQrAQDwmBcELSzSb2kTNf65eyJkw00AXucR70x')
-    axios.post('http://localhost:5000/stripe/create-checkout-session/', req) 
+    axios.post('https://db.handstogether-sa.org/stripe/create-checkout-session/', req) 
      .then(session => stripe.redirectToCheckout({sessionId: session.data.id}))
      .catch(error => console.log(error))
   }

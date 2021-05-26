@@ -27,13 +27,13 @@ function Donation() {
 
     const req = {
       amount: donationAmount*100,
-      success_url: "http://localhost:3000/thank_you",
-      cancel_url: "http://localhost:3000/",
+      success_url: "https://handstogether-sa.org/thank_you",
+      cancel_url: "https://handstogether-sa.org/",
       type: "donation",
       mode: type
     }
 
-    axios.post('http://localhost:5000/stripe/create-checkout-session/', req)
+    axios.post('https://db.handstogether-sa.org/stripe/create-checkout-session/', req)
       .then(session => {
         // console.log(session.data.id);
         stripe.redirectToCheckout({sessionId: session.data.id})

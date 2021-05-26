@@ -8,10 +8,23 @@ require('dotenv').config();
 const app = express();
 const port = process.env.PORT || 5000;
 
-app.use(cors({
-  origin: "http://localhost:3000",
-  credentials: true
-}));
+var whitelist = ['https://db.handstogether-sa.org.com', 'https://www.db.handstogether-sa.org.com', 'https://www.handstogether-sa.org.com', 'https://handstogether-sa.org.com', 'https://handstogether-sa.org']
+
+// set up cors to allow us to accept requests from our client
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (whitelist.indexOf(origin) != -1 || !origin) {
+        callback(null, true);
+      } else {
+        callback(new Error('not allowed by CORS'));
+      }
+    },
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    credentials: true, // allow session cookie from browser to pass through
+  })
+);
+
 app.use(cookieparser());
 app.use(express.json({
     verify: (req, res, buf) => {

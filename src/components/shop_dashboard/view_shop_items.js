@@ -16,8 +16,8 @@ function ViewShopItems() {
     const [uploadMessage, setUploadMessage] = useState(""); 
     
     function logout() {
-        axios.delete('http://localhost:5000/jwt/deleteRefreshToken', { withCredentials: true })
-         .then(() => window.location.assign('http://localhost:3000'))
+        axios.delete('https://db.handstogether-sa.org/jwt/deleteRefreshToken', { withCredentials: true })
+         .then(() => window.location.assign('https://handstogether-sa.org'))
     }
 
     function openModal(item) { 
@@ -105,7 +105,7 @@ function ViewShopItems() {
     }
 
     useEffect(()=>{
-        axios.get('http://localhost:5000/items/get_all_items')
+        axios.get('https://db.handstogether-sa.org/items/get_all_items')
         .then( res => {
         console.log(res);
         // assign json data to itemArray 
@@ -134,7 +134,7 @@ function ViewShopItems() {
             "quantity": parseInt(quantity),
         }
 
-        axios.post(`http://localhost:5000/items/update_item/${curItem._id}`, item, { withCredentials: true }) 
+        axios.post(`https://db.handstogether-sa.org/items/update_item/${curItem._id}`, item, { withCredentials: true }) 
             .then(res => {
                 setUploadMessage("Item successfully edited."); 
                 let new_items = [];  
@@ -160,7 +160,7 @@ function ViewShopItems() {
     } 
 
     function deleteCurItem() { 
-        axios.delete(`http://localhost:5000/items/delete_item/${curItem._id}`, { withCredentials: true }) 
+        axios.delete(`https://db.handstogether-sa.org/items/delete_item/${curItem._id}`, { withCredentials: true }) 
             .then(() => {
                 let new_items = [];  
                 for (let i = 0; i < items.length; i++) { 

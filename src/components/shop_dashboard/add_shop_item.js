@@ -13,8 +13,8 @@ function AddItemFrontend() {
     const [quantity, setQuantity] = useState('');
 
     function logout() {
-        axios.delete('http://localhost:5000/jwt/deleteRefreshToken', { withCredentials: true })
-         .then(() => window.location.assign('http://localhost:3000'))
+        axios.delete('https://db.handstogether-sa.org/jwt/deleteRefreshToken', { withCredentials: true })
+         .then(() => window.location.assign('https://handstogether-sa.org'))
     }
 
     // Functions to track typing changes in the input fields 
@@ -93,7 +93,7 @@ function AddItemFrontend() {
         };
         // Upload the image
         promises.push(
-            axios.get('http://localhost:5000/items/generate-put-url', options)
+            axios.get('https://db.handstogether-sa.org/items/generate-put-url', options)
             .then(res => {
                 const {
                 data: { putURL }
@@ -117,7 +117,7 @@ function AddItemFrontend() {
         // Add item to database after urls are finished generating
         Promise.all(promises)
         .then(() => {
-            axios.post('http://localhost:5000/items/add_item', item, { withCredentials: true })
+            axios.post('https://db.handstogether-sa.org/items/add_item', item, { withCredentials: true })
             .then(res => {
                 setUploadMessage("Item successfully added.");
                 // console.log(item);
