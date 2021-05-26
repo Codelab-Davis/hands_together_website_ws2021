@@ -3,9 +3,9 @@ import "../../css/view_shop_items.css";
 import EventTile1 from "../../images/EventTile1.png";
 import Modal from 'react-modal';
 import modal_x from "../../images/modal_x.png";   
-const axios = require('axios');
+const axios = require('axios'); 
 
-function ViewPastEvents() { 
+function ViewVolunteers() { 
     // MODAL STATES, FUNCTIONS, AND STYLING START BELOW 
     const [modalIsOpen, setModalIsOpen] = useState(false); 
     const [volunteerModalIsOpen, setVolunteerModalIsOpen] = useState(false); 
@@ -85,19 +85,19 @@ function ViewPastEvents() {
     }
 
     useEffect(()=>{
-        axios.get('http://localhost:5000/event/get_all_events')
-        .then( res => {
-        console.log(res);
-        // assign json data to itemArray 
-        let today = new Date().setHours(0,0,0,0); 
-        let new_data = []; 
-        for (let i = 0; i < res.data.length; i++) { 
-            if (new Date(res.data[i].date).getTime() < today) 
-                new_data.push(res.data[i]); 
-        } 
-        update({data: new_data});
-        })
-        .catch ( err => {console.log(err)})
+        axios.get('http://localhost:5000/volunteer/get_volunteers')
+            .then( res => {
+                let res_data = res.data; 
+                res_data.sort(function (b, a) {
+                    //when you get date objects from MongoDB, it will no longer recognize them as date objects, that's why we make a_date and b_date as new date objects
+                    let a_date = new Date(a.createdAt);
+                    let b_date = new Date(b.createdAt);
+                    //we convert is back to milisecond value, then we return the difference. Works like sort in C++, positive value will put a first, negative will put b first. 
+                    return (a_date.getTime() - b_date.getTime());
+                }) 
+                update({data: res_data});
+            })
+            .catch ( err => {console.log(err)})
     }, []) 
 
     useEffect(()=>{
@@ -108,10 +108,6 @@ function ViewPastEvents() {
     useEffect(() => { 
         if (curEvent == undefined) 
             return; 
-        
-        console.log(curEvent._id); 
-        let eventId = { event_id: curEvent._id.toString() }; 
-        console.log(eventId); 
 
         axios.get('http://localhost:5000/volunteer/get_by_event', { params: { event_id: curEvent._id.toString()}}) 
             .then((res) => { 
@@ -125,14 +121,20 @@ function ViewPastEvents() {
 
     function deleteCurEvent() { 
         axios.delete(`http://localhost:5000/event/delete_event/${curEvent._id}`) 
-            .then(() => { 
+            .then(() => {
+                let new_items = [];  
+                for (let i = 0; i < items.length; i++) { 
+                    if (items[i]._id != curEvent._id) 
+                        new_items.push(items[i]); 
+                } 
+                setCurItems(new_items); 
                 closeModal(); 
-            })
+            }) 
             .catch((error) => { 
                 console.log("Error deleting event", error); 
-            })
+            }) 
     } 
-    
+
     function determineImage(imgFile) { 
         if (imgFile != undefined) { 
             console.log("in if statement"); 
@@ -152,49 +154,8 @@ function ViewPastEvents() {
 
     return ( 
         <div className="container-fluid p-0">
-            <Modal
-                isOpen={modalIsOpen}
-                onRequestClose={closeModal}
-                contentLabel="Delete Modal"
-                style={customModalStyles}
-            >
-                <div className="col-12" align="right">
-                    <img src={modal_x} onClick={closeModal} style={{cursor: "pointer"}} /> 
-                </div>
-                <h1>Are you sure that you want to permenantly delete this event?</h1> 
-                <button className="decline-button" onClick={closeModal}>Cancel</button>
-                <button className="confirm-button" onClick={deleteCurEvent}>Confirm</button>
-            </Modal>
-            <Modal
-                isOpen={volunteerModalIsOpen}
-                onRequestClose={closeVolunteerModal}
-                contentLabel="Checkout Delivery Address Modal"
-                style={customModalStyles}
-            >
-                <div className="col-12" align="right">
-                    <img src={modal_x} onClick={closeVolunteerModal} style={{cursor: "pointer"}} /> 
-                </div>
-                {curEventVolunteers != undefined && curEventVolunteers.length > 0 ? 
-                    <div className="row no-gutters">
-                        <div className="col" /> 
-                        { curEventVolunteers.map((itemIter, index) => 
-                            <div className="col-12 col-md-4"> 
-                                <h1>{itemIter.name}</h1>
-                                <p><strong>Age:</strong> {itemIter.age}</p>
-                                <p><strong>Gender:</strong> {itemIter.gender}</p>
-                                <p><strong>Phone Number</strong> {itemIter.phone_number}</p>
-                                <p><strong>Email</strong> {itemIter.email}</p>
-                                <p><strong>Questions/Concerns:</strong> {itemIter.questions_concerns}</p>
-                            </div> 
-                        )}
-                        <div className="col" /> 
-                    </div>
-                : 
-                    <h1>There are currently no volunteers for this event.</h1>
-                }
-            </Modal> 
             <div className="row no-gutters view-container"> 
-                <h1 className="title-text" style={{paddingLeft: "0"}}>Past Events</h1>
+                <h1 className="title-text" style={{paddingLeft: "0"}}>Volunteer Sign-Ups</h1>
                 <p className="title-text"><br/>{
                     "Showing " + (6 * (curPage - 1) + 1) + "-" 
                     + Math.min((6 * curPage), itemArray.data.length) 
@@ -204,32 +165,21 @@ function ViewPastEvents() {
                     <div className="row">
                         { items && items.length > 0 ?
                             items.map((itemIter, index) =>
-                            <div class="event-tile-container col-12 col-md-4" style={{marginBottom: "3rem"}}>
-                            <div className="event-image" style={{backgroundImage: determineImage(itemIter.image)}} />
-                                <div className="event_tile_banner" align="left">
-                                    <h3>{itemIter.name}</h3>
-                                    <p>{itemIter.description}</p>
-                                    <p><strong>Location:</strong> {itemIter.location}</p>
-                                    <p><strong>Time & Date:</strong> {formatDate(itemIter.date)}</p>
-                                </div>
-                                <div className="row no-gutters" style={{marginTop: "1rem"}}> 
-                                    <div className="col-4"> 
-                                        <p>Volunteers: {itemIter.volunteer_amount}</p>
-                                    </div>
-                                    <div className="col-4">
-                                        <button onClick={() => openModal(itemIter)}>Delete Event</button> 
-                                    </div> 
-                                    <div className="col-4" style={{paddingLeft: "1.25rem"}}>
-                                        <button onClick={() => openVolunteerModal(itemIter)}>View volunteers</button>
-                                    </div> 
-                                </div> 
-                            </div>
+                            <div className="col-12 col-md-4" style={{marginBottom: "3rem"}}> 
+                                <h1>{itemIter.name}</h1>
+                                <p><strong>Date Signed Up:</strong> {formatDate(itemIter.createdAt)}</p>
+                                <p><strong>Age:</strong> {itemIter.age}</p>
+                                <p><strong>Phone Number</strong> {itemIter.phone_number}</p>
+                                <p><strong>Email</strong> {itemIter.email}</p>
+                                <p><strong>Questions/Concerns:</strong> {itemIter.questions_concerns}</p>
+                            </div> 
                             )
-                            : <p>There are no past events.</p>
+                            : <p style={{marginTop: "5rem"}}>There are no signed up volunteers.</p>
                         }
-                    </div> 
-                </div> 
-                
+                        <div className="col-12" /> 
+                    </div>
+                </div>
+
                 <nav aria-label="pages" style={{marginBottom: "3rem"}}> 
                 {items.length > 0 ? <button className="back-button" tabIndex="-1" onClick={back}>Back</button> : <></>} 
                 {(() => {
@@ -249,4 +199,4 @@ function ViewPastEvents() {
     );
 }
 
-export default ViewPastEvents; 
+export default ViewVolunteers; 

@@ -12,9 +12,11 @@
   height: 80px;
   align-items: center;
   vertical-align: middle;
+  display: block;
 }
 
-@media (max-width: 768px) {
+
+@media (max-width: 767.9px) {
   .navbar-content {
     display: none;
   }
@@ -26,7 +28,7 @@
   margin-right: 1rem;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 767.9px) {
   .mobile-drawer {
     display: none;
   }
@@ -91,9 +93,9 @@
     margin-left: 0rem;
     margin-right: 0rem;
   }
-  .buttonSpacing { 
+  /* .buttonSpacing { 
     display: none;
-  }
+  } */
 }
 
 .hamburger-spacing { 

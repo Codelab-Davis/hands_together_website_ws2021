@@ -10,7 +10,7 @@ const volunteerSchema = new Schema(
     phone_number: { type: String, required: true },
     email: { type: String, required: true },
     questions_concerns: { type: String, required: true },
-    event_id: { type: String, required: true },
+    event_id: { type: String, required: false },
   },
   {
     timestamps: true,

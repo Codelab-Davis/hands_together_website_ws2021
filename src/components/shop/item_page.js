@@ -16,7 +16,7 @@ function Item_Page(props) {
     axios.get('http://localhost:5000/items/get_item/' + id.id)
       .then((res) => {
         setItem(res.data);
-        console.log(res);
+        // console.log(res);
       })
   }, [])
   useEffect(() => {
@@ -93,11 +93,11 @@ function Item_Page(props) {
   function check() {
     setCurItems(itemArray.data.slice(0,6));
     setNextIndex(6);
-    console.log(items);
+    // console.log(items);
   }
   // log whatever item is clicked 
   function clicked(val) {
-    console.log(val.name)
+    // console.log(val.name)
   }
   function getFormattedPrice(price) {
     return ("$" + price.slice(0, -2) + "." + price.slice(-2));
@@ -145,7 +145,7 @@ function Item_Page(props) {
             storageItem.quantity += parseInt(qty);
           } else {
             storageItem.quantity = quantityAvailable;
-            console.log(`The max quantity of this item, ${quantityAvailable}, has been added to cart`);
+            // console.log(`The max quantity of this item, ${quantityAvailable}, has been added to cart`);
           }
           window.localStorage.setItem("JXYSDFH65F" + i, JSON.stringify(storageItem));
           itemIsInStorage = true;

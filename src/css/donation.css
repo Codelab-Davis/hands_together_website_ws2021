@@ -7,12 +7,6 @@ input[type="radio"] {
     vertical-align: middle;
 }
 
-#donation-wrapper {
-    margin: 2.5rem auto;
-    max-width: 1200px;
-    width: 90%;
-}
-
 .donation-text {
     margin-top: 2.5rem;
     font-weight: 400 !important; 
@@ -20,8 +14,22 @@ input[type="radio"] {
 
 .donation-container, .form-container {
     width: 100%;
-    margin-top: 4.5rem;
+    margin-top: 2.5rem;
 }
+
+@media (max-width: 767.9px) { 
+    .donation-container, .form-container { 
+      margin-top: 0.5rem;
+    } 
+}
+
+.donation-button-animation { 
+    transition: transform .5s; 
+} 
+
+.donation-button-animation:hover { 
+    transform: scale(1.025);
+} 
 
 .donation-row {
     justify-content: space-between;
@@ -34,6 +42,7 @@ input[type="radio"] {
     background: #F2B705;
     text-align: center;
     height: 14.5rem;
+    cursor: pointer; 
 }
 
 .donation-padding {
@@ -77,10 +86,12 @@ input[type="radio"] {
     border: none;
     justify-content: center;
     color: white;
-    border-radius: 30px;
-    width: 16rem;
-    height: 5rem;
+    border-radius: 10px;
+    width: 15rem;
+    height: 4.5rem;
     margin-bottom: 5rem;
+    font-size: 1.8rem; 
+    font-weight: 700; 
 }
 
 @media (max-width: 1114px) {

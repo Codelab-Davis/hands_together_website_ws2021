@@ -4,7 +4,8 @@ import "../css/navbar.css";
 import "../css/mobile_drawer.css";
 import { useHistory } from "react-router-dom";
 import ht_logo from "../images/ht_logo.png";
-import cart from "../images/cart.png";
+import cart_empty from "../images/CartEmpty.svg";
+import cart_not_empty from "../images/CartNotEmpty.svg";
 import account_circle from "../images/account_circle.png";
 import MobileDrawer from "./mobile_drawer.js"; 
 import xicon from "../images/x-icon.png";
@@ -13,7 +14,7 @@ const axios = require('axios');
 
 var shippo = require('shippo')('shippo_test_1e5dfe70515f773e34da3713d3ecfdc0203a80a9');
 
-function Navbar() {
+function Navbar(props) {
   const history = useHistory();
   const [modalIsOpen, setModalIsOpen] = useState(false); 
   const [address1, setAddress1] = useState(''); 
@@ -22,7 +23,7 @@ function Navbar() {
   const [state, setState] = useState(''); 
   const [ZIP, setZIP] = useState('');
   const [drawerState, setDrawerState] = useState(false);
-  const [modalWidth, setModalWidth] = useState(window.innerWidth > 1024 ? '50%' : '90%'); 
+  const [modalWidth, setModalWidth] = useState(window.innerWidth > 1024 ? '60%' : '90%'); 
 
   function handleDrawerState() {
     let newState = !drawerState;
@@ -72,7 +73,7 @@ function Navbar() {
   async function checkout() {
     let quota = window.localStorage.getItem("QUOTA")
     if (!quota) {
-      alert("Your cart is currently empty. Add items to cart on the shop page.");
+      alert("Your cart is currently empty. Add items to your cart on the shop page.");
       return;
     }
 
@@ -95,10 +96,10 @@ function Navbar() {
       country: "US",
       validate: true,
     }, function(err, address) {
-      console.log(address);
+      // console.log(address);
     });
 
-    if(!addressTo.validation_results.is_valid) {
+    if(city.length == 0 || state.length == 0 || !addressTo.validation_results.is_valid) {
       alert("The address you entered is invalid. Please enter a valid address.");
       return;
     }
@@ -113,7 +114,7 @@ function Navbar() {
       country: "US",
       validate: true,
     }, function(err, address) {
-      console.log(address);
+      // console.log(address);
     })
 
     const parcel = {
@@ -131,7 +132,7 @@ function Navbar() {
       parcels: [parcel],
       async: false,
     }, function(err, shipment) {
-      console.log(shipment);
+      // console.log(shipment);
     });
 
     let shipping_rate = 0;
@@ -155,7 +156,7 @@ function Navbar() {
         if(shipment.rates[i].amount < shipping_rate) shipping_rate = Number(shipment.rates[i].amount);
       }
     }
-    console.log(shipping_rate);
+    // console.log(shipping_rate);
 
     const req = {
       amount: 0,
@@ -216,8 +217,8 @@ function Navbar() {
         <div className="col-12 cart-item">
           <div className="cart-image" style={{backgroundImage: `url(${item.images[0]})`}}></div>
           <div className="item-info">
-            <p>{item.name}</p>
-            <p>{item.quantity} @ {`$${item.price.slice(0, -2)}.${item.price.slice(-2)}`}/ea</p>
+            <p className="name">{item.name}</p>
+            <p className="qty">{item.quantity} @ {`$${item.price.slice(0, -2)}.${item.price.slice(-2)}`}/ea</p>
             <a onClick={() => {removeItem("JXYSDFH65F" + i); forceUpdate();}}><img src={xicon}/></a>
           </div>
         </div>
@@ -226,17 +227,23 @@ function Navbar() {
     return cartItems;
   }
 
+  // Rerender navbar every time the cart changes
+  useEffect(() => {
+    forceUpdate();
+  }, [props.cartUpdate])
+      
+
   useEffect(() => { 
     function handleResize() {
       // console.log('resized to: ', window.innerWidth, 'x', window.innerHeight) 
-      setModalWidth(window.innerWidth > 1024 ? '50%' : '90%'); 
+      setModalWidth(window.innerWidth > 1024 ? '60%' : '90%'); 
     }
   
     window.addEventListener('resize', handleResize); 
   });
 
   return (
-    <div>
+    <div style={{fontWeight: "700"}}> 
       <div className="row no-gutters">
         <Modal
           isOpen={modalIsOpen}
@@ -274,7 +281,7 @@ function Navbar() {
             <div className="col-4">
               <h3>City</h3>
             </div>
-            <div className="col-8">
+            <div className="col-8 col-md-4">
               <input
                 type="text"
                 placeholder=""
@@ -283,10 +290,13 @@ function Navbar() {
                 onChange={onCityChange}
               />
             </div>
+            <div className="col-4" />
+          </div>
+          <div className="row no-gutters justify-content-center">
             <div className="col-4">
               <h3>State</h3>
             </div>
-            <div className="col-8">
+            <div className="col-8 col-md-4">
               <input
                 type="text"
                 placeholder=""
@@ -295,10 +305,13 @@ function Navbar() {
                 onChange={onStateChange}
               />
             </div>
+            <div className="col-4" />
+          </div>
+          <div className="row no-gutters justify-content-center">
             <div className="col-4">
               <h3>ZIP</h3>
             </div>
-            <div className="col-8">
+            <div className="col-8 col-md-4">
               <input
                 type="text"
                 placeholder=""
@@ -307,6 +320,7 @@ function Navbar() {
                 onChange={onZIPChange}
               />
             </div>
+            <div className="col-4" />
             <div className="col-8 hr"></div>
             <div className="col-12" align="center">
               <h2>Your Cart</h2>
@@ -317,35 +331,40 @@ function Navbar() {
             </div>
           </div>
         </Modal>
-        <div className="col-4 offset-4" align="center">
-          <div align="center" style={{display: "inline-block"}}> 
-            <h1 className="navbar-title-text" onClick={() => (window.location = "/")}>
-              <img className = "imgSpacing" src={ht_logo} />
-            </h1>
+        <div className="col-2 offset-md-5" align="center">
+          <div className="logo-container" style={{display: "inline-block"}}> 
+            <img onClick={() => (window.location = "/")} className="imgSpacing" src={ht_logo} />
           </div>
         </div>
-        <div className="col-4" align="right">
+        <div className="col-10 col-md-5" align="right">
           <div align="right">
-            <img class="buttonSpacing" src={cart} onClick={openModal} />
+            <img 
+              class="buttonSpacing" 
+              src={!window.localStorage.getItem("QUOTA") || window.localStorage.getItem("QUOTA") == 0 
+                ? cart_empty : cart_not_empty} onClick={openModal} 
+            />
             <div className="mobile-drawer">
               <div>
-              <img onClick={handleDrawerState} src="https://img.icons8.com/ios/36/000000/menu--v6.png"/>
-              {!drawerState ? 
+              <img onClick={handleDrawerState} className="hamburger-spacing" src="https://img.icons8.com/ios/36/000000/menu--v6.png"/>
+              </div> 
+            </div>
+          </div>
+        </div>
+        {!drawerState ? 
               <></>
               :
-              <div class="container-fluid fade-animation p-0">
-                <div class="row no-gutters">
-                    <div class="col-12">
-                    <p onClick={() => (window.location = "/about")} className="text">About</p>
+              <div class="container-fluid fade-animation p-0 dropdown-container">
+                <hr style={{border: "1px solid gray", marginRight: "2rem"}}/>
+                <div class="row no-gutters" style={{paddingTop: "0rem", marginTop: "0rem"}}>
+                    <div class="col-12" style={{paddingTop: "0rem", marginTop: "0rem"}}>
+                    <p onClick={() => (window.location = "/about")}>About</p>
                     </div>
                     <div class="col-12">
                     {/* Link to programs */}
-                    <p>Programs</p> 
+                    <p onClick={() => (window.location = "/programs")}>Programs</p> 
                     </div>
                     <div class="col-12">
-                    <p onClick={() => (window.location = "/volunteer_events")}>
-                        Volunteer & Events
-                    </p>
+                    <p onClick={() => (window.location = "/volunteer_events")}>Volunteer</p>
                     </div>
                     <div class="col-12">
                     <p onClick={() => (window.location = "/shop")}>Shop</p>
@@ -353,16 +372,9 @@ function Navbar() {
                     <div class="col-12">
                     <p onClick={() => (window.location = "/donation")}>Donate</p>
                     </div>
-                    <div class="col-12">
-                    <p onClick={openModal}>Check Out</p>
-                    </div>
                   </div>
                 </div>
                 }
-              </div> 
-            </div>
-          </div>
-        </div>
       </div> 
       <div className="navbar-content .d-none .d-sm-block" align="center">
         <div class="container-fluid p-0">
@@ -372,11 +384,11 @@ function Navbar() {
             </div>
             <div class="col-2">
               {/* Link to programs */}
-              <h4 className="text">Programs</h4> 
+              <h4 className="text" onClick={() => (window.location = "/programs")}>Programs</h4> 
             </div>
             <div class="col-2">
               <h4 onClick={() => (window.location = "/volunteer_events")} className="text">
-                Volunteer & Events
+                Volunteer
               </h4>
             </div>
             <div class="col-2">

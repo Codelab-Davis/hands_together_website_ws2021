@@ -13,6 +13,12 @@ function AddEvent() {
     const [description, setDescription] = useState(''); 
     const [location, setlocation] = useState(''); 
 
+    function logout() {
+        axios.delete('http://localhost:5000/jwt/deleteRefreshToken', { withCredentials: true })
+         .then(() => window.location.assign('http://localhost:3000'))
+        
+    }
+
     // Functions to track typing changes in the input fields 
     function onTitleChange(event) { 
         if (event.target.value.length < 25) 
@@ -32,7 +38,7 @@ function AddEvent() {
     const [curDate, setCurDate] = useState(new Date()); 
     
     function handleDateChange(date) { 
-        console.log(date); 
+        // console.log(date); 
         setCurDate(date); 
     }
 
@@ -57,7 +63,7 @@ function AddEvent() {
     }
 
     useEffect(() => { 
-        console.log(imgFile); 
+        // console.log(imgFile); 
     }, [imgFile])
 
     function add_event_to_db() { 
@@ -107,14 +113,14 @@ function AddEvent() {
                     })
             )
             // Add the image's url
-            event.image = "https://handstogetherimages.s3-us-west-1.amazonaws.com/" + options.params.Key
+            event.image = "https://handstogetherlive.s3-us-west-1.amazonaws.com/" + options.params.Key
         }
         // Add item to database after urls are finished generating
         Promise.all(promises)
             .then(() => {
-                axios.post('http://localhost:5000/event/add', event)
+                axios.post('http://localhost:5000/event/add', event, { withCredentials: true })
                 .then(res => {
-                    console.log(event);
+                    // console.log(event);
                     setUploadMessage("Upload successful");
                 })
             })
@@ -134,7 +140,7 @@ function AddEvent() {
             return `url(${renderImage(imgFile)})`; 
         }
         else { 
-            console.log("in else statement"); 
+            // console.log("in else statement"); 
             return `url(${EventTile1})`; 
         }
     } 
@@ -143,7 +149,12 @@ function AddEvent() {
         // I use bootstrap rows to fluidly force content onto new lines throughout 
         <div className="container-fluid p-0"> 
             <div className="row no-gutters"> 
-                <h1 className="title-text">Add Event</h1>
+                <div className='col-8'>
+                    <h1 className="title-text">Add Event</h1>
+                </div>
+                <div className="col-4" align="right">
+                    <button className="submit-button" onClick={logout}>Log Out</button>
+                </div>
 
                 <div className="listing-box"> 
                     <h2>Event Details</h2> 

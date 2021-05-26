@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import DatePicker from "./date_picker"; 
 import 'react-day-picker/lib/style.css';
 import EventTile1 from "../images/EventTile1.png";
+import dream from "../images/dream.png"; 
 import EventTile2 from "../images/EventTile2.png";
 import EventTile3 from "../images/EventTile3.png";
 import SignUpTile from "../images/SignUpTile.png";
@@ -24,7 +25,7 @@ function Volunteer_Events() {
       let end_of_day = new Date(selectedDays.selectedDays).setHours(23,59,59,99);
       for (let i = 0; upcomingEvents != undefined && i < upcomingEvents.length; i++) { 
         if (new Date(upcomingEvents[i].date).getTime() >= start_of_day && new Date(upcomingEvents[i].date).getTime() <= end_of_day) { 
-          console.log("in the inner if statement"); 
+          // console.log("in the inner if statement"); 
           setCurDayEventData(upcomingEvents[i]); 
           return; 
         } 
@@ -32,7 +33,7 @@ function Volunteer_Events() {
       setCurDayEventData({}); 
     }
     else { 
-      console.log("in the else statement"); 
+      // console.log("in the else statement"); 
       setCurDayEventData({}); 
     }
   }, [selectedDays]); 
@@ -47,9 +48,6 @@ function Volunteer_Events() {
 
   //age field
   const [age, setAge] = useState("");
-
-  //gender field
-  const [gender, setGender] = useState("");
 
   //phone number field
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -82,10 +80,6 @@ function Volunteer_Events() {
     }
   }
 
-  function onGenderChange(event) {
-    setGender(event.target.value);
-  }
-
   function onPhoneNumberChange(event) {
     setPhoneNumber(event.target.value);
   }
@@ -93,6 +87,39 @@ function Volunteer_Events() {
   function onConcernsBoxChange(event) {
     setConcernsBox(event.target.value);
   }
+
+  const [signUpMessage, setSignUpMessage] = useState("");
+
+
+  function submit_sign_up_form() { 
+  
+    let volunteer = {
+      "name": name,
+      "age": age,
+      "phone_number": phoneNumber,
+      "email": email,
+      "questions_concerns": concernsBox,
+      "event_id": curDayEventData._id, 
+    }
+    // console.log(volunteer); 
+    // Right now, this message does not appear since the axios call fails, this needs to be triggered before sign up or some other logic should be added.
+    // console.log(curDayEventData._id); 
+    if (name.length == 0 || age.length == 0 || phoneNumber.length == 0 || email.length==0) { 
+            setSignUpMessage("All fields must be filled out, please edit your response and try again."); 
+            return; 
+        }
+    if (volunteer.questions_concerns.length == 0) 
+      volunteer.questions_concerns = "N/A"; 
+    axios.post('http://localhost:5000/volunteer/add_volunteer',volunteer) 
+      .then(res => { 
+        // console.log(res); 
+        setSignUpMessage("Thanks for signing up to volunteer! We'll reach out to you shortly."); 
+      }) 
+      .catch(err => { 
+        setSignUpMessage("Couldn't connect to database."); 
+        console.log('Error sending POST request:', err); 
+      }) 
+  } 
 
   function submit() {
     // let test_item = {
@@ -147,7 +174,7 @@ function Volunteer_Events() {
       return (a_date.getTime() - b_date.getTime());
     })
 
-    console.log(events); 
+    // console.log(events); 
 
     //STEP 2: 
     for (let i = 0; i < events.length; i++) {
@@ -182,14 +209,21 @@ function Volunteer_Events() {
 
 function determineImage(imgFile) { 
     if (imgFile != undefined) { 
-        console.log("in if statement"); 
+        // console.log("in if statement"); 
         return `url(${imgFile})`; 
     }
     else { 
-        console.log("in else statement"); 
+        // console.log("in else statement"); 
         return `url(${EventTile1})`; 
     }
 } 
+
+  function formatDate(date) { 
+    let dateString = new Date(date).toLocaleString('en-US'); 
+    dateString = dateString.substring(0, dateString.lastIndexOf(":")) + " " + dateString.substring(dateString.length - 2); 
+    return dateString; 
+}
+    
 
   return (
     <div class="container-fluid p-0 left-space">
@@ -197,6 +231,15 @@ function determineImage(imgFile) {
       <div>
         <h1 className="upcoming-events-text">Upcoming Events</h1>
       </div>
+
+      <div className="row no-gutters top-banner-container">
+      <div className="col-12" align="center">
+        <img src={dream} className="top-banner-image" /> 
+        <div className= "col-12 sign-up-background" align="center">
+          <h2 style={{paddingTop: "2.6rem"}}>Sign up below to volunteer!</h2>
+        </div>
+      </div>
+      </div> 
 
       {/* This is the big first image */}
       {/* <div class="row no-gutters">
@@ -217,14 +260,14 @@ function determineImage(imgFile) {
       {/* This is the picture tiles section for events */}
       <div class="container-fluid p-0">
         <div
-          class="row no-gutters event-tile-banner-space"
+          class="row no-gutters event-tile-banner-space justify-content-center"
           align="center"
         >
           {/* If the upcoming events array is populated, we use the map function to iteratre through the first three elements in the array (event is the object, index is itis position in the array) and we display a customized tile with the object's infomration. */}
-          {console.log(upcomingEvents)}
+          {/* {console.log(upcomingEvents)} */}
           { upcomingEvents.length > 0 ? 
             upcomingEvents.slice(0, 3).map((event, index) => 
-              <div class="event-tile-container col-12 col-md-4">
+              <div class="event-tile-container col-12 col-md-6 col-lg-4">
                 <div>
                 <div className="event-image" style={{backgroundImage: determineImage(event.image)}} />
                 </div>
@@ -232,7 +275,7 @@ function determineImage(imgFile) {
                   <h3>{event.name}</h3>
                   <p>{event.description}</p>
                   <p><strong>Location:</strong> {event.location}</p>
-                  <p><strong>Time & Date:</strong> {new Date(event.date).toLocaleString('en-US')}</p>
+                  <p><strong>Time & Date:</strong> {formatDate(event.date)}</p>
                 </div>
               </div>
             )
@@ -242,7 +285,7 @@ function determineImage(imgFile) {
         </div>
       </div>
 
-      {/* Volunteering opportunities Section */}
+      {/* Volunteering opportunities Section
       <div class="container-fluid p-0">
       
           <h1 className="volunteering-opportunities-text">
@@ -252,25 +295,26 @@ function determineImage(imgFile) {
             Interested in volunteering to help host one of our upcoming events? Select a date to find an event and complete the sign up form - a Hands Together staff member will reach out to you soon.
           </h3>
       
-      </div>
+      </div> */}
 
-      {/* Event Name + Calendar */}
+     
+      
+
+      {/* Event Name + Calendar
       <div class="container-fluid p-0">
         <div class="row no-gutters" align="center">
           <div class="event-tile-banner-space col-12 col-md-6 d-flex align-items-center">
             {curDayEventData != undefined && curDayEventData._id != undefined ? 
-            <div className="volunteer-event-tile">
+            <div class="event-tile-container col-12 col-md-4">
               <div>
-                <img className="sign-up-tile" src={curDayEventData.image || SignUpTile} />
+              <div className="event-image" style={{backgroundImage: determineImage(curDayEventData.image)}} />
               </div>
-              <div className="sign-up-banner" align="left">
-                <h3 className="sign-up-banner-h3">{curDayEventData.name}</h3>
-                <p className="sign-up-banner-p">{curDayEventData.description}</p>
-                <p className="sign-up-banner-p"><strong>Location:</strong> {curDayEventData.location}</p>
-                <p><strong>Date:</strong> {formatDate(curDayEventData.date)}</p>
+              <div className="event_tile_banner" align="left">
+                <h3>{event.name}</h3>
+                <p>{event.description}</p>
+                <p><strong>Location:</strong> {event.location}</p>
+                <p><strong>Time & Date:</strong> {formatDate(event.date)}</p>
               </div>
-            
-              <div className="sign-up-button">Sign Up</div>
             </div>
             :
               <div className="volunteer-event-tile">
@@ -288,19 +332,18 @@ function determineImage(imgFile) {
             <DatePicker class="Date-Picker" setSelectedDays={setSelectedDays} />
           </div>
         </div>
-      </div>
+      </div> */}
 
       {/* Volunteer Sign Up Form To Do: appear and disapper on click*/}
-      <div align="left" class="container-fluid p-0">
+      <div id="sign-up-form" align="left" class="container-fluid p-0">
         {/*Form title + Description */}
         <h1 className="form-title">Volunteer Sign Up Form</h1>
         <h3 className="description-text">
-          Please fill in the information below to sign up for this
-          volunteering event.
+          Interested in volunteering to help Hands Together, either with day-to-day operations or one of our events? Please fill out the form below to sign up. 
         </h3>
 
         {/* First Name + Last Name  */}
-        <div class="row no-gutters name-top-space">
+        <div class="row no-gutters nameSection">
           <div class="col-4 col-md-5">
             <h3>Name</h3>
           </div>
@@ -333,54 +376,6 @@ function determineImage(imgFile) {
           <p id="age-error-message" style={{ display: "none" }}>
             Error! Bad input!
           </p>
-        </div>
-
-        {/* Gender */}
-        <div class="row no-gutters genderSection">
-          <div class="col-4 col-md-5">
-            <h3 className="">Gender</h3>
-          </div>
-          <div class="col-6 field-column-padding">
-            <input
-              type="radio"
-              checked={gender === "Male"}
-              value="Male"
-              onChange={onGenderChange}
-            />
-            <label class="gender-label">Male</label>
-            <br />
-
-            <input
-              type="radio"
-              checked={gender === "Female"}
-              value="Female"
-              onChange={onGenderChange}
-              style={{ marginTop: "8px"}}
-            />
-            <label class="gender-label">Female</label>
-            <br />
-
-            <input
-              type="radio"
-              checked={gender === "Non-binary"}
-              value="Non-binary"
-              onChange={onGenderChange}
-              style={{ marginTop: "8px"}}
-
-            />
-            <label class="gender-label">Non-binary</label>
-            <br />
-
-            <input
-              type="radio"
-              checked={gender === "Prefer not to say"}
-              value="Prefer not to say"
-              onChange={onGenderChange}
-              style={{ marginTop: "8px"}}
-
-            />
-            <label class="gender-label">Prefer not to say</label>
-          </div>
         </div>
 
         {/*Phone number */}
@@ -435,8 +430,9 @@ function determineImage(imgFile) {
             
         {/*submit button*/}
         <div class="submit-button-container" align="center">
-          <div class="col justify-content-around">
-            <button className="submitButton h3" onClick={submit}>Submit</button>
+          <div class="col justify-content-around" style={{marginBottom: "3rem"}}> 
+            <button className="donate-button" onClick={submit_sign_up_form} style={{marginTop: "3rem", marginBottom: "1rem"}}>Submit</button>
+            <p>{signUpMessage}</p>
           </div>
         </div>
       </div>

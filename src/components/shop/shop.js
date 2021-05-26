@@ -88,16 +88,16 @@ function Shop(props) {
     update({data: tempItems})
   }
   function sortLowToHigh(a, b) {
-    if (a.price < b.price)
+    if (parseInt(a.price) < parseInt(b.price))
       return -1;
-    else if (a.price > b.price)
+    else if (parseInt(a.price) > parseInt(b.price))
       return 1;
     return 0;
   }
   function sortHighToLow(a, b) {
-    if (a.price > b.price)
+    if (parseInt(a.price) > parseInt(b.price))
       return -1;
-    else if (a.price < b.price)
+    else if (parseInt(a.price) < parseInt(b.price))
       return 1;
     return 0;
   }
@@ -112,7 +112,18 @@ function Shop(props) {
   // 
   // CARTING SYSTEM STARTS BELOW 
   //
+  const [addToCartText, setAddToCartText] = useState("Add to Cart");
+
   function quickAddItem(newItem_) {
+    // Set cartUpdate so the navbar rerenders
+    let cartUpdate = props.cartUpdate;
+    cartUpdate++;
+    props.setCartUpdate(cartUpdate);
+
+    // Change the "Add to Cart" button text
+    setAddToCartText("Item Added");
+    setTimeout(() => setAddToCartText("Add to Cart"), 2000);
+
     // Initialize storageQuota if no items have been added yet
     let storageQuota = window.localStorage.getItem("QUOTA");
     if (!storageQuota) {
@@ -137,7 +148,7 @@ function Shop(props) {
             storageItem.quantity++;
             window.localStorage.setItem("JXYSDFH65F" + i, JSON.stringify(storageItem));
           } else {
-            console.log("Max quantity of that item reached");
+            // console.log("Max quantity of that item reached");
           }
           itemIsInStorage = true;
           break;
@@ -154,7 +165,7 @@ function Shop(props) {
       }
     } else {
       alert("The cart is limited to 10 unique items.")
-      console.log("Max items in cart reached!");
+      // console.log("Max items in cart reached!");
     }
   }
 
@@ -199,7 +210,11 @@ function Shop(props) {
                   <a className="wrapper-link" href={`/shop/${itemIter._id}`} onClick={() => clicked(itemIter)}></a>
                   <div className="item-image" style={{backgroundImage: `url(${itemIter.images[0]})`}}></div>
                   <div className="add-to-cart">
-                    <a className="bold" onClick={() => quickAddItem(itemIter)}>Add to Cart</a>
+                    <a className={`bold ${addToCartText == "Item Added" ? "item-added" : null}`} 
+                      onClick={() => quickAddItem(itemIter)}
+                    >
+                      {addToCartText}
+                    </a>
                   </div>
                   <div className="item-info">
                     <div className="name-price">

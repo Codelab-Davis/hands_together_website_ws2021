@@ -12,6 +12,11 @@ function AddItemFrontend() {
     const [description, setDescription] = useState(''); 
     const [quantity, setQuantity] = useState('');
 
+    function logout() {
+        axios.delete('http://localhost:5000/jwt/deleteRefreshToken', { withCredentials: true })
+         .then(() => window.location.assign('http://localhost:3000'))
+    }
+
     // Functions to track typing changes in the input fields 
     function onTitleChange(event) { 
         if (event.target.value.length < 30) 
@@ -99,7 +104,7 @@ function AddItemFrontend() {
                     setUploadMessage("Upload successful");
                     })
                     .catch(err => {
-                    setUploadMessage("Sorry something went wrong uploading your item.");
+                    setUploadMessage("Sorry something went wrong uploading your image.");
                     console.log('err', err);
                     })
                 )
@@ -107,15 +112,15 @@ function AddItemFrontend() {
         )
 
         // Add the image's url
-        item.images.push(("https://handstogetherimages.s3-us-west-1.amazonaws.com/" + options.params.Key))
+        item.images.push(("https://handstogetherlive.s3-us-west-1.amazonaws.com/" + options.params.Key))
         }
         // Add item to database after urls are finished generating
         Promise.all(promises)
         .then(() => {
-            axios.post('http://localhost:5000/items/add_item', item)
+            axios.post('http://localhost:5000/items/add_item', item, { withCredentials: true })
             .then(res => {
                 setUploadMessage("Item successfully added.");
-                console.log(item);
+                // console.log(item);
             })
             .catch(err => { 
                 setUploadMessage("Sorry something went wrong uploading your item.");
@@ -129,12 +134,12 @@ function AddItemFrontend() {
             let imgLinksCopy = imgLinks;
             if (imgLinksCopy[pos] == undefined) { 
                 imgLinksCopy.push(URL.createObjectURL(imgFiles[pos])); 
-                console.log("in if statement"); 
+                // console.log("in if statement"); 
             } else { 
                 imgLinksCopy[pos] = URL.createObjectURL(imgFiles[pos]); 
-                console.log("in else statement"); 
+                // console.log("in else statement"); 
             }
-            console.log("setting imgLinksCopy"); 
+            // console.log("setting imgLinksCopy"); 
             setImgLinks(imgLinksCopy);  
         }
         catch { 
@@ -157,7 +162,12 @@ function AddItemFrontend() {
         // I use bootstrap rows to fluidly force content onto new lines throughout 
         <div className="container-fluid p-0"> 
             <div className="row no-gutters"> 
-                <h1 className="title-text">Create new listing</h1> 
+                <div className='col-8'>
+                    <h1 className="title-text">Create new listing</h1> 
+                </div>
+                <div className="col-4" align="right">
+                    <button className="submit-button" onClick={logout}>Log Out</button>
+                </div>
                 
                 {/* "Create Listing" box */}
                 <div className="listing-box"> 
@@ -238,7 +248,7 @@ function AddItemFrontend() {
                         
                         <div className="col-sm-6 right">
                             <h3>{title}</h3>
-                            <h4 className="price">{"$" + price.slice(0, -2) + "." + price.slice(-2)}</h4>
+                            <h4 className="price">{price}</h4>
                             <hr/>
                             <h4>Description</h4>
                             <p>{description}</p>

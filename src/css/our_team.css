@@ -1,5 +1,11 @@
 .page-container { 
-    margin: 2.5rem;
+    margin: 2.5rem; 
+} 
+
+@media (max-width: 768px) {
+    .page-container { 
+        margin: 1.5rem; 
+    } 
 }
 
 .top-page-container { 
@@ -16,7 +22,12 @@
 } 
 
 .page-container h3 { 
-    font-weight: 400 !important;
+    font-weight: 400 !important; 
+    font-size: 22px !important; 
+} 
+
+.page-container p { 
+    font-size: 22px !important; 
 } 
 
 .person { 

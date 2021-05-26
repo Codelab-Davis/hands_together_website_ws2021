@@ -3,6 +3,10 @@ const router = require('express').Router();
 const Sold_Item = require('../models/sold_items.model')
 //https://bezkoder.com/react-node-express-mongodb-mern-stack/
 const Bottleneck = require('bottleneck');
+const { default: axios } = require('axios');
+
+require('dotenv').config();
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 
 const limiter = new Bottleneck({
@@ -19,9 +23,12 @@ limiter.schedule(() => {
 })
 
 limiter.schedule(() => {
-  router.put('/update_tracking_link', (req,res) => { 
+  router.put('/update_tracking_link', async (req,res) => { 
       Sold_Item.findByIdAndUpdate({_id: req.body._id}, req.body)
-          .then(Sold_Item => res.json(Sold_Item)) 
+          .then(Sold_Item => {
+            axios.post('http://localhost:5000/stripe/update_tracking', { transaction_id: Sold_Item.transaction_id, tracking_link: req.body.tracking_link }, { withCredentials: true })
+            res.json(Sold_Item)
+          }) 
           .catch(err => res.status(400).json('Error: ' + err));         
   });
 })
