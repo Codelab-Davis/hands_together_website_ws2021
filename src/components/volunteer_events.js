@@ -110,7 +110,7 @@ function Volunteer_Events() {
         }
     if (volunteer.questions_concerns.length == 0) 
       volunteer.questions_concerns = "N/A"; 
-    axios.post('http://localhost:5000/volunteer/add_volunteer',volunteer) 
+    axios.post('https://db.handstogether-sa.org/volunteer/add_volunteer',volunteer) 
       .then(res => { 
         // console.log(res); 
         setSignUpMessage("Thanks for signing up to volunteer! We'll reach out to you shortly."); 
@@ -133,7 +133,7 @@ function Volunteer_Events() {
     //   cancelled: false,
     //   shipping_address: new Map(),
     // }
-    // axios.post('http://localhost:5000/sold_items/add_item', test_item)
+    // axios.post('https://db.handstogether-sa.org/sold_items/add_item', test_item)
     //   .then(res => {
     //     console.log(res);
     // })
@@ -147,7 +147,7 @@ function Volunteer_Events() {
 
     //to do: update address when relevant!
     //.then forces the get request to complete before rendering the content of the page. 
-    axios.get('http://localhost:5000/event/get_all_events')
+    axios.get('https://db.handstogether-sa.org/event/get_all_events')
     .then((res) => { 
       let today = new Date(); //translates time to a workable date
       
@@ -280,7 +280,7 @@ function determineImage(imgFile) {
               </div>
             )
             :
-            <h3>We currently don't have any planned upcoming events - check back soon!</h3> 
+            <></> 
           }
         </div>
       </div>

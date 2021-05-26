@@ -7,7 +7,7 @@ function CancelDonation() {
     let id = useParams();
 
     useEffect(() => {
-        axios.post('http://localhost:5000/stripe/cancel_donate/' + id.id)
+        axios.post('https://db.handstogether-sa.org/stripe/cancel_donate/' + id.id)
     }, [])
     
     return(

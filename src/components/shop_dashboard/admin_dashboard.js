@@ -18,12 +18,12 @@ function Admin_Dashboard(props) {
   const [statusMessage, setStatusMessage] = useState(""); 
 
   function logout() {
-    axios.delete('http://localhost:5000/jwt/deleteRefreshToken', { withCredentials: true })
-     .then(() => window.location.assign('http://localhost:3000'))
+    axios.delete('https://db.handstogether-sa.org/jwt/deleteRefreshToken', { withCredentials: true })
+     .then(() => window.location.assign('https://handstogether-sa.org'))
   }
 
   useEffect(() => { 
-    axios.get('http://localhost:5000/announcements/get_announcement', { withCredentials: true })
+    axios.get('https://db.handstogether-sa.org/announcements/get_announcement', { withCredentials: true })
       .then((res) => {
         // console.log(res.data); 
         // console.log(res.data[0]); 
@@ -39,7 +39,7 @@ function Admin_Dashboard(props) {
 
   function deleteCurrentAnnouncement() { 
     if (curAnnouncement != undefined && curAnnouncement._id != undefined && curAnnouncement._id != "") { 
-      axios.delete(`http://localhost:5000/announcements/delete_announcement/${curAnnouncement._id}`, { withCredentials: true })
+      axios.delete(`https://db.handstogether-sa.org/announcements/delete_announcement/${curAnnouncement._id}`, { withCredentials: true })
         .then(() => { 
           setCurAnnouncement({});
           setCurAnnouncementText("");
@@ -67,12 +67,12 @@ function Admin_Dashboard(props) {
     
     // console.log(curAnnouncement); 
     if (curAnnouncement != undefined && curAnnouncement._id != undefined && curAnnouncement._id != "") { 
-      axios.delete(`http://localhost:5000/announcements/delete_announcement/${curAnnouncement._id}`, { withCredentials: true })
+      axios.delete(`https://db.handstogether-sa.org/announcements/delete_announcement/${curAnnouncement._id}`, { withCredentials: true })
         .then(() => add(new_announcement))
         .catch((error) => console.log("Error deleting announcement", error));
     } 
     else { 
-      axios.get('http://localhost:5000/announcements/get_announcement')
+      axios.get('https://db.handstogether-sa.org/announcements/get_announcement')
       .then((res) => {
         if (res.data.length == 0) { 
           add(new_announcement); 
@@ -89,7 +89,7 @@ function Admin_Dashboard(props) {
   }
   
   function add(new_announcement) { 
-    axios.post('http://localhost:5000/announcements/add_announcement', new_announcement, { withCredentials: true }) 
+    axios.post('https://db.handstogether-sa.org/announcements/add_announcement', new_announcement, { withCredentials: true }) 
       .then(() => { 
         setCurAnnouncementText(new_announcement.text);
         setCurAnnouncement({});

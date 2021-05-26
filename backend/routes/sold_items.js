@@ -26,7 +26,7 @@ limiter.schedule(() => {
   router.put('/update_tracking_link', async (req,res) => { 
       Sold_Item.findByIdAndUpdate({_id: req.body._id}, req.body)
           .then(Sold_Item => {
-            axios.post('http://localhost:5000/stripe/update_tracking', { transaction_id: Sold_Item.transaction_id, tracking_link: req.body.tracking_link }, { withCredentials: true })
+            axios.post('https://db.handstogether-sa.org/stripe/update_tracking', { transaction_id: Sold_Item.transaction_id, tracking_link: req.body.tracking_link }, { withCredentials: true })
             res.json(Sold_Item)
           }) 
           .catch(err => res.status(400).json('Error: ' + err));         

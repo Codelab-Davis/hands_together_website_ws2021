@@ -446,7 +446,7 @@ async function updateDB(cart_item, session, shipping_address) {
     console.log("in updateDB", cart_item); 
     let item_id = cart_item.id;
     let test_item = {}; 
-    await axios.get("http://localhost:5000/items/get_item/" + item_id)
+    await axios.get("https://db.handstogether-sa.org/items/get_item/" + item_id)
       .then(async item => {
         console.log("Got Item");
       
@@ -457,7 +457,7 @@ async function updateDB(cart_item, session, shipping_address) {
         
         // if bought out remaining stock of an item delete it and move to sold items
         if(item.data.quantity == cart_item.quantity) {
-          await axios.delete('http://localhost:5000/items/delete_item/' + item_id)
+          await axios.delete('https://db.handstogether-sa.org/items/delete_item/' + item_id)
           .then(async item => {
             console.log("Deleted Item")
             console.log(item.data)
@@ -465,7 +465,7 @@ async function updateDB(cart_item, session, shipping_address) {
             item.data['shipping_address'] = session.shipping.address;
             item.data['quantity'] = cart_item.quantity;
 
-            await axios.post('http://localhost:5000/sold_items/add_item', item.data)
+            await axios.post('https://db.handstogether-sa.org/sold_items/add_item', item.data)
              .then(res => console.log(res.data))
 
             // Delete all the images associated with the item
@@ -475,7 +475,7 @@ async function updateDB(cart_item, session, shipping_address) {
                   Key: item.data.name.replace(/[^a-zA-Z0-9]/g, "") + "_" + j
                 }
               }
-              axios.delete('http://localhost:5000/items/delete_image/', key)
+              axios.delete('https://db.handstogether-sa.org/items/delete_image/', key)
                 .then(() => console.log("--Image deleted--"))
             }
           })
@@ -491,7 +491,7 @@ async function updateDB(cart_item, session, shipping_address) {
             description: item.data.description,
             quantity: item.data.quantity - cart_item.quantity,
           };
-          await axios.post('http://localhost:5000/items/update_item/' + item_id, updated_data)
+          await axios.post('https://db.handstogether-sa.org/items/update_item/' + item_id, updated_data)
           .then(async () => {
             updated_data = {
               name: item.data.name,
@@ -504,7 +504,7 @@ async function updateDB(cart_item, session, shipping_address) {
               quantity: cart_item.quantity,
             };
 
-            await axios.post('http://localhost:5000/sold_items/add_item', updated_data)
+            await axios.post('https://db.handstogether-sa.org/sold_items/add_item', updated_data)
              .then(res => { 
               console.log("res.data log", res.data);
              })
@@ -655,7 +655,7 @@ async function fulfillSubscription(session) {
   let customer = await stripe.customers.retrieve(session.customer);
   let customer_name = customer.name;
 
-  let cancellation_url = 'http://localhost:3000/cancel_donation/' + id;
+  let cancellation_url = 'https://handstogether-sa.org/cancel_donation/' + id;
 
   let email_body = `
   <img src="cid:htlogo" style="display:block;margin-left:auto;margin-right:auto;"/> 

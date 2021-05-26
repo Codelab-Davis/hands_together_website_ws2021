@@ -17,7 +17,7 @@ function Home() {
     const [isBannerVisible, setIsBannerVisible] = useState(false); 
 
     useEffect(() => { 
-        axios.get('http://localhost:5000/announcements/get_announcement')
+        axios.get('https://db.handstogether-sa.org/announcements/get_announcement')
         .then((res) => {
             setCurAnnouncement(res.data[0].text); 
         }) 

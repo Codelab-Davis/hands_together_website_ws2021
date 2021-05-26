@@ -15,8 +15,8 @@ function ViewEvents() {
     const [curEventVolunteers, setCurEventVolunteers] = useState(); 
 
     function logout() {
-        axios.delete('http://localhost:5000/jwt/deleteRefreshToken', { withCredentials: true })
-         .then(() => window.location.assign('http://localhost:3000'))
+        axios.delete('https://db.handstogether-sa.org/jwt/deleteRefreshToken', { withCredentials: true })
+         .then(() => window.location.assign('https://handstogether-sa.org'))
       }
 
     function openModal(cur_event) { 
@@ -92,7 +92,7 @@ function ViewEvents() {
     }
 
     useEffect(()=>{
-        axios.get('http://localhost:5000/event/get_all_events')
+        axios.get('https://db.handstogether-sa.org/event/get_all_events')
         .then( res => {
         console.log(res);
         // assign json data to itemArray 
@@ -116,7 +116,7 @@ function ViewEvents() {
         if (curEvent == undefined) 
             return; 
 
-        axios.get('http://localhost:5000/volunteer/get_by_event', { params: { event_id: curEvent._id.toString()}}) 
+        axios.get('https://db.handstogether-sa.org/volunteer/get_by_event', { params: { event_id: curEvent._id.toString()}}) 
             .then((res) => { 
                 console.log(res.data); 
                 setCurEventVolunteers(res.data); 
@@ -127,7 +127,7 @@ function ViewEvents() {
     }, [curEvent]); 
 
     function deleteCurEvent() { 
-        axios.delete(`http://localhost:5000/event/delete_event/${curEvent._id}`) 
+        axios.delete(`https://db.handstogether-sa.org/event/delete_event/${curEvent._id}`) 
             .then(() => {
                 let new_items = [];  
                 for (let i = 0; i < items.length; i++) { 

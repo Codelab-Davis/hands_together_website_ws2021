@@ -8,8 +8,8 @@ To run this project for the first time:
 1. In ./backend, add a file called .env. To get it's contents, check the pinned post in the Slack channel ;) 
 2. In ./backend, run `npm i` in the console. 
 3. In the root directory, run `npm i` in the console. 
-4. To start your backend, in ./backend run `nodemon server` in the console. Your backend will now be located on a localhost, or a server hosted locally on your computer. By default, it will be `http://localhost:5000/`. 
-5. To start your React app, in the root directory, run `npm start` in the console. Your backend will now be located on `http://localhost:3000/`. 
+4. To start your backend, in ./backend run `nodemon server` in the console. Your backend will now be located on a localhost, or a server hosted locally on your computer. By default, it will be `https://db.handstogether-sa.org/`. 
+5. To start your React app, in the root directory, run `npm start` in the console. Your backend will now be located on `https://handstogether-sa.org/`. 
 
 ## Working on the Project 
 
