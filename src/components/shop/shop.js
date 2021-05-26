@@ -203,7 +203,7 @@ function Shop(props) {
         </div>
 
         <div className="row">
-          { items ?
+          { items.length > 0 ?
             items.map((itemIter, index) =>
               <div className="col-sm-6 col-md-4" key={index}>
                 <div className="item-container">
@@ -226,12 +226,16 @@ function Shop(props) {
                 </div>
               </div>
             )
-            : <h3>We currently don't have any items listed in our shop - check back soon!</h3> 
+            : <h1 align="center">We currently don't have any items listed in our shop - check back soon!</h1> 
           }
         </div>
 
         <nav aria-label="pages">
+          {items.length > 0 ? 
           <button className="back-button" tabIndex="-1" onClick={back}>Back</button>
+          :
+          <></>
+          }
           {(() => {
             // Generate one button for each page
             let pageList = [];
@@ -248,7 +252,11 @@ function Shop(props) {
             }
             return pageList;
           })()}
+          {items.length > 0 ? 
           <button className="next-button" tabIndex="-2" onClick={next}>Next</button>
+          :
+          <></>
+          }
         </nav>
       </div>
 
