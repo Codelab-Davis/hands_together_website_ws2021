@@ -21,7 +21,7 @@ function Home() {
         .then((res) => {
             setCurAnnouncement(res.data[0].text); 
         }) 
-        .catch((error) => console.log("Error getting announcement:", error)); 
+        .catch((error) => {}); 
     }, []);
 
     useEffect(() => { 
@@ -34,7 +34,7 @@ function Home() {
         return (
         <div>
             <div className="col-12 large-overlay" style={{padding: "0"}}> 
-                {isBannerVisible ? 
+                {curAnnouncement.length > 0 ? 
                 <div className="banner"> 
                     <h2 className="announcement-text" align="center">{curAnnouncement}</h2> 
                 </div> 

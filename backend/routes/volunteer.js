@@ -1,6 +1,15 @@
 const router = require('express').Router();
 let Volunteer = require('../models/volunteer.model.js')
 const Bottleneck = require('bottleneck');
+const nodemailer = require("nodemailer");
+
+var transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'dummyemailclht', // dummy email credentials
+    pass: 'dummypass'
+  }
+});
 
 const limiter = new Bottleneck({
   maxConcurrent: 10,
@@ -20,23 +29,41 @@ limiter.schedule(() => {
       console.log(req.body);
       const name = req.body.name;
       const age = req.body.age;
-      const gender = req.body.gender;
       const phone_number = req.body.phone_number;
       const email = req.body.email;
       const questions_concerns = req.body.questions_concerns;
-      const event_id = req.body.event_id;
       const newVolunteer = new Volunteer({
           name,
           age,
-          gender,
           phone_number,
           email,
           questions_concerns,
-          event_id
       });
 
       newVolunteer.save()
-      .then(() => res.json("New Volunteer Added!"))
+      .then(() => { 
+        const mail_options = {
+          from: `"Hands Together" <ellen@handstogether-sa.org>`,
+          to: `ellen@handstogether-sa.org`,
+          subject: "New Volunteer Sign-Up",
+          html: `
+          <h1>A new volunteer has just signed up for Hands Together. You can view them in dashboard as well as pasted below. </h1>
+          <li>Name: ${name}</li>
+          <li>Age: ${age}</li>
+          <li>Phone Number: ${phone_number}</li>
+          <li>Email: ${email}</li>
+          <li>Questions/Concerns: ${questions_concerns}</li>`
+        }
+      
+        transporter.sendMail(mail_options, function(error, info) {
+          if(error) {
+            console.log(error);
+          } else {
+            console.log('Donation Cancellation Email Sent: ' + info.response);
+          }
+        });
+        res.json("New Volunteer Added!")
+      })
       .catch(err => res.status(400).json('Error: ' + err));
 
   });

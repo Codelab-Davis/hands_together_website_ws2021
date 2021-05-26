@@ -210,7 +210,8 @@ function ViewSoldShopItems() {
                         <h2>Cancel Order</h2>
                         <div className="col-12">
                             <div className="row"> 
-                                { selectedItem ? 
+                            <h2>To issue a full or partial cancellation, please visit your Stripe dashboard as we implement cancellations through the admin dashboard.</h2>
+                                {/* { selectedItem ? 
                                     selectedItem.map((itemIter, index) => 
                                     <>
                                         <div className="col-6" key={index}> 
@@ -222,7 +223,7 @@ function ViewSoldShopItems() {
                                     </>
                                     ) 
                                     : <p>Loading...</p>
-                                }
+                                } */}
                             </div> 
                         </div> 
                         <button className="submit-button hands-together-button" onClick={() => cancelOrder()}>Cancel Items</button>

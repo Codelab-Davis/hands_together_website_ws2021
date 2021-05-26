@@ -31,9 +31,9 @@ function App() {
   const [cartUpdate, setCartUpdate] = useState(0);
 
   useEffect(() => { 
-    axios.get('https://db.handstogether-sa.org/announcements/get_announcement_jwt_check', { withCredentials: true }) 
+    axios.get('https://db.handstogether-sa.org/announcements/get_announcement_c', { withCredentials: true }) 
         .then(() => setLoggedIn(true)) 
-        .catch((err) => console.log("Error making API checking call", err)); 
+        .catch(); 
   }); 
 
   return (
