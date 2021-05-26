@@ -10,6 +10,7 @@ import account_circle from "../images/account_circle.png";
 import MobileDrawer from "./mobile_drawer.js"; 
 import xicon from "../images/x-icon.png";
 import Modal from 'react-modal';
+require('dotenv').config();
 const axios = require('axios');
 
 var shippo = require('shippo')('shippo_test_1e5dfe70515f773e34da3713d3ecfdc0203a80a9');
@@ -168,7 +169,7 @@ function Navbar(props) {
       type: "purchase"
     }
 
-    var stripe = window.Stripe('pk_test_51IMhDjDACjkjrvMm0D7gtuvvHOCY8Z9dGTjwVFxFcmWHlGfjn9CGEdvyvs5vMQrAQDwmBcELSzSb2kTNf65eyJkw00AXucR70x')
+    var stripe = window.Stripe(process.env.REACT_APP_STRIPE_KEY)
     axios.post('https://db.handstogether-sa.org/stripe/create-checkout-session/', req) 
      .then(session => stripe.redirectToCheckout({sessionId: session.data.id}))
      .catch(error => console.log(error))

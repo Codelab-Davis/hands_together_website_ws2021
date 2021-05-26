@@ -8,7 +8,7 @@ require('dotenv').config();
 const app = express();
 const port = process.env.PORT || 5000;
 
-var whitelist = ['https://db.handstogether-sa.org.com', 'https://www.db.handstogether-sa.org.com', 'https://www.handstogether-sa.org.com', 'https://handstogether-sa.org.com', 'http://localhost:3000']
+var whitelist = ['https://db.handstogether-sa.org', 'https://www.db.handstogether-sa.org', 'https://www.handstogether-sa.org', 'https://handstogether-sa.org', 'http://localhost:3000']
 
 // set up cors to allow us to accept requests from our client
 app.use(
