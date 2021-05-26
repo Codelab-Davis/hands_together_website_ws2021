@@ -5,11 +5,7 @@ function OurTeam() {
     return ( 
         <div className="row no-gutters page-container">
             <div className="top-page-container">
-                <h1>Board of Directors</h1>
-                <p className="our-team-font">Recognizing a compelling need to break the cycle of poverty in Santa Ana, the founders of Hands Together designed a program to address the educational needs 
-                of children at the youngest age possible and a workforce development program for their parents.
-                <br /><br />
-                Today Hands Together is governed by a volunteer Board of Directors. The Board includes recognized community and professional leaders who bring substantial, far-reaching expertise to Hands Together.</p>
+                <h1>Our Team</h1>
                 <div className="person">
                     <h3><strong>Karina Chavez</strong>, Center Director</h3>
                     <p>Karina has been in the field of early childhood education for 20 years. She began working with children while in high school and chose to stay in the field after graduation. She has been with Hands Together since the summer of 2005. She enjoys working at Hands Together because of the interactions staff and administration have with the children and their families and because 
@@ -26,6 +22,13 @@ function OurTeam() {
                 </div>
             </div>
             <div className="row no-gutters bottom-page-container">
+            <div className="col-12" style={{paddingTop: "2.5rem"}}>
+                <h1>Board of Directors</h1>
+                <p className="our-team-font">Recognizing a compelling need to break the cycle of poverty in Santa Ana, the founders of Hands Together designed a program to address the educational needs 
+                of children at the youngest age possible and a workforce development program for their parents.
+                <br /><br />
+                Today Hands Together is governed by a volunteer Board of Directors. The Board includes recognized community and professional leaders who bring substantial, far-reaching expertise to Hands Together.</p>
+            </div>
                 <div className="col-12 col-md-6" align="center">
                     <div className="person">
                         <h3><strong>Glenn Howard</strong>, Ph.D., President</h3>
@@ -64,15 +67,6 @@ function OurTeam() {
                 </div>
                 <div className="col-12 col-md-6" align="center">
                     <div className="person">
-                        <h3><strong>Glenn Howard</strong>, Ph.D., President</h3>
-                        <h3>Nonprofit Attorney, CPA (inactive)<br/>
-                        Law Offices of Glenn A. Howard<br/>
-                        Email: glenn@howardNPLaw.com
-                        </h3>
-                    </div>
-                </div>
-                <div className="col-12 col-md-6" align="center">
-                    <div className="person">
                         <h3><strong>Melissa Figge</strong>, MS, PPS, IEC</h3>
                         <h3>Independent Educational Consultant<br/>
                             Email: Mfigge1@outlook.com
@@ -97,7 +91,7 @@ function OurTeam() {
                         </h3>
                     </div>
                 </div>
-                <div className="col-12" align="center">
+                <div className="col-12 col-md-6" align="center">
                     <div className="person">
                         <h3><strong>Laura Peters</strong>, MBA</h3>
                         <h3>Entrepreneur<br/>
