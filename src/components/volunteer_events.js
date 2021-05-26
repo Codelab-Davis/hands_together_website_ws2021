@@ -280,7 +280,7 @@ function determineImage(imgFile) {
               </div>
             )
             :
-            <h3>We currently don't have any planned upcoming events - check back soon!</h3> 
+            <></> 
           }
         </div>
       </div>

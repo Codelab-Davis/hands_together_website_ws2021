@@ -226,7 +226,7 @@ function Shop(props) {
                 </div>
               </div>
             )
-            : <p>Loading...</p>
+            : <h3>We currently don't have any items listed in our shop - check back soon!</h3> 
           }
         </div>
 
