@@ -1,0 +1,11 @@
+.login-wrapper {
+  display: flex;
+  align-items: baseline;
+}
+.login-wrapper p {
+  margin-left: 0.5rem;
+  color: red;
+}
+.hidden {
+  display: none;
+}

@@ -128,8 +128,15 @@
   border-radius: 8px;
   margin-right: 1rem;
 }
+.cart-item .outer-item-info {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 .cart-item .item-info {
   width: 100%;
+  max-width: 40rem;
   height: 100%;
   display: flex;
   align-items: center;

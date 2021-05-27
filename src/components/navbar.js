@@ -217,9 +217,11 @@ function Navbar(props) {
       cartItems.push(
         <div className="col-12 cart-item">
           <div className="cart-image" style={{backgroundImage: `url(${item.images[0]})`}}></div>
-          <div className="item-info">
-            <p className="name">{item.name}</p>
-            <p className="qty">{item.quantity} @ {`$${item.price.slice(0, -2)}.${item.price.slice(-2)}`}/ea</p>
+          <div className="outer-item-info">
+            <div className="item-info">
+              <p className="name">{item.name}</p>
+              <p className="qty">{item.quantity} @ {`$${item.price.slice(0, -2)}.${item.price.slice(-2)}`}/ea</p>
+            </div>
             <a onClick={() => {removeItem("JXYSDFH65F" + i); forceUpdate();}}><img src={xicon}/></a>
           </div>
         </div>
