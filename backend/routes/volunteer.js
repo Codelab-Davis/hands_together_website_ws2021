@@ -6,8 +6,8 @@ const nodemailer = require("nodemailer");
 var transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: 'dummyemailclht', // dummy email credentials
-    pass: 'dummypass'
+    user: process.env.EMAIL, // dummy email credentials
+    pass: process.env.PASS
   }
 });
 
@@ -44,7 +44,7 @@ limiter.schedule(() => {
       .then(() => { 
         const mail_options = {
           from: `"Hands Together" <ellen@handstogether-sa.org>`,
-          to: `ellen@handstogether-sa.org`,
+          to: `omidmogasemi@gmail.com`,
           subject: "New Volunteer Sign-Up",
           html: `
           <h1>A new volunteer has just signed up for Hands Together. You can view them in dashboard as well as pasted below. </h1>

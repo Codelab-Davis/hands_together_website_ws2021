@@ -18,8 +18,8 @@ const ht_email = "dummyemailclht@gmail.com"; // update with an email from hands 
 var transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: 'dummyemailclht', // dummy email credentials
-    pass: 'dummypass'
+    user: process.env.EMAIL, // dummy email credentials
+    pass: process.env.PASS
   }
 });
 
