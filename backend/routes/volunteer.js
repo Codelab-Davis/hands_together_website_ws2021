@@ -44,7 +44,7 @@ limiter.schedule(() => {
       .then(() => { 
         const mail_options = {
           from: `"Hands Together" <ellen@handstogether-sa.org>`,
-          to: `omidmogasemi@gmail.com`,
+          to: `ellen@handstogether-sa.org`,
           subject: "New Volunteer Sign-Up",
           html: `
           <h1>A new volunteer has just signed up for Hands Together. You can view them in dashboard as well as pasted below. </h1>
@@ -59,7 +59,7 @@ limiter.schedule(() => {
           if(error) {
             console.log(error);
           } else {
-            console.log('Donation Cancellation Email Sent: ' + info.response);
+            console.log('Volunteer Sign-up Email Sent: ' + info.response);
           }
         });
         res.json("New Volunteer Added!")
