@@ -90,7 +90,7 @@ limiter.schedule(() => {
           },
           product_data: {
             name: 'Donation',
-            // images: [req.body.donate_image], // need to host image on S3 for donation
+            images: ['https://handstogetherlive.s3-us-west-1.amazonaws.com/Rectangle+27+(1).png'], // need to host image on S3 for donation
           },
           unit_amount: amount,
         },
@@ -204,6 +204,10 @@ router.post('/cancel_donate/:id', async (req, res) => {
   <div>
       <p> <strong>Donation Info</strong> <br/><strong>Subscription #:</strong> ${subscription_id}<br/><strong>Amount:</strong> $${total.toFixed(2)}</p>
   </div>
+
+  <div>
+      <p> <strong>Support/Inquiries</strong> <br/> For any help/further inquireies please email ellen@handstogether-sa.org</p>
+  </div>
   `; 
 
   const mail_options = {
@@ -272,6 +276,10 @@ router.post('/cancel_order/:id', tokenAuth, async (req,res) => {
   <div>
       <p> <strong>Cancelled Order Info</strong> <br/><strong>Transaction #:</strong> ${transaction_id}<br/><strong>Items Cancelled:</strong> ${cancelled_items}<br/><strong>Total:</strong> $${total.toFixed(2)}</p>
   </div>
+
+  <div>
+      <p> <strong>Support/Inquiries</strong> <br/> For any help/further inquireies please email ellen@handstogether-sa.org</p>
+  </div>
   `; 
 
   const mail_options = {
@@ -299,7 +307,7 @@ router.post('/cancel_order/:id', tokenAuth, async (req,res) => {
   res.status(200).json("successfully cancelled");
 });
 
-router.post('/update_tracking', jwtAuth, async (req, res) => {
+router.post('/update_tracking', async (req, res) => {
   let transaction = await stripe.paymentIntents.retrieve(req.body.transaction_id);
   let customer = await stripe.customers.retrieve(transaction.customer);
   let customer_email = customer.email; 
@@ -329,6 +337,9 @@ router.post('/update_tracking', jwtAuth, async (req, res) => {
       <p> <strong>Delivery Address</strong> <br/>${customer_name} <br/>${top_address}<br/>${rest_address}</p>
   </div>
 
+  <div>
+      <p> <strong>Support/Inquiries</strong> <br/> For any help/further inquireies please email ellen@handstogether-sa.org</p>
+  </div>
   `; 
 
   const mail_options = {
@@ -410,6 +421,10 @@ async function fulfillOrder(session) {
 
   <div>
       <p> <strong>Order Info</strong> <br/><strong>Transaction #:</strong> ${id}<br/><strong>Items Ordered:</strong> ${ordered_items}<br/><strong>Total:</strong> $${total.toFixed(2)}</p>
+  </div>
+
+  <div>
+      <p> <strong>Support/Inquiries</strong> <br/> For any help/further inquireies please email ellen@handstogether-sa.org</p>
   </div>
   `; 
 
@@ -617,6 +632,10 @@ async function fulfillDonate(session) {
   <div>
       <p> <strong>Donation Info</strong> <br/><strong>Donation #:</strong> ${id}<br/><strong>Amount:</strong> $${total.toFixed(2)}</p>
   </div>
+
+  <div>
+      <p> <strong>Support/Inquiries</strong> <br/> For any help/further inquireies please email ellen@handstogether-sa.org</p>
+  </div>
   `; 
 
   const mail_options = {
@@ -670,6 +689,10 @@ async function fulfillSubscription(session) {
 
   <div>
       <p> <strong>Donation Info</strong> <br/><strong>Subscription #:</strong> ${id}<br/><strong>Amount:</strong> $${total.toFixed(2)}</p>
+  </div>
+
+  <div>
+      <p> <strong>Support/Inquiries</strong> <br/> For any help/further inquireies please email ellen@handstogether-sa.org</p>
   </div>
   `; 
 
