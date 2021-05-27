@@ -117,13 +117,13 @@ function Navbar(props) {
     }, function(err, address) {
       // console.log(address);
     })
-
+    let item_weight = 6; //6 oz
     const parcel = {
       length: '8',
       width: '7',
       height: '6',
       distance_unit: 'in',
-      weight: cart_quantity * 4,
+      weight: cart_quantity * item_weight,
       mass_unit: 'oz',
     }
 
