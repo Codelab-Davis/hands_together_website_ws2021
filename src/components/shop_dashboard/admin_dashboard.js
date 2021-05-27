@@ -89,6 +89,11 @@ function Admin_Dashboard(props) {
   }
   
   function add(new_announcement) { 
+    if (new_announcement.length > 90) { 
+      setStatusMessage("There is a max limit of 90 characters."); 
+      return; 
+    } 
+
     axios.post('https://db.handstogether-sa.org/announcements/add_announcement', new_announcement, { withCredentials: true }) 
       .then(() => { 
         setCurAnnouncementText(new_announcement.text);
@@ -136,6 +141,7 @@ function Admin_Dashboard(props) {
               <div className="col-10 col-md-6">
                   <input type="text" placeholder="New Announcement" value={newAnnouncement} onChange={onNewAnnouncementChange} /> 
               </div>
+              <p>Max 90 characters</p>
           </div>
           <button className="submit-button" style={{marginBottom: "0.5rem", width: "16rem"}} onClick={addAnnouncement}>Create New Announcement</button>
           <p style={{marginBottom: "2rem"}}>{statusMessage}</p>

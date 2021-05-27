@@ -44,7 +44,7 @@ function Programs() {
         </div>  */}
 
         <div className="container-padding">
-            <h1 className="header-text">About Us</h1>
+            <h1 className="header-text">Our Programs</h1>
             <div className="row no-gutters">
                 <div className="col-lg-6 side-info infoblurb" style={{padding: "0"}}> 
                 <h2 style={{fontWeight: "700"}}>Preschool</h2>
