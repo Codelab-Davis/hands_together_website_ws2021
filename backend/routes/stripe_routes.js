@@ -211,7 +211,7 @@ router.post('/cancel_donate/:id', async (req, res) => {
   `; 
 
   const mail_options = {
-    from: `"Hands Together" <ellen@handstogether-sa.org>`,
+    from: `"Hands Together" <handstogether.santaana@gmail.com>`,
     to: customer_email,
     subject: "Donation Canceled",
     html: email_body, 
@@ -278,12 +278,12 @@ router.post('/cancel_order/:id', tokenAuth, async (req,res) => {
   </div>
 
   <div>
-      <p> <strong>Support/Inquiries</strong> <br/> For any help/further inquireies please email ellen@handstogether-sa.org</p>
+      <p> <strong>Support/Inquiries</strong> <br/> For any help/further inquireies please email morninggardenht@gmail.com</p>
   </div>
   `; 
 
   const mail_options = {
-    from: `"Hands Together" <ellen@handstogether-sa.org>`,
+    from: `"Hands Together Morning Garden" <handstogether.santaana@gmail.com>`,
     to: customer_email,
     subject: "Order Canceled",
     html: email_body, 
@@ -338,12 +338,12 @@ router.post('/update_tracking', async (req, res) => {
   </div>
 
   <div>
-      <p> <strong>Support/Inquiries</strong> <br/> For any help/further inquireies please email ellen@handstogether-sa.org</p>
+      <p> <strong>Support/Inquiries</strong> <br/> For any help/further inquireies please email morninggardenht@gmail.com</p>
   </div>
   `; 
 
   const mail_options = {
-    from: `"Hands Together" <ellen@handstogether-sa.org>`,
+    from: `"Hands Together Morning Garden" <handstogether.santaana@gmail.com>`,
     to: customer_email,
     subject: `Your order ${req.body.transaction_id} has been shipped`,
     html: email_body, 
@@ -426,12 +426,12 @@ async function fulfillOrder(session) {
   </div>
 
   <div>
-      <p> <strong>Support/Inquiries</strong> <br/> For any help/further inquireies please email ellen@handstogether-sa.org</p>
+      <p> <strong>Support/Inquiries</strong> <br/> For any help/further inquireies please email morninggardenht@gmail.com</p>
   </div>
   `; 
 
   const mail_options = {
-    from: `"Hands Together" <ellen@handstogether-sa.org>`,
+    from: `"Hands Together Morning Garden" <handstogether.santaana@gmail.com>`,
     to: customer_email,
     subject: "Thanks for your order",
     html: email_body, 
@@ -555,8 +555,8 @@ async function orderEmail(id, ordered_items, total) {
   `; 
 
   const mail_options = {
-    from: `"Hands Together" <ellen@handstogether-sa.org>`,
-    to: `ellen@handstogether-sa.org`,
+    from: `"Hands Together Morning Garden" <handstogether.santaana@gmail.com>`,
+    to: `morninggardenht@gmail.com`,
     subject: "Hands Together New Sale",
     html: email_body, 
     attachments: [
@@ -641,7 +641,7 @@ async function fulfillDonate(session) {
   `; 
 
   const mail_options = {
-    from: `"Hands Together" <ellen@handstogether-sa.org>`,
+    from: `"Hands Together" <handstogether.santaana@gmail.com>`,
     to: customer_email,
     subject: "Thanks for your donation",
     html: email_body, 
@@ -699,7 +699,7 @@ async function fulfillSubscription(session) {
   `; 
 
   const mail_options = {
-    from: `"Hands Together" <ellen@handstogether-sa.org>`,
+    from: `"Hands Together" <handstogether.santaana@gmail.com>`,
     to: customer_email,
     subject: "Thanks for your donation",
     html: email_body, 
